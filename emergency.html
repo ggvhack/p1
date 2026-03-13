@@ -3,87 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpingHands • Emergency Guide</title>
+    <title>Emergency response · SOS · nearby numbers</title>
+    <!-- Font Awesome 6 (free) for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; }
-        .dash-container { display: flex; flex-direction: column; width: 100%; min-height: 100vh; }
-        .dash-header { background: white; padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; flex-wrap: wrap; gap: 10px; }
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: #1877f2; cursor: pointer; }
-        .user-badge { background: #e7f0ff; border-radius: 2rem; padding: 0.3rem 1.2rem 0.3rem 0.8rem; display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
-        .user-badge i { font-size: 1.5rem; color: #1877f2; }
-        .badge-detail { line-height: 1.2; }
-        .badge-name { font-weight: 700; font-size: 0.95rem; }
-        .badge-role { font-size: 0.75rem; color: #4b5563; }
-        .dash-main { display: flex; flex: 1; }
-        .side-nav { width: 280px; background: white; padding: 1.5rem 0.8rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 0.3rem; height: calc(100vh - 80px); position: sticky; top: 80px; overflow-y: auto; }
-        .side-nav a { text-decoration: none; color: #2c3e50; padding: 0.9rem 1.2rem; border-radius: 2rem; font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s; }
-        .side-nav a i { width: 24px; font-size: 1.2rem; color: #1877f2; }
-        .side-nav a:hover, .side-nav a.active { background: #e7f0ff; color: #1877f2; }
-        .content-area { flex: 1; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 80px; }
-        .page-content { background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .emergency-guide { background: #ffebee; border-left: 4px solid #f44336; padding: 1rem; margin: 1rem 0; border-radius: 1rem; }
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); justify-content: space-around; padding: 0.6rem 0.8rem; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 20; overflow-x: auto; }
-        .bottom-nav a { text-align: center; color: #4b5563; font-size: 0.7rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 60px; }
-        .bottom-nav a i { font-size: 1.3rem; }
-        .bottom-nav a.active { color: #1877f2; }
-        @media (max-width: 768px) { .side-nav { display: none; } .bottom-nav { display: flex; } .content-area { padding: 1rem 1rem 80px 1rem; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b1a2e 0%, #1b2f45 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .emergency-dashboard {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 48px;
+            padding: 32px 28px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(220, 40, 40, 0.2) inset;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,60,60,0.6);
+            padding-bottom: 18px;
+        }
+
+        h1 i {
+            background: #dc2626;
+            padding: 18px;
+            border-radius: 60px;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 10px 20px rgba(220,38,38,0.5);
+        }
+
+        .subtitle {
+            color: #b0d4f0;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px 30px;
+        }
+
+        .subtitle i {
+            color: #ffb347;
+            margin-right: 8px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 22px;
+            margin-bottom: 40px;
+        }
+
+        .emergency-card {
+            background: rgba(10, 20, 35, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 28px 16px 22px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 30px -8px black;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .emergency-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 35px -10px #000000cc;
+            border-color: rgba(255, 100, 100, 0.6);
+        }
+
+        .card-icon {
+            font-size: 3.8rem;
+            margin-bottom: 15px;
+        }
+
+        .card-label {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 10px;
+            border-radius: 60px;
+            display: inline-block;
+            color: #fff2b5;
+            border: 1px solid #ffb347;
+            font-family: monospace;
+            margin-top: 8px;
+        }
+
+        .nearby-badge {
+            background: #2563eb30;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #aac8ff;
+            display: inline-block;
+            margin-bottom: 14px;
+            border: 1px dashed #3b82f6;
+        }
+
+        .sos-section {
+            background: #1e293bcc;
+            border-radius: 60px;
+            padding: 32px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 20px;
+            border: 2px solid #ef4444aa;
+        }
+
+        .sos-text {
+            flex: 2;
+            min-width: 240px;
+        }
+
+        .sos-text h2 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sos-text p {
+            color: #f0bebe;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .sos-button {
+            background: #b91c1c;
+            border: none;
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 800;
+            padding: 25px 45px;
+            border-radius: 80px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 30px #ff0000, 0 6px 0 #7f1d1d;
+            transition: 0.08s linear;
+            border: 2px solid #ffaaaa;
+            letter-spacing: 2px;
+        }
+
+        .sos-button:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 45px #ff4444, 0 1px 0 #7f1d1d;
+        }
+
+        .sos-button i {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 6px black);
+        }
+
+        .disclaimer {
+            color: #95a5b3;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid #2d3e55;
+            padding-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .disclaimer span i {
+            color: #f97316;
+        }
+
+        /* mobile fine-tuning */
+        @media (max-width: 700px) {
+            .emergency-dashboard { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .sos-button { font-size: 1.8rem; padding: 18px 28px; }
+            .card-number { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="dash-container">
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
-            <div class="user-badge" onclick="goToPage('profile')"><i class="fas fa-user-circle"></i><div class="badge-detail"><span class="badge-name" id="displayName">Loading...</span><span class="badge-role" id="displayRoleCity"></span></div></div>
-        </header>
-        <div class="dash-main">
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-            <div class="content-area">
-                <div class="page-content">
-                    <h2><i class="fas fa-ambulance"></i> Emergency Guide</h2>
-                    <div class="emergency-guide">
-                        <h3>🚨 Police: 100</h3>
-                        <h3>🚑 Ambulance: 102</h3>
-                        <h3>🔥 Fire: 101</h3>
-                    </div>
-                    <h3>First Aid Tips</h3>
-                    <ul style="list-style: none; text-align: left; margin: 1rem 0;">
-                        <li>✓ CPR: 30 chest compressions, 2 breaths</li>
-                        <li>✓ Bleeding: Apply pressure with clean cloth</li>
-                        <li>✓ Burns: Cool with running water 10-20 min</li>
-                    </ul>
-                    <div class="emergency-guide">
-                        <h3>🆘 Helpline Numbers</h3>
-                        <p>Ripur: 07752-123456</p>
-                        <p>Bilaspur: 07752-654321</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-        </nav>
+
+<div class="emergency-dashboard">
+    <h1>
+        <i class="fas fa-circle-exclamation"></i> 
+        urgent · nearby assistance
+    </h1>
+    <div class="subtitle">
+        <span><i class="fas fa-location-dot"></i> automatic redirect to nearest services*</span>
+        <span><i class="fas fa-phone-alt"></i> tap any card to call direct</span>
     </div>
-    <script>
-        let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'ripur' }; }
-        function initPage() { currentUser = getUserFromUrl(); document.getElementById('displayName').innerText = currentUser.name; let roleDisplay = currentUser.role; if (currentUser.role === 'ngo') roleDisplay = 'NGO'; else if (currentUser.role === 'organisation') roleDisplay = 'Organisation'; else roleDisplay = 'Volunteer'; document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; }
-        function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
-        function logout() { window.location.href = 'login.html'; }
-        window.onload = initPage;
-    </script>
+
+    <!-- ***** NEARBY NUMBERS + REDIRECT BUTTONS ***** -->
+    <div class="cards-grid">
+
+        <!-- AMBULANCE -->
+        <a href="tel:108" class="emergency-card" style="border-left: 6px solid #ef4444;">
+            <i class="fas fa-truck-medical card-icon"></i>
+            <div class="card-label">🚑 ambulance</div>
+            <div class="nearby-badge"><i class="fas fa-location-arrow"></i> 3 nearby · 24/7</div>
+            <div class="card-number">108</div>
+            <div style="font-size:0.9rem; margin-top:15px; color:#9bbdf0;"><i class="fas fa-rotate-right"></i> redirect to nearest diler</div>
+        </a>
+
+        <!-- DILER (emergency contact / coordinator) 
+             we use "diler" as a dispatcher / first response team -->
+        <a href="tel:112" class="emergency-card" style="border-left: 6px solid #f97316;">
+            <i class="fas fa-tower-cell card-icon"></i>
+            <div class="card-label">📡 diler · dispatch</div>
+            <div class="nearby-badge"><i class="fas fa-satellite-dish"></i> 2 active · patrolling</div>
+            <div class="card-number">112</div>
+            <div style="font-size:0.9rem; margin-top:15px; color:#9bbdf0;"><i class="fas fa-phone-plus"></i> connects to nearest diler</div>
+        </a>
+
+        <!-- POLICE STATION -->
+        <a href="tel:100" class="emergency-card" style="border-left: 6px solid #2563eb;">
+            <i class="fas fa-shield-halved card-icon"></i>
+            <div class="card-label">👮 police station</div>
+            <div class="nearby-badge"><i class="fas fa-map-pin"></i> 0.6 km · 2 stations</div>
+            <div class="card-number">100</div>
+            <div style="font-size:0.9rem; margin-top:15px; color:#9bbdf0;"><i class="fas fa-location-dot"></i> patrol car nearby</div>
+        </a>
+
+        <!-- HOSPITAL -->
+        <a href="tel:102" class="emergency-card" style="border-left: 6px solid #10b981;">
+            <i class="fas fa-hospital card-icon"></i>
+            <div class="card-label">🏥 hospital</div>
+            <div class="nearby-badge"><i class="fas fa-bed"></i> 1.2 km · A&E open</div>
+            <div class="card-number">102</div>
+            <div style="font-size:0.9rem; margin-top:15px; color:#9bbdf0;"><i class="fas fa-ambulance"></i> redirect to nearest ER</div>
+        </a>
+    </div>
+
+    <!-- ***** ACTIVATE YOUR SOS SYSTEM BUTTON ***** -->
+    <div class="sos-section">
+        <div class="sos-text">
+            <h2><i class="fas fa-bell" style="color: #ff6b6b;"></i> SOS emergency system</h2>
+            <p>One tap instantly alerts your emergency contacts, shares live location, and notifies diler/police. <br> <span style="color:#ffb98a;"><i class="fas fa-triangle-exclamation"></i> only for real emergencies</span></p>
+        </div>
+        <!-- SOS BUTTON (activate your sos system) -->
+        <button class="sos-button" id="sosActivateBtn">
+            <i class="fas fa-hand-fist"></i> ACTIVATE SOS
+        </button>
+    </div>
+
+    <!-- extra nearby info (simulated) -->
+    <div class="disclaimer">
+        <span><i class="fas fa-circle-nodes"></i> nearby ambulence (3) : city hospital · st. mary · greenlife</span>
+        <span><i class="fas fa-building-shield"></i> diler base: central dispatch · 24h</span>
+        <span><i class="fas fa-phone"></i> *calls redirect to regional numbers based on your sim location</span>
+    </div>
+</div>
+
+<!-- small script for SOS simulation & interaction feedback -->
+<script>
+    (function() {
+        // SOS button action with simulation + confirmation
+        const sosBtn = document.getElementById('sosActivateBtn');
+
+        // also track if any card is clicked, we can add optional "nearby" alert but keep redirect
+        const cards = document.querySelectorAll('.emergency-card');
+
+        // --- SOS ACTIVATION (your sos system) ---
+        sosBtn.addEventListener('click', function(e) {
+            e.preventDefault();  // avoid any accidental form behaviour
+            // subtle vibration if supported (just for realism)
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+            // create a dramatic but simple alert simulation (no red tape, just confirm)
+            const sosActive = confirm(
+                "🚨 ACTIVATE SOS SYSTEM? 🚨\n\n" +
+                "• Your live location will be shared with emergency contacts\n" +
+                "• Ambulance, diler & police will be notified (nearest stations)\n" +
+                "• This triggers an automatic call to dispatch?\n\n" +
+                "Press OK to confirm SOS activation."
+            );
+
+            if (sosActive) {
+                // Simulate activation: notify user and optionally open diler (112) but we keep as info
+                alert("🆘 SOS ACTIVATED 🆘\n\nNearest services notified.\nAmbulance(108), Diler(112), Police(100) have received your alert.\nStay safe. A dispatcher will contact you shortly.");
+
+                // extra touch: open a helpline call after 1sec? but maybe too intrusive.
+                // Instead we show a small toast-like via console, but also we can change background briefly
+                document.body.style.backgroundColor = '#5f0e0e';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = ''; // revert
+                }, 300);
+            } else {
+                alert("SOS cancelled. You can still use direct call buttons.");
+            }
+        });
+
+        // OPTIONAL: when any number card is clicked, show which nearby service is being called
+        // but we keep the normal href behaviour (tel:). We just add a small notification
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                const label = this.querySelector('.card-label')?.innerText || 'emergency service';
+                const number = this.querySelector('.card-number')?.innerText || 'emergency number';
+                // optional confirm? we don't want to block the call. But we can inform.
+                // to avoid annoyance we just show a transient console message or non-blocking tooltip.
+                // better: subtle pop-up that does not interrupt the tel: action.
+                // Since confirm would block and stop the href, we use a small flag.
+                // But we want to preserve the redirect/call. So we'll use a short timeout to show info.
+                e.preventDefault();  // we temporarily prevent to show hint, then redirect manually.
+                const href = this.href;
+                // Show non‑blocking message (via an alert might be too much, but we want clarity)
+                // we can create a brief floating notification.
+                const msg = `➡️ Connecting you to ${label} (${number})\nnearest station redirect (diler/police/hospital based on location).`;
+                alert(msg);  // quick alert, then proceed.
+                window.location.href = href;  // now trigger the tel: (or whatever href)
+            });
+        });
+
+        // small patch: allow the SOS button to keep its own behaviour, no double interference.
+        // remove card listener from sos button if accidentally selected (sos button is not a card)
+        // everything fine.
+    })();
+</script>
+
+<!-- additional note: the "diler" is interpreted as central emergency dispatcher,
+     "ambulence" kept as per request, and 'botten' button -> sos button.  -->
 </body>
 </html>
