@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>HelpingHands • Dashboard</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+        /* dashboard layout */
+        .dash-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100vh;
+        }
+        /* header */
+        .dash-header {
+            background: white;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .dash-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1877f2;
+        }
+        .user-badge {
+            background: #e7f0ff;
+            border-radius: 2rem;
+            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .user-badge i {
+            font-size: 1.5rem;
+            color: #1877f2;
+        }
+        .badge-detail {
+            line-height: 1.2;
+        }
+        .badge-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .badge-role {
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+        /* main grid */
+        .dash-main {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+        /* side navigation (laptop) */
+        .side-nav {
+            width: 260px;
+            background: white;
+            padding: 1.8rem 0.8rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            height: calc(100vh - 70px);
+            position: sticky;
+            top: 70px;
+            overflow-y: auto;
+        }
+        .side-nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            padding: 0.9rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: 0.2s;
+        }
+        .side-nav a i {
+            width: 24px;
+            font-size: 1.2rem;
+            color: #1877f2;
+        }
+        .side-nav a:hover {
+            background: #eef3fc;
+        }
+        /* feed area */
+        .feed-area {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 80px;
+        }
+        .feed-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .feed-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: #1877f2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .feed-info h4 {
+            font-weight: 700;
+        }
+        .feed-info small {
+            color: #6b7a8a;
+        }
+        .feed-content {
+            margin: 0.8rem 0;
+        }
+        .feed-stats {
+            border-top: 1px solid #e9edf2;
+            padding-top: 0.8rem;
+            display: flex;
+            gap: 1.5rem;
+            color: #4b5563;
+        }
+        /* bottom navigation (mobile) */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            justify-content: space-around;
+            padding: 0.6rem 0.8rem;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            z-index: 20;
+        }
+        .bottom-nav a {
+            text-align: center;
+            color: #4b5563;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .bottom-nav a i {
+            font-size: 1.5rem;
+        }
+        /* responsive */
+        @media (max-width: 768px) {
+            .side-nav {
+                display: none;
+            }
+            .bottom-nav {
+                display: flex;
+            }
+            .feed-area {
+                padding: 1rem 1rem 80px 1rem;
+            }
+        }
+        .logout-btn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dash-container">
+        <!-- header with user info -->
+        <header class="dash-header">
+            <div class="logo">
+                <i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span>
+            </div>
+            <div class="user-badge" id="userBadge">
+                <i class="fas fa-user-circle"></i>
+                <div class="badge-detail">
+                    <span class="badge-name" id="displayName">Loading...</span>
+                    <span class="badge-role" id="displayRoleCity">please wait</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dash-main">
+            <!-- SIDE NAVIGATION (laptop) -->
+            <nav class="side-nav">
+                <a href="#" onclick="navTo('home')"><i class="fas fa-home"></i> Home (feed)</a>
+                <a href="#" onclick="navTo('profile')"><i class="fas fa-id-card"></i> Profile</a>
+                <a href="#" onclick="navTo('volunteer')"><i class="fas fa-hands"></i> Volunteer</a>
+                <a href="#" onclick="navTo('ngos')"><i class="fas fa-hand-holding-heart"></i> NGOs</a>
+                <a href="#" onclick="navTo('organisation')"><i class="fas fa-building"></i> Organisation</a>
+                <a href="#" onclick="navTo('messages')"><i class="fas fa-comment-dots"></i> Messages</a>
+                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+
+            <!-- FEED AREA -->
+            <div class="feed-area" id="feedArea">
+                <!-- feed cards (static but personalized via js) -->
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <div class="avatar"><i class="fas fa-hand-sparkles"></i></div>
+                        <div class="feed-info">
+                            <h4 id="feedUserName">Amit NGO</h4>
+                            <small><i class="fas fa-map-marker-alt"></i> <span id="feedUserCity">Ripur</span> · 2h ago</small>
+                        </div>
+                    </div>
+                    <div class="feed-content">
+                        <p>✨ We just distributed 50 food packets near railway station. Looking for volunteers for tomorrow!</p>
+                    </div>
+                    <div class="feed-stats">
+                        <span><i class="far fa-heart"></i> 24</span>
+                        <span><i class="far fa-comment"></i> 7</span>
+                        <span><i class="far fa-share-square"></i> 5</span>
+                    </div>
+                </div>
+
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <div class="avatar"><i class="fas fa-tree"></i></div>
+                        <div class="feed-info">
+                            <h4>Green Volunteers</h4>
+                            <small><i class="fas fa-map-marker-alt"></i> Bilaspur · yesterday</small>
+                        </div>
+                    </div>
+                    <div class="feed-content">
+                        <p>🌳 Plantation drive this Saturday at Kabir Nagar. Be there!</p>
+                    </div>
+                    <div class="feed-stats">
+                        <span><i class="far fa-heart"></i> 42</span>
+                        <span><i class="far fa-comment"></i> 12</span>
+                        <span><i class="far fa-share-square"></i> 8</span>
+                    </div>
+                </div>
+
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <div class="avatar"><i class="fas fa-book-open"></i></div>
+                        <div class="feed-info">
+                            <h4>Education For All</h4>
+                            <small><i class="fas fa-map-marker-alt"></i> Ripur · 3 days ago</small>
+                        </div>
+                    </div>
+                    <div class="feed-content">
+                        <p>📚 Free tuition for class 1-5 starts Monday. Register at centre.</p>
+                    </div>
+                    <div class="feed-stats">
+                        <span><i class="far fa-heart"></i> 31</span>
+                        <span><i class="far fa-comment"></i> 4</span>
+                        <span><i class="far fa-share-square"></i> 2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAVIGATION (mobile) -->
+        <nav class="bottom-nav">
+            <a href="#" onclick="navTo('home')"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="#" onclick="navTo('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
+            <a href="#" onclick="navTo('volunteer')"><i class="fas fa-hands"></i> <span>Volunteer</span></a>
+            <a href="#" onclick="navTo('ngos')"><i class="fas fa-hand-holding-heart"></i> <span>NGOs</span></a>
+            <a href="#" onclick="navTo('organisation')"><i class="fas fa-building"></i> <span>Orgs</span></a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </nav>
+    </div>
+
+    <script>
+        // ---------- get user from URL (passed by login page) ----------
+        function getUserFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name');
+            const email = params.get('email');
+            const role = params.get('role');
+            const city = params.get('city');
+            
+            if (name && email && role && city) {
+                return { name, email, role, city };
+            }
+            return null;
+        }
+
+        // ---------- display user info on dashboard ----------
+        function initDashboard() {
+            const user = getUserFromUrl();
+            
+            if (user) {
+                // update badge
+                document.getElementById('displayName').innerText = user.name;
+                let roleDisplay = user.role;
+                if (user.role === 'ngo') roleDisplay = 'NGO';
+                else if (user.role === 'organisation') roleDisplay = 'Organisation';
+                else roleDisplay = 'Volunteer';
+                document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${user.city}`;
+                
+                // update feed with user info
+                document.getElementById('feedUserName').innerText = user.name.split(' ')[0] + ' ' + (user.role==='ngo'?'NGO':user.role);
+                document.getElementById('feedUserCity').innerText = user.city;
+            } else {
+                // no user data in URL - redirect back to login
+                alert('No user data found. Please login first.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ---------- navigation (redirects to separate pages as requested) ----------
+        function navTo(page) {
+            if (page === 'home') {
+                // stay on dashboard, scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            // For demo, we simulate redirect with alert + optional real redirect
+            // In real scenario, you would have actual HTML files
+            alert(`🔁 Redirecting to ${page}.html (separate page)\nThis would navigate to a different HTML file.`);
+            
+            // UNCOMMENT below if you have actual HTML files:
+            // window.location.href = `${page}.html`;
+        }
+
+        // ---------- logout (redirect back to login) ----------
+        function logout() {
+            window.location.href = 'login.html';
+        }
+
+        // ---------- run on page load ----------
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
