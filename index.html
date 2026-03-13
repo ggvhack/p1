@@ -3,319 +3,1127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpingHands • Login / Register</title>
+    <title>HelpingHands • Connect. Volunteer. Change Lives.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+        :root {
+            --blue: #1877f2;
+            --blue-dark: #0d5bbf;
+            --blue-light: #e7f0ff;
+            --navy: #0a1628;
+            --cream: #faf8f4;
+            --warm: #f5f0e8;
+            --gold: #e8a020;
+            --text: #1e2b3a;
+            --muted: #6b7a8a;
+            --card-shadow: 0 20px 60px rgba(0,0,0,0.08);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background: #f0f2f5;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── NOISE TEXTURE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.4;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.2rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+            padding: 0.9rem 5%;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--blue);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-cta {
+            background: var(--text);
+            color: white !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-weight: 600 !important;
+            transition: background 0.2s, transform 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--blue) !important;
+            transform: translateY(-1px);
+        }
+
+        /* ── HERO ── */
+        .hero {
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* big soft blob backgrounds */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 900px; height: 900px;
+            background: radial-gradient(circle, rgba(24,119,242,0.10) 0%, transparent 70%);
+            top: -200px; left: -200px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(232,160,32,0.08) 0%, transparent 70%);
+            bottom: -150px; right: -150px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.4rem 1.1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 0.2s forwards;
+        }
+
+        .hero-tag .dot {
+            width: 6px; height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            max-width: 900px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--blue);
+            position: relative;
+        }
+
+        h1 em::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 0; right: 0;
+            height: 3px;
+            background: var(--blue);
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--muted);
+            font-weight: 400;
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+            padding: 0.85rem 2.2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 30px rgba(24,119,242,0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(24,119,242,0.45);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text);
+            padding: 0.85rem 2.2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid rgba(0,0,0,0.1);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        /* ── HERO STATS ── */
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 4.5rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(0,0,0,0.07);
+            width: 100%;
+            max-width: 700px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 1s forwards;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-num span { color: var(--blue); }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── MARQUEE STRIP ── */
+        .marquee-strip {
+            background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            padding: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-inner {
+            display: inline-flex;
+            gap: 0;
+            animation: marquee 25s linear infinite;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .marquee-item i { color: var(--gold); }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            max-width: 600px;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-section {
+            background: var(--warm);
+        }
+
+        .how-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-num {
+            width: 48px; height: 48px;
+            background: var(--blue);
+            color: white;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .step-body h3 {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-body p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* mock UI card on the right */
+        .how-visual {
+            position: relative;
+        }
+
+        .mock-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .mock-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .mock-avatar {
+            width: 42px; height: 42px;
+            background: var(--blue-light);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--blue);
+            font-size: 1.1rem;
+        }
+
+        .mock-name { font-weight: 700; font-size: 0.95rem; }
+        .mock-role { font-size: 0.78rem; color: var(--muted); }
+
+        .mock-post {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .mock-actions {
+            display: flex;
+            gap: 1.2rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .mock-actions span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mock-actions i { color: var(--blue); }
+
+        .floating-badge {
+            position: absolute;
+            background: white;
+            border-radius: 14px;
+            padding: 0.7rem 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .floating-badge.top-right {
+            top: -20px; right: -30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-badge.bottom-left {
+            bottom: -20px; left: -30px;
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        .fb-icon {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* ── ROLES SECTION ── */
+        .roles-section {
+            background: var(--cream);
+        }
+
+        .roles-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .roles-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .roles-header .section-title { margin: 0 auto 1rem; }
+        .roles-header .section-sub { margin: 0 auto; }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .role-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .role-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .role-icon {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+        }
+
+        .role-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .role-features li {
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .role-features li i {
+            font-size: 0.75rem;
+            color: var(--blue);
+        }
+
+        /* ── FEATURES STRIP ── */
+        .features-section {
+            background: var(--navy);
+            color: white;
+        }
+
+        .features-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-section .section-label { color: rgba(255,255,255,0.4); }
+        .features-section .section-title { color: white; }
+        .features-section .section-sub { color: rgba(255,255,255,0.5); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 4rem;
+        }
+
+        .feat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 1.8rem;
+            transition: background 0.3s;
+        }
+
+        .feat-card:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .feat-icon {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .feat-card h4 {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .feat-card p {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        /* ── IMPACT SECTION ── */
+        .impact-section {
+            background: var(--warm);
+            text-align: center;
+        }
+
+        .impact-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .impact-item {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .impact-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+
+        .impact-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--blue);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .impact-desc {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ── CTA SECTION ── */
+        .cta-section {
+            background: var(--blue);
+            text-align: center;
+            padding: 7rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            top: -200px; left: -100px;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -100px; right: 10%;
+        }
+
+        .cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.75);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--blue);
+            padding: 0.9rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 2.5rem 5%;
+            font-size: 0.88rem;
+        }
+
+        footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+        footer a:hover { color: white; }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
         }
-        .auth-container {
-            background: white;
-            width: 94%;
-            max-width: 480px;
-            margin: 1.5rem auto;
-            border-radius: 2rem;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-            padding: 2rem 1.8rem;
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .how-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .roles-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
         }
-        .logo-area {
-            text-align: center;
-            margin-bottom: 1.8rem;
+
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .impact-grid { grid-template-columns: 1fr; }
+            .hero-stats { gap: 2rem; }
+            .floating-badge.top-right { display: none; }
+            .floating-badge.bottom-left { display: none; }
         }
-        .logo-area i {
-            font-size: 3rem;
-            color: #1877f2;
-            background: #e7f0ff;
-            padding: 0.8rem;
-            border-radius: 50%;
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
-        .logo-area h2 {
-            font-weight: 600;
-            margin-top: 0.3rem;
-            color: #1e2b3a;
-        }
-        .logo-area p {
-            color: #4b5563;
-            font-size: 0.9rem;
-        }
-        .tab-bar {
-            display: flex;
-            gap: 0.5rem;
-            background: #f0f2f5;
-            padding: 0.3rem;
-            border-radius: 3rem;
-            margin-bottom: 2rem;
-        }
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 0.7rem 0;
-            font-weight: 600;
-            border-radius: 3rem;
-            cursor: pointer;
-            color: #2c3e50;
-        }
-        .tab.active {
-            background: white;
-            color: #1877f2;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .form-group {
-            margin-bottom: 1.3rem;
-        }
-        label {
-            font-weight: 500;
-            color: #2c3e50;
-            display: block;
-            margin-bottom: 0.3rem;
-            font-size: 0.9rem;
-        }
-        label i {
-            margin-right: 0.3rem;
-            color: #1877f2;
-            width: 1.2rem;
-        }
-        input, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #d9e1ec;
-            border-radius: 2rem;
-            font-size: 1rem;
-            background: white;
-            outline: none;
-        }
-        input:focus, select:focus {
-            border-color: #1877f2;
-            box-shadow: 0 0 0 3px rgba(24,119,242,0.2);
-        }
-        .city-row {
-            display: flex;
-            gap: 0.8rem;
-        }
-        .city-row select {
-            flex: 1;
-        }
-        .btn-primary {
-            background: #1877f2;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 0.9rem;
-            border-radius: 3rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin: 1.2rem 0 1rem;
-            box-shadow: 0 4px 10px rgba(24,119,242,0.3);
-        }
-        .btn-primary:hover {
-            background: #166fe5;
-        }
-        .demo-login {
-            background: #e7f0ff;
-            border-radius: 2rem;
-            padding: 1rem;
-            margin-top: 1.8rem;
-        }
-        .demo-login p {
-            font-weight: 600;
-            color: #1e2b3a;
-            margin-bottom: 0.6rem;
-        }
-        .demo-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .demo-btn {
-            background: white;
-            border: 1px solid #bcccdc;
-            border-radius: 2rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .demo-btn:hover {
-            background: #d9e7ff;
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="logo-area">
-            <i class="fas fa-hand-holding-heart"></i>
-            <h2>HelpingHands</h2>
-            <p>Ripur / Bilaspur • volunteer • NGO • organisation</p>
-        </div>
 
-        <div class="tab-bar">
-            <div class="tab active" id="loginTab" onclick="switchTab('login')">Log in</div>
-            <div class="tab" id="registerTab" onclick="switchTab('register')">Register</div>
-        </div>
+    <!-- NAV -->
+    <nav id="mainNav">
+        <a href="#" class="nav-logo">
+            <div class="logo-icon"><i class="fas fa-hand-holding-heart"></i></div>
+            HelpingHands
+        </a>
+        <ul class="nav-links">
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#roles">Who's it for</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="index.html" class="nav-cta">Get Started</a></li>
+        </ul>
+    </nav>
 
-        <!-- LOGIN FORM -->
-        <div id="loginForm">
-            <div class="form-group">
-                <label><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="loginEmail" placeholder="you@example.com">
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="loginPassword" placeholder="••••••••">
-            </div>
-            <button class="btn-primary" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Log in</button>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-tag">
+            <span class="dot"></span>
+            Ripur &amp; Bilaspur's Volunteer Network
         </div>
-
-        <!-- REGISTER FORM (hidden) -->
-        <div id="registerForm" style="display: none;">
-            <div class="form-group">
-                <label><i class="fas fa-user"></i> Full name</label>
-                <input type="text" id="regName" placeholder="Priya Sharma">
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="regEmail" placeholder="priya@example.com">
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="regPassword" placeholder="min 3 characters">
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-user-tag"></i> Register as</label>
-                <select id="regRole">
-                    <option value="volunteer">Volunteer</option>
-                    <option value="ngo">NGO</option>
-                    <option value="organisation">Organisation</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-city"></i> City</label>
-                <div class="city-row">
-                    <select id="regCity">
-                        <option value="ripur">Ripur</option>
-                        <option value="bilaspur">Bilaspur</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn-primary" onclick="handleRegister()"><i class="fas fa-user-plus"></i> Register</button>
+        <h1>Where <em>kindness</em> finds its community</h1>
+        <p class="hero-sub">HelpingHands brings together volunteers, NGOs, and organisations to coordinate aid, run campaigns, and create real change — one act at a time.</p>
+        <div class="hero-buttons">
+            <a href="index.html" class="btn-primary"><i class="fas fa-leaf"></i> Join as Volunteer</a>
+            <a href="index.html" class="btn-secondary"><i class="fas fa-hand-holding-heart"></i> Register your NGO</a>
         </div>
-
-        <!-- DEMO LOGIN -->
-        <div class="demo-login">
-            <p><i class="fas fa-people-arrows"></i> Demo login</p>
-            <div class="demo-buttons">
-                <div class="demo-btn" onclick="fillDemo('riya@help.com','riya123')"><i class="fas fa-leaf"></i> Volunteer</div>
-                <div class="demo-btn" onclick="fillDemo('sahyog@ngo.in','help123')"><i class="fas fa-hand-holding-heart"></i> NGO</div>
-                <div class="demo-btn" onclick="fillDemo('org@care.org','org123')"><i class="fas fa-building"></i> Organisation</div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">500<span>+</span></div>
+                <div class="stat-label">Volunteers</div>
             </div>
+            <div class="stat">
+                <div class="stat-num">40<span>+</span></div>
+                <div class="stat-label">NGOs & Orgs</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">2<span>k+</span></div>
+                <div class="stat-label">Lives Impacted</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">₹82<span>k</span></div>
+                <div class="stat-label">Donations Raised</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-strip">
+        <div class="marquee-inner">
+            <!-- two copies for seamless loop -->
+            <span class="marquee-item"><i class="fas fa-seedling"></i> Food Distribution</span>
+            <span class="marquee-item"><i class="fas fa-book-open"></i> Education Drives</span>
+            <span class="marquee-item"><i class="fas fa-tree"></i> Plantation Campaigns</span>
+            <span class="marquee-item"><i class="fas fa-hand-holding-water"></i> Flood Relief</span>
+            <span class="marquee-item"><i class="fas fa-heartbeat"></i> Health Camps</span>
+            <span class="marquee-item"><i class="fas fa-home"></i> Shelter Projects</span>
+            <span class="marquee-item"><i class="fas fa-child"></i> Child Welfare</span>
+            <span class="marquee-item"><i class="fas fa-recycle"></i> Clean-Up Drives</span>
+
+            <span class="marquee-item"><i class="fas fa-seedling"></i> Food Distribution</span>
+            <span class="marquee-item"><i class="fas fa-book-open"></i> Education Drives</span>
+            <span class="marquee-item"><i class="fas fa-tree"></i> Plantation Campaigns</span>
+            <span class="marquee-item"><i class="fas fa-hand-holding-water"></i> Flood Relief</span>
+            <span class="marquee-item"><i class="fas fa-heartbeat"></i> Health Camps</span>
+            <span class="marquee-item"><i class="fas fa-home"></i> Shelter Projects</span>
+            <span class="marquee-item"><i class="fas fa-child"></i> Child Welfare</span>
+            <span class="marquee-item"><i class="fas fa-recycle"></i> Clean-Up Drives</span>
         </div>
     </div>
 
+    <!-- HOW IT WORKS -->
+    <section class="how-section" id="how">
+        <div class="how-inner">
+            <div class="how-left">
+                <p class="section-label reveal">How it works</p>
+                <h2 class="section-title reveal">Simple to join. <br>Powerful together.</h2>
+                <p class="section-sub reveal">In three easy steps, you go from curious bystander to active community hero.</p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-body">
+                            <h3>Create your account</h3>
+                            <p>Sign up as a Volunteer, NGO, or Organisation. Set your city and get instantly connected to your local community.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-body">
+                            <h3>Join the conversation</h3>
+                            <p>Browse the community feed, discover volunteer drives near you, and post your own initiatives to recruit help.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-body">
+                            <h3>Create real impact</h3>
+                            <p>Earn points on the leaderboard, support donation campaigns, and track how your contributions change lives.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOCK UI CARD -->
+            <div class="how-visual">
+                <div class="mock-card">
+                    <div class="mock-header">
+                        <div class="mock-avatar"><i class="fas fa-user"></i></div>
+                        <div>
+                            <div class="mock-name">Riya Sharma</div>
+                            <div class="mock-role"><i class="fas fa-map-marker-alt" style="color:var(--blue); font-size:0.7rem;"></i> Volunteer · Ripur</div>
+                        </div>
+                    </div>
+                    <p class="mock-post">✨ We just distributed 50 food packets near the railway station! Looking for volunteers for tomorrow morning's drive — who's in? 🙋</p>
+                    <div class="mock-actions">
+                        <span><i class="fas fa-heart"></i> 24 Likes</span>
+                        <span><i class="far fa-comment"></i> 8 Comments</span>
+                        <span><i class="far fa-share-square"></i> Share</span>
+                    </div>
+                </div>
+
+                <div class="floating-badge top-right" style="color: var(--text);">
+                    <div class="fb-icon" style="background:#e7f0ff; color:var(--blue);"><i class="fas fa-trophy"></i></div>
+                    <div>
+                        <div style="font-size:0.7rem; color:var(--muted); font-weight:400;">Leaderboard</div>
+                        <div>#1 this week</div>
+                    </div>
+                </div>
+
+                <div class="floating-badge bottom-left" style="color: var(--text);">
+                    <div class="fb-icon" style="background:#fef3e2; color:var(--gold);"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div>
+                        <div style="font-size:0.7rem; color:var(--muted); font-weight:400;">Flood Relief Fund</div>
+                        <div>₹32,450 raised</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO IS IT FOR -->
+    <section class="roles-section" id="roles">
+        <div class="roles-inner">
+            <div class="roles-header">
+                <p class="section-label reveal">Who's it for</p>
+                <h2 class="section-title reveal">Built for every part of the ecosystem</h2>
+                <p class="section-sub reveal">Whether you have two free hours or run a full NGO — HelpingHands has a place for you.</p>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card reveal">
+                    <div class="role-icon" style="background:#e7f0ff; color:var(--blue);"><i class="fas fa-leaf"></i></div>
+                    <h3>Volunteers</h3>
+                    <p>Individuals who want to give back. Find opportunities that match your schedule, skills, and passion.</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check-circle"></i> Browse nearby drives</li>
+                        <li><i class="fas fa-check-circle"></i> Earn points & climb leaderboard</li>
+                        <li><i class="fas fa-check-circle"></i> Post updates & inspire others</li>
+                        <li><i class="fas fa-check-circle"></i> Access emergency guides</li>
+                    </ul>
+                </div>
+                <div class="role-card reveal" style="transition-delay: 0.15s;">
+                    <div class="role-icon" style="background:#fef3e2; color:var(--gold);"><i class="fas fa-hand-holding-heart"></i></div>
+                    <h3>NGOs</h3>
+                    <p>Registered organisations managing campaigns and coordinating volunteers across the region.</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check-circle"></i> Launch donation campaigns</li>
+                        <li><i class="fas fa-check-circle"></i> Recruit volunteers at scale</li>
+                        <li><i class="fas fa-check-circle"></i> Build community trust</li>
+                        <li><i class="fas fa-check-circle"></i> Share verified updates</li>
+                    </ul>
+                </div>
+                <div class="role-card reveal" style="transition-delay: 0.3s;">
+                    <div class="role-icon" style="background:#edf7ed; color:#2e7d32;"><i class="fas fa-building"></i></div>
+                    <h3>Organisations</h3>
+                    <p>Corporates, institutions, and groups looking to contribute resources and coordinate CSR activities.</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check-circle"></i> Sponsor campaigns</li>
+                        <li><i class="fas fa-check-circle"></i> Coordinate team volunteering</li>
+                        <li><i class="fas fa-check-circle"></i> Gain community visibility</li>
+                        <li><i class="fas fa-check-circle"></i> Transparent impact tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section" id="features">
+        <div class="features-inner">
+            <p class="section-label reveal">Features</p>
+            <h2 class="section-title reveal">Everything you need to coordinate good</h2>
+            <div class="features-grid">
+                <div class="feat-card reveal">
+                    <div class="feat-icon">📰</div>
+                    <h4>Community Feed</h4>
+                    <p>A live social feed of volunteer activities, campaign updates, and calls to action from your city.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.1s">
+                    <div class="feat-icon">💰</div>
+                    <h4>Donation Campaigns</h4>
+                    <p>Transparent, targeted campaigns with real-time progress tracking for causes that need funding.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.2s">
+                    <div class="feat-icon">🏆</div>
+                    <h4>Leaderboard</h4>
+                    <p>Gamified recognition to celebrate top volunteers and keep the community motivated.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.3s">
+                    <div class="feat-icon">🚨</div>
+                    <h4>Emergency Guide</h4>
+                    <p>Quick-access local helpline numbers, emergency contacts, and basic first-aid tips for when it matters most.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.4s">
+                    <div class="feat-icon">🔍</div>
+                    <h4>Smart Search</h4>
+                    <p>Find posts, people, and organisations instantly by name, city, or cause.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.5s">
+                    <div class="feat-icon">📱</div>
+                    <h4>Mobile-First</h4>
+                    <p>Designed to work beautifully on any device — from desktop dashboards to quick mobile check-ins.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.6s">
+                    <div class="feat-icon">🌆</div>
+                    <h4>City-Based</h4>
+                    <p>Hyper-local. Separate feeds and campaigns for Ripur and Bilaspur, so you see what's relevant to you.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.7s">
+                    <div class="feat-icon">🖼️</div>
+                    <h4>Photo Posts</h4>
+                    <p>Share images from drives and events to build credibility and inspire more participation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="impact-section">
+        <div class="impact-inner">
+            <p class="section-label reveal">Our Impact</p>
+            <h2 class="section-title reveal" style="margin: 0 auto 1rem;">Small acts. <em style="font-style:italic; color:var(--blue);">Massive</em> change.</h2>
+            <p class="section-sub reveal" style="margin: 0 auto;">Together, the HelpingHands community has already made a measurable difference on the ground.</p>
+            <div class="impact-grid">
+                <div class="impact-item reveal">
+                    <div class="impact-emoji">🍱</div>
+                    <div class="impact-num">3,200+</div>
+                    <div class="impact-desc">Food packets distributed to families in need across both cities</div>
+                </div>
+                <div class="impact-item reveal" style="transition-delay:0.15s">
+                    <div class="impact-emoji">📚</div>
+                    <div class="impact-num">647</div>
+                    <div class="impact-desc">Books collected for underprivileged students in Ripur schools</div>
+                </div>
+                <div class="impact-item reveal" style="transition-delay:0.3s">
+                    <div class="impact-emoji">🌳</div>
+                    <div class="impact-num">1,100+</div>
+                    <div class="impact-desc">Trees planted through community plantation drives in Bilaspur</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-inner">
+            <h2>Ready to make a difference?</h2>
+            <p>Join hundreds of volunteers and organisations already building a stronger, kinder community across Ripur and Bilaspur.</p>
+            <a href="index.html" class="btn-white"><i class="fas fa-hand-holding-heart"></i> Get Started — It's Free</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-hand-holding-heart" style="color:var(--blue);"></i>
+            HelpingHands
+        </div>
+        <p>Ripur &amp; Bilaspur · Volunteer · NGO · Organisation</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Built with ❤️ for the community</p>
+    </footer>
+
     <script>
-        const STORAGE_KEY = 'helpinghands_users';
+        // Sticky nav
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 30);
+        });
 
-        // Initialize with demo users if empty
-        if (!localStorage.getItem(STORAGE_KEY)) {
-            const defaultUsers = [
-                { name: 'Riya Sharma', email: 'riya@help.com', password: 'riya123', role: 'volunteer', city: 'ripur' },
-                { name: 'Sahyog NGO', email: 'sahyog@ngo.in', password: 'help123', role: 'ngo', city: 'bilaspur' },
-                { name: 'CareOrg', email: 'org@care.org', password: 'org123', role: 'organisation', city: 'ripur' }
-            ];
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultUsers));
-        }
-
-        function switchTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
-            if (tab === 'login') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                registerTab.classList.add('active');
-                loginTab.classList.remove('active');
-            }
-        }
-
-        function fillDemo(email, password) {
-            switchTab('login');
-            document.getElementById('loginEmail').value = email;
-            document.getElementById('loginPassword').value = password;
-        }
-
-        function handleRegister() {
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const role = document.getElementById('regRole').value;
-            const city = document.getElementById('regCity').value;
-
-            if (!name || !email || !password || !role || !city) {
-                alert('Please fill all fields');
-                return;
-            }
-            if (password.length < 3) {
-                alert('Password must be at least 3 characters');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            if (users.find(u => u.email === email)) {
-                alert('Email already registered. Try login.');
-                return;
-            }
-
-            const newUser = { name, email, password, role, city };
-            users.push(newUser);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-            alert('Registration successful! Please login.');
-            switchTab('login');
-        }
-
-        function handleLogin() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            if (!email || !password) {
-                alert('Enter email and password');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (!user) {
-                alert('Invalid credentials. Use demo or register.');
-                return;
-            }
-
-            // Redirect to dashboard page with user data in URL
-            const params = new URLSearchParams({
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                city: user.city
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
-            window.location.href = `dashboard.html?${params.toString()}`;
-        }
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal, .step, .role-card, .feat-card, .impact-item').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
