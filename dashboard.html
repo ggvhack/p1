@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HelpingHands • Dashboard</title>
+    <title>HelpingHands • Feed</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -73,6 +73,7 @@
             align-items: center;
             gap: 8px;
             font-weight: 500;
+            cursor: pointer;
         }
         .user-badge i {
             font-size: 1.5rem;
@@ -95,7 +96,7 @@
             flex: 1;
             position: relative;
         }
-        /* side navigation - updated with new sections */
+        /* side navigation - all links go to separate pages except feed (current) */
         .side-nav {
             width: 280px;
             background: white;
@@ -129,7 +130,7 @@
             background: #e7f0ff;
             color: #1877f2;
         }
-        /* feed area */
+        /* feed area - only feed here */
         .feed-area {
             flex: 1;
             padding: 1.5rem 2rem;
@@ -290,7 +291,7 @@
         .comment-item strong {
             color: #1877f2;
         }
-        /* bottom navigation */
+        /* bottom navigation - all links go to separate pages */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -322,34 +323,6 @@
         }
         .bottom-nav a.active {
             color: #1877f2;
-        }
-        /* page content (for other sections) */
-        .page-content {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 1rem;
-            border-bottom: 1px solid #e9edf2;
-        }
-        .rank {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1877f2;
-            width: 40px;
-        }
-        .emergency-guide {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 1rem;
         }
         @media (max-width: 768px) {
             .side-nav {
@@ -383,7 +356,7 @@
                 <i class="fas fa-search"></i>
                 <input type="text" id="searchInput" placeholder="Search posts, people, organizations..." onkeyup="searchPosts()">
             </div>
-            <div class="user-badge" id="userBadge">
+            <div class="user-badge" id="userBadge" onclick="goToPage('profile')">
                 <i class="fas fa-user-circle"></i>
                 <div class="badge-detail">
                     <span class="badge-name" id="displayName">Loading...</span>
@@ -393,121 +366,46 @@
         </header>
 
         <div class="dash-main">
-            <!-- SIDE NAVIGATION (updated sections) -->
+            <!-- SIDE NAVIGATION - all links go to separate pages (except feed) -->
             <nav class="side-nav" id="sideNav">
-                <a href="#" onclick="showSection('feed', this)" class="active"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="showSection('donation', this)"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" onclick="showSection('leaderboard', this)"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="showSection('profile', this)"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="showSection('emergency', this)"><i class="fas fa-ambulance"></i> Emergency Guide</a>
+                <a href="#" class="active" onclick="return false;"><i class="fas fa-newspaper"></i> Feed</a>
+                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
+                <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
+                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
+                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
                 <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
 
-            <!-- MAIN CONTENT AREA (dynamic) -->
+            <!-- MAIN CONTENT - only FEED -->
             <div class="feed-area" id="mainContent">
-                <!-- Feed section (default) -->
-                <div id="feedSection">
-                    <!-- Create post -->
-                    <div class="create-post">
-                        <div class="post-input">
-                            <div class="avatar"><i class="fas fa-user"></i></div>
-                            <textarea id="postText" placeholder="Share something helpful..."></textarea>
-                        </div>
-                        <div class="post-actions">
-                            <div class="photo-upload">
-                                <i class="fas fa-camera"></i>
-                                <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
-                            </div>
-                            <button class="post-btn" onclick="createPost()"><i class="fas fa-paper-plane"></i> Post</button>
-                        </div>
-                        <img id="imagePreview" class="image-preview" alt="Preview">
+                <!-- Create post -->
+                <div class="create-post">
+                    <div class="post-input">
+                        <div class="avatar"><i class="fas fa-user"></i></div>
+                        <textarea id="postText" placeholder="Share something helpful..."></textarea>
                     </div>
-
-                    <!-- Posts container -->
-                    <div id="postsContainer"></div>
+                    <div class="post-actions">
+                        <div class="photo-upload">
+                            <i class="fas fa-camera"></i>
+                            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        <button class="post-btn" onclick="createPost()"><i class="fas fa-paper-plane"></i> Post</button>
+                    </div>
+                    <img id="imagePreview" class="image-preview" alt="Preview">
                 </div>
 
-                <!-- Other sections (hidden by default) -->
-                <div id="donationSection" style="display: none;">
-                    <div class="page-content">
-                        <h2><i class="fas fa-hand-holding-heart"></i> Donation Campaignd</h2>
-                        <p>Help those in need. Current campaigns:</p>
-                        <div class="leaderboard-item">
-                            <div class="rank">🧧</div>
-                            <div>Flood Relief - Bilaspur <br> <small>Target: ₹50,000 • Raised: ₹32,450</small></div>
-                        </div>
-                        <div class="leaderboard-item">
-                            <div class="rank">📚</div>
-                            <div>Education for All - Ripur <br> <small>Target: 1000 books • Collected: 647</small></div>
-                        </div>
-                        <button class="post-btn" style="margin-top:1rem;" onclick="alert('Donation page coming soon!')">Donate Now</button>
-                    </div>
-                </div>
-
-                <div id="leaderboardSection" style="display: none;">
-                    <div class="page-content">
-                        <h2><i class="fas fa-trophy"></i> Top Volunteers</h2>
-                        <div class="leaderboard-item">
-                            <div class="rank">🥇</div>
-                            <div><strong>Priya Sharma</strong> - 450 points <br> <small>50 hours volunteered</small></div>
-                        </div>
-                        <div class="leaderboard-item">
-                            <div class="rank">🥈</div>
-                            <div><strong>Rahul Verma</strong> - 380 points <br> <small>42 hours volunteered</small></div>
-                        </div>
-                        <div class="leaderboard-item">
-                            <div class="rank">🥉</div>
-                            <div><strong>Anjali Patel</strong> - 315 points <br> <small>35 hours volunteered</small></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="profileSection" style="display: none;">
-                    <div class="page-content">
-                        <h2><i class="fas fa-id-card"></i> Your Profile</h2>
-                        <div style="text-align: left; max-width: 300px; margin: 2rem auto;">
-                            <p><strong>Name:</strong> <span id="profileName"></span></p>
-                            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-                            <p><strong>Role:</strong> <span id="profileRole"></span></p>
-                            <p><strong>City:</strong> <span id="profileCity"></span></p>
-                            <p><strong>Posts:</strong> <span id="profilePosts">0</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="emergencySection" style="display: none;">
-                    <div class="page-content">
-                        <h2><i class="fas fa-ambulance"></i> Emergency Guide</h2>
-                        <div class="emergency-guide">
-                            <h3>🚨 Police: 100</h3>
-                            <h3>🚑 Ambulance: 102</h3>
-                            <h3>🔥 Fire: 101</h3>
-                        </div>
-                        <div style="margin-top:2rem;">
-                            <h3>First Aid Tips</h3>
-                            <ul style="list-style: none; text-align: left;">
-                                <li>✓ CPR: 30 chest compressions, 2 breaths</li>
-                                <li>✓ Bleeding: Apply pressure with clean cloth</li>
-                                <li>✓ Burns: Cool with running water 10-20 min</li>
-                            </ul>
-                        </div>
-                        <div class="emergency-guide" style="margin-top:2rem;">
-                            <h3>🆘 Helpline Numbers</h3>
-                            <p>Ripur: 07752-123456</p>
-                            <p>Bilaspur: 07752-654321</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Posts container -->
+                <div id="postsContainer"></div>
             </div>
         </div>
 
-        <!-- BOTTOM NAVIGATION (mobile) -->
+        <!-- BOTTOM NAVIGATION - all links go to separate pages (except feed) -->
         <nav class="bottom-nav">
-            <a href="#" onclick="showSection('feed', this)" class="active"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="showSection('donation', this)"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" onclick="showSection('leaderboard', this)"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="showSection('profile', this)"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="showSection('emergency', this)"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
+            <a href="#" class="active" onclick="return false;"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
+            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
+            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> <span>Top</span></a>
+            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
+            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
             <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
         </nav>
     </div>
@@ -575,12 +473,6 @@
             else roleDisplay = 'Volunteer';
             document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
             
-            // profile section
-            document.getElementById('profileName').innerText = currentUser.name;
-            document.getElementById('profileEmail').innerText = currentUser.email;
-            document.getElementById('profileRole').innerText = roleDisplay;
-            document.getElementById('profileCity').innerText = currentUser.city;
-            
             // load posts
             displayPosts();
         }
@@ -620,7 +512,6 @@
             document.getElementById('imagePreview').src = '';
             
             displayPosts();
-            updateProfilePostCount();
         }
 
         function previewImage(event) {
@@ -750,35 +641,21 @@
             displayPosts(filtered);
         }
 
-        function updateProfilePostCount() {
-            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
-            const userPosts = posts.filter(p => p.author === currentUser.name).length;
-            document.getElementById('profilePosts').innerText = userPosts;
-        }
-
-        // ---------- SECTION SWITCHING ----------
-        function showSection(section, element) {
-            // hide all sections
-            document.getElementById('feedSection').style.display = 'none';
-            document.getElementById('donationSection').style.display = 'none';
-            document.getElementById('leaderboardSection').style.display = 'none';
-            document.getElementById('profileSection').style.display = 'none';
-            document.getElementById('emergencySection').style.display = 'none';
-            
-            // show selected
-            document.getElementById(section + 'Section').style.display = 'block';
-            
-            // update active class in side and bottom nav
-            const links = document.querySelectorAll('.side-nav a, .bottom-nav a');
-            links.forEach(link => link.classList.remove('active'));
-            if (element) element.classList.add('active');
-            
-            if (section === 'profile') updateProfilePostCount();
+        // ---------- NAVIGATION TO SEPARATE PAGES ----------
+        function goToPage(page) {
+            // Pass user data to each page via URL parameters
+            const params = new URLSearchParams({
+                name: currentUser.name,
+                email: currentUser.email,
+                role: currentUser.role,
+                city: currentUser.city
+            });
+            window.location.href = `${page}.html?${params.toString()}`;
         }
 
         // ---------- LOGOUT ----------
         function logout() {
-            window.location.href = 'index.html';
+            window.location.href = 'login.html';
         }
 
         // ---------- run on load ----------
