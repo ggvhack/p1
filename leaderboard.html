@@ -189,46 +189,118 @@ font-size:20px;
 </head>
 
 <body>
-    <div class="dash-container">
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
-            <div class="user-badge" onclick="goToPage('profile')"><i class="fas fa-user-circle"></i><div class="badge-detail"><span class="badge-name" id="displayName">Loading...</span><span class="badge-role" id="displayRoleCity"></span></div></div>
-        </header>
-        <div class="dash-main">
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-            <div class="content-area">
-                <div class="page-content">
-                    <h2><i class="fas fa-trophy"></i> Top Volunteers</h2>
-                    <div class="leaderboard-item"><div class="rank">🥇</div><div><strong>Priya Sharma</strong> - 450 points <br> <small>50 hours volunteered</small></div></div>
-                    <div class="leaderboard-item"><div class="rank">🥈</div><div><strong>Rahul Verma</strong> - 380 points <br> <small>42 hours volunteered</small></div></div>
-                    <div class="leaderboard-item"><div class="rank">🥉</div><div><strong>Anjali Patel</strong> - 315 points <br> <small>35 hours volunteered</small></div></div>
-                    <div class="leaderboard-item"><div class="rank">4</div><div><strong>Vikram Singh</strong> - 290 points <br> <small>32 hours volunteered</small></div></div>
-                </div>
-            </div>
-        </div>
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-        </nav>
-    </div>
-    <script>
-        let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'ripur' }; }
-        function initPage() { currentUser = getUserFromUrl(); document.getElementById('displayName').innerText = currentUser.name; let roleDisplay = currentUser.role; if (currentUser.role === 'ngo') roleDisplay = 'NGO'; else if (currentUser.role === 'organisation') roleDisplay = 'Organisation'; else roleDisplay = 'Volunteer'; document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; }
-        function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
-        function logout() { window.location.href = 'login.html'; }
-        window.onload = initPage;
-    </script>
+
+<div class="container">
+
+<h1>Leaderboard</h1>
+
+<div class="podium" id="podium"></div>
+
+<div class="listContainer">
+<ul id="leaderboard"></ul>
+</div>
+
+</div>
+
+<script>
+
+/* CURRENT USER */
+
+const currentUser = "Soumik Debnath";
+
+/* USERS DATA */
+
+const users = [
+
+{name:"Sumit haldar",points:32050,img:"https://pbs.twimg.com/profile_images/2026688980230746121/H1uqhPGO_400x400.jpg"},
+{name:"Rohit Sharma",points:16900,img:"https://www.livemint.com/lm-img/img/2024/07/03/original/Rohit_Sharma_World_Cup_1720011997730.jpg"},
+{name:"Abhinav Kumar",points:14790,img:"https://tse3.mm.bing.net/th/id/OIP.P5x4tqlWO9kkTCxcwFZ_ygHaE7?pid=Api&P=0&h=1807"},
+{name:"Ms Dhoni",points:3278,img:"https://wallpaperaccess.com/full/8669687.jpg"},
+{name:"Virat Kohli",points:2356,img:"https://cdn.britannica.com/48/252748-050-C514EFDB/Virat-Kohli-India-celebrates-50th-century-Cricket-November-15-2023.jpg"},
+{name:" kl Rahul",points:2267,img:"https://tse2.mm.bing.net/th/id/OIP.4rdBW0nGT8iJTUz_EIVpwAHaE8?pid=Api&P=0&h=180"},
+{name:"Soumik Debnath",points:1980,img:"https://media.licdn.com/dms/image/v2/D4E03AQFn-lB6_0NSZA/profile-displayphoto-scale_200_200/B4EZp5htwJIoAY-/0/1762975474710?e=1775088000&v=beta&t=MYgmwV50DqJ_74O8-a9IVDTR9hiW-e6C18xxEaB5fGc"},
+{name:"Srys Iyer",points:1897,img:"https://tse2.mm.bing.net/th/id/OIP.kG4B4I4V8kK89xeVt1Ap6wHaEK?pid=Api&P=0&h=180"},
+{name:"Ravindra Jadeja",points:1500,img:"https://staticg.sportskeeda.com/editor/2023/12/37be1-17018597422895-1920.jpg"},
+{name:"Jaspit Bumrah",points:1200,img:"https://cdn.britannica.com/34/264734-050-85D1D907/jasprit-bumrah-india-ICC-mens-T20-cricket-world-cup-june-2024.jpg"},
+{name:"Hardik pandya",points:1100,img:"https://statico.sportskeeda.com/editor/2025/02/9d2c0-17400342506631-1920.jpg"},
+{name:"Axar Patel",points:900,img:"https://tse3.mm.bing.net/th?id=OIF.FnpkHNpWD%2b3U5qMkY28nsQ&pid=Api&P=0&h=1801"}
+
+];
+
+/* SORT USERS */
+
+users.sort((a,b)=>b.points-a.points);
+
+/* PODIUM */
+
+const podium=document.getElementById("podium");
+const order=[1,0,2];
+
+order.forEach(i=>{
+
+const u=users[i];
+
+const div=document.createElement("div");
+div.classList.add("block");
+
+if(i===0) div.classList.add("first");
+if(i===1) div.classList.add("second");
+if(i===2) div.classList.add("third");
+
+div.innerHTML=`
+<span class="rank">${i+1}</span>
+<img src="${u.img}">
+<h3>${u.name}</h3>
+<p>${u.points}</p>
+`;
+
+podium.appendChild(div);
+
+});
+
+/* LIST */
+
+const list=document.getElementById("leaderboard");
+
+users.forEach((u,i)=>{
+
+if(i<3) return;
+
+const li=document.createElement("li");
+
+if(u.name===currentUser) li.classList.add("me");
+
+li.innerHTML=`
+<span>${i+1}</span>
+
+<div class="profile">
+<img src="${u.img}">
+<span>${u.name}</span>
+</div>
+
+<span class="points">${u.points}</span>
+`;
+
+list.appendChild(li);
+
+});
+
+/* AUTO SCROLL TO CURRENT USER */
+
+setTimeout(()=>{
+
+const me=document.querySelector(".me");
+
+if(me){
+me.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+}
+
+},300);
+
+</script>
+
 </body>
 </html>
