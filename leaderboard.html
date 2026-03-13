@@ -68,7 +68,7 @@
     </div>
     <script>
         let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'ripur' }; }
+        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'Raipur' }; }
         function initPage() { currentUser = getUserFromUrl(); document.getElementById('displayName').innerText = currentUser.name; let roleDisplay = currentUser.role; if (currentUser.role === 'ngo') roleDisplay = 'NGO'; else if (currentUser.role === 'organisation') roleDisplay = 'Organisation'; else roleDisplay = 'Volunteer'; document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; }
         function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
         function logout() { window.location.href = 'login.html'; }

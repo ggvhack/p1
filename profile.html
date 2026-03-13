@@ -68,7 +68,7 @@
     </div>
     <script>
         let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'ripur' }; }
+        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'Raipur' }; }
         function initPage() { 
             currentUser = getUserFromUrl(); 
             document.getElementById('displayName').innerText = currentUser.name; 
