@@ -1,724 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HelpingHands • Leaderboard</title>
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .dash-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            min-height: 100vh;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-        }
-        .dash-header {
-            background: rgba(255,255,255,0.95);
-            padding: 0.7rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            flex-wrap: wrap;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #667eea;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        .user-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2rem;
-            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            color: white;
-            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
-            transition: all 0.3s ease;
-        }
-        .user-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102,126,234,0.6);
-        }
-        .user-badge i {
-            font-size: 1.5rem;
-            color: white;
-        }
-        .badge-detail {
-            line-height: 1.2;
-        }
-        .badge-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-        .badge-role {
-            font-size: 0.75rem;
-            opacity: 0.9;
-        }
-        .dash-main {
-            display: flex;
-            flex: 1;
-            position: relative;
-        }
-        .side-nav {
-            width: 280px;
-            background: rgba(255,255,255,0.95);
-            padding: 1.5rem 0.8rem;
-            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            height: calc(100vh - 80px);
-            position: sticky;
-            top: 80px;
-            overflow-y: auto;
-            backdrop-filter: blur(10px);
-        }
-        .side-nav a {
-            text-decoration: none;
-            color: #2c3e50;
-            padding: 0.9rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: all 0.3s ease;
-        }
-        .side-nav a i {
-            width: 24px;
-            font-size: 1.2rem;
-            color: #667eea;
-        }
-        .side-nav a:hover, .side-nav a.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-        }
-        .side-nav a:hover i {
-            color: white;
-        }
-        .content-area {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            animation: fadeIn 0.8s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard</title>
 
-        /* Leaderboard Header */
-        .leaderboard-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: slideDown 0.6s ease;
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .leaderboard-header h1 {
-            font-size: 3rem;
-            color: white;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-bottom: 0.5rem;
-        }
-        .leaderboard-header p {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.2rem;
-        }
+<style>
 
-        /* Top 3 Podium */
-        .podium {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 2rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-        .podium-item {
-            text-align: center;
-            animation: popUp 0.5s ease backwards;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .podium-item:hover {
-            transform: translateY(-10px);
-        }
-        .podium-item:nth-child(1) { animation-delay: 0.2s; }
-        .podium-item:nth-child(2) { animation-delay: 0.1s; }
-        .podium-item:nth-child(3) { animation-delay: 0.3s; }
-        @keyframes popUp {
-            from { opacity: 0; transform: scale(0.8) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
 
-        .podium-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 1rem;
-            position: relative;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .podium-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .podium-avatar .default-avatar {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-        }
-        .podium-rank {
-            font-size: 2rem;
-            font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .podium-name {
-            font-weight: 600;
-            color: white;
-            font-size: 1.2rem;
-        }
-        .podium-points {
-            color: #ffd700;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
+body{
+background:linear-gradient(#f0f2f5);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+color:black;
+}
 
-        /* My Position Card */
-        .my-position {
-            background: rgba(255,255,255,0.95);
-            border-radius: 2rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            animation: slideLeft 0.6s ease 0.4s both;
-            border: 2px solid rgba(255,215,0,0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        @keyframes slideLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .my-position h2 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .my-position-card {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .my-rank {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255,215,0,0.4);
-        }
-        .my-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #667eea;
-        }
-        .my-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .my-details {
-            flex: 1;
-        }
-        .my-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-        }
-        .my-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 0.5rem;
-        }
-        .my-stat {
-            text-align: center;
-        }
-        .my-stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-        .my-stat-label {
-            color: #6b7a8a;
-            font-size: 0.9rem;
-        }
+.container{
+width:100%;
+max-width:420px;
+background:#F0F4F5;
+padding:25px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
 
-        /* Leaderboard Table */
-        .leaderboard-table {
-            background: rgba(255,255,255,0.95);
-            border-radius: 2rem;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-            animation: slideRight 0.6s ease 0.6s both;
-        }
-        @keyframes slideRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .table-header {
-            display: grid;
-            grid-template-columns: 80px 1fr 120px 120px;
-            padding: 1rem;
-            font-weight: 700;
-            color: #667eea;
-            border-bottom: 2px solid rgba(102,126,234,0.2);
-        }
-        .leaderboard-row {
-            display: grid;
-            grid-template-columns: 80px 1fr 120px 120px;
-            padding: 1rem;
-            align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .leaderboard-row:hover {
-            background: rgba(102,126,234,0.1);
-            transform: scale(1.02);
-            border-radius: 1rem;
-        }
-        .leaderboard-row.current-user {
-            background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%);
-            border-left: 4px solid #ffd700;
-            border-radius: 1rem;
-        }
-        .rank {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        .rank-1 { color: #ffd700; }
-        .rank-2 { color: #c0c0c0; }
-        .rank-3 { color: #cd7f32; }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .user-avatar .default-avatar {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        .user-name {
-            font-weight: 600;
-        }
-        .user-city {
-            font-size: 0.8rem;
-            color: #6b7a8a;
-        }
-        .points {
-            font-weight: 700;
-            color: #667eea;
-        }
-        .donations {
-            color: #6b7a8a;
-        }
+h1{
+text-align:center;
+margin-bottom:25px;
+}
 
-        /* Bottom navigation */
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-            justify-content: space-around;
-            padding: 0.6rem 0.8rem;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            z-index: 20;
-            overflow-x: auto;
-        }
-        .bottom-nav a {
-            text-align: center;
-            color: #4b5563;
-            font-size: 0.7rem;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            min-width: 60px;
-            transition: all 0.3s ease;
-        }
-        .bottom-nav a i {
-            font-size: 1.3rem;
-        }
-        .bottom-nav a.active {
-            color: #667eea;
-            transform: translateY(-2px);
-        }
+/* PODIUM */
 
-        @media (max-width: 768px) {
-            .side-nav { display: none; }
-            .bottom-nav { display: flex; }
-            .content-area { padding: 1rem 1rem 80px 1rem; }
-            .table-header, .leaderboard-row {
-                grid-template-columns: 50px 1fr 80px 80px;
-                font-size: 0.9rem;
-            }
-            .podium-avatar {
-                width: 80px;
-                height: 80px;
-            }
-        }
-    </style>
+.podium{
+display:flex;
+align-items:flex-end;
+justify-content:center;
+gap:10px;
+margin-bottom:25px;
+}
+
+.block{
+flex:1;
+text-align:center;
+border-radius:10px 10px 0 0;
+position:relative;
+padding-top:10px;
+animation:rise .7s ease;
+}
+
+.block img{
+width:50px;
+height:50px;
+border-radius:50%;
+border:3px solid white;
+}
+
+.block h3{
+font-size:14px;
+margin-top:5px;
+}
+
+.block p{
+font-size:13px;
+}
+
+.first{
+height:150px;
+background:#14C1EB;
+color:black;
+}
+
+.second{
+height:120px;
+background:silver;
+color:black;
+}
+
+.third{
+height:100px;
+background:#EB14C1;
+color:black;
+}
+
+.rank{
+position:absolute;
+top:1px;
+left:50%;
+transform:translateX(-50%);
+background:black;
+color:white;
+padding:4px 10px;
+border-radius:20px;
+font-size:10px;
+}
+
+/* SCROLL LIST */
+
+.listContainer{
+max-height:260px;
+overflow-y:auto;
+border-radius:10px;
+}
+
+ul{
+list-style:none;
+}
+
+li{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,0.15);
+font-size:14px;
+transition:0.3s;
+}
+
+li:hover{
+background:rgba(255,255,255,0.1);
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:10px;
+flex:1;
+}
+
+.profile img{
+width:35px;
+height:35px;
+border-radius:50%;
+}
+
+.points{
+color:black;
+font-weight:bold;
+}
+
+/* CURRENT USER */
+
+.me{
+background:#EB1456 !important;
+}
+
+/* ANIMATION */
+
+@keyframes rise{
+from{
+transform:translateY(40px);
+opacity:0;
+}
+to{
+transform:translateY(0);
+opacity:1;
+}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:500px){
+
+.container{
+padding:18px;
+}
+
+.block img{
+width:45px;
+height:45px;
+}
+
+h1{
+font-size:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-    <div class="dash-container">
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')">
-                <i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span>
-            </div>
-            <div class="user-badge" onclick="goToPage('profile')">
-                <i class="fas fa-user-circle"></i>
-                <div class="badge-detail">
-                    <span class="badge-name" id="displayName">Loading...</span>
-                    <span class="badge-role" id="displayRoleCity"></span>
-                </div>
-            </div>
-        </header>
 
-        <div class="dash-main">
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
+<div class="container">
 
-            <div class="content-area">
-                <div class="leaderboard-header">
-                    <h1><i class="fas fa-trophy"></i> Leaderboard</h1>
-                    <p>Top volunteers and donors making a difference</p>
-                </div>
+<h1>Leaderboard</h1>
 
-                <!-- My Position (will be dynamically updated) -->
-                <div class="my-position" id="myPosition">
-                    <!-- Dynamic content -->
-                </div>
+<div class="podium" id="podium"></div>
 
-                <!-- Top 3 Podium -->
-                <div class="podium" id="podium">
-                    <!-- Dynamic content -->
-                </div>
+<div class="listContainer">
+<ul id="leaderboard"></ul>
+</div>
 
-                <!-- Leaderboard Table -->
-                <div class="leaderboard-table">
-                    <div class="table-header">
-                        <div>Rank</div>
-                        <div>Volunteer</div>
-                        <div>Points</div>
-                        <div>Donations</div>
-                    </div>
-                    <div id="leaderboardRows">
-                        <!-- Dynamic content -->
-                    </div>
-                </div>
-            </div>
-        </div>
+</div>
 
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-        </nav>
-    </div>
+<script>
 
-    <script>
-        let currentUser = null;
+/* CURRENT USER */
 
-        // Generate random avatar based on name
-        function getAvatarUrl(name, email) {
-            // Using UI Avatars service for consistent avatars
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=667eea&color=fff&size=128`;
-        }
+const currentUser = "Soumik Debnath";
 
-        // Sample leaderboard data with 50 users
-        function generateLeaderboardData() {
-            const cities = ['Ripur', 'Bilaspur', 'Delhi', 'Mumbai', 'Bangalore', 'Chennai', 'Kolkata', 'Pune'];
-            const firstNames = ['Aarav', 'Vivaan', 'Aditya', 'Vihaan', 'Arjun', 'Sai', 'Rohan', 'Ishaan', 'Reyansh', 'Ayaan',
-                'Ananya', 'Diya', 'Aadhya', 'Sara', 'Myra', 'Ira', 'Navya', 'Anaya', 'Sia', 'Riya'];
-            const lastNames = ['Sharma', 'Verma', 'Patel', 'Singh', 'Kumar', 'Gupta', 'Joshi', 'Reddy', 'Nair', 'Menon'];
-            
-            let users = [];
-            
-            // Add current user if exists
-            if (currentUser) {
-                users.push({
-                    name: currentUser.name,
-                    email: currentUser.email,
-                    city: currentUser.city,
-                    points: Math.floor(Math.random() * 500) + 100,
-                    donations: Math.floor(Math.random() * 30) + 5,
-                    avatar: getAvatarUrl(currentUser.name, currentUser.email)
-                });
-            }
+/* USERS DATA */
 
-            // Generate 49 random users
-            for (let i = 0; i < 49; i++) {
-                const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-                const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                const name = firstName + ' ' + lastName;
-                const email = name.toLowerCase().replace(' ', '.') + '@example.com';
-                
-                users.push({
-                    name: name,
-                    email: email,
-                    city: cities[Math.floor(Math.random() * cities.length)],
-                    points: Math.floor(Math.random() * 1000) + 50,
-                    donations: Math.floor(Math.random() * 50) + 1,
-                    avatar: getAvatarUrl(name, email)
-                });
-            }
+const users = [
 
-            // Sort by points descending
-            users.sort((a, b) => b.points - a.points);
+{name:"Sumit haldar",points:32050,img:"https://pbs.twimg.com/profile_images/2026688980230746121/H1uqhPGO_400x400.jpg"},
+{name:"Rohit Sharma",points:16900,img:"https://www.livemint.com/lm-img/img/2024/07/03/original/Rohit_Sharma_World_Cup_1720011997730.jpg"},
+{name:"Abhinav Kumar",points:14790,img:"https://tse3.mm.bing.net/th/id/OIP.P5x4tqlWO9kkTCxcwFZ_ygHaE7?pid=Api&P=0&h=1807"},
+{name:"Ms Dhoni",points:3278,img:"https://wallpaperaccess.com/full/8669687.jpg"},
+{name:"Virat Kohli",points:2356,img:"https://cdn.britannica.com/48/252748-050-C514EFDB/Virat-Kohli-India-celebrates-50th-century-Cricket-November-15-2023.jpg"},
+{name:" kl Rahul",points:2267,img:"https://tse2.mm.bing.net/th/id/OIP.4rdBW0nGT8iJTUz_EIVpwAHaE8?pid=Api&P=0&h=180"},
+{name:"Soumik Debnath",points:1980,img:"https://media.licdn.com/dms/image/v2/D4E03AQFn-lB6_0NSZA/profile-displayphoto-scale_200_200/B4EZp5htwJIoAY-/0/1762975474710?e=1775088000&v=beta&t=MYgmwV50DqJ_74O8-a9IVDTR9hiW-e6C18xxEaB5fGc"},
+{name:"Srys Iyer",points:1897,img:"https://tse2.mm.bing.net/th/id/OIP.kG4B4I4V8kK89xeVt1Ap6wHaEK?pid=Api&P=0&h=180"},
+{name:"Ravindra Jadeja",points:1500,img:"https://staticg.sportskeeda.com/editor/2023/12/37be1-17018597422895-1920.jpg"},
+{name:"Jaspit Bumrah",points:1200,img:"https://cdn.britannica.com/34/264734-050-85D1D907/jasprit-bumrah-india-ICC-mens-T20-cricket-world-cup-june-2024.jpg"},
+{name:"Hardik pandya",points:1100,img:"https://statico.sportskeeda.com/editor/2025/02/9d2c0-17400342506631-1920.jpg"},
+{name:"Axar Patel",points:900,img:"https://tse3.mm.bing.net/th?id=OIF.FnpkHNpWD%2b3U5qMkY28nsQ&pid=Api&P=0&h=1801"}
 
-            // Assign ranks
-            return users.map((user, index) => ({
-                ...user,
-                rank: index + 1
-            }));
-        }
+];
 
-        function getUserFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                name: params.get('name') || 'Guest User',
-                email: params.get('email') || 'guest@example.com',
-                role: params.get('role') || 'volunteer',
-                city: params.get('city') || 'ripur'
-            };
-        }
+/* SORT USERS */
 
-        function initPage() {
-            currentUser = getUserFromUrl();
-            
-            // Update user badge
-            document.getElementById('displayName').innerText = currentUser.name;
-            let roleDisplay = currentUser.role;
-            if (currentUser.role === 'ngo') roleDisplay = 'NGO';
-            else if (currentUser.role === 'organisation') roleDisplay = 'Organisation';
-            else roleDisplay = 'Volunteer';
-            document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+users.sort((a,b)=>b.points-a.points);
 
-            // Generate leaderboard data
-            const leaderboardData = generateLeaderboardData();
-            
-            // Find current user's position
-            const currentUserEntry = leaderboardData.find(u => u.email === currentUser.email);
-            
-            // Render all sections
-            renderMyPosition(currentUserEntry);
-            renderPodium(leaderboardData.slice(0, 3));
-            renderLeaderboardTable(leaderboardData, currentUser.email);
-        }
+/* PODIUM */
 
-        function renderMyPosition(user) {
-            const container = document.getElementById('myPosition');
-            if (!user) return;
+const podium=document.getElementById("podium");
+const order=[1,0,2];
 
-            container.innerHTML = `
-                <h2><i class="fas fa-star"></i> Your Position</h2>
-                <div class="my-position-card">
-                    <div class="my-rank">#${user.rank}</div>
-                    <div class="my-avatar">
-                        <img src="${user.avatar}" alt="${user.name}">
-                    </div>
-                    <div class="my-details">
-                        <div class="my-name">${user.name}</div>
-                        <div class="my-stats">
-                            <div class="my-stat">
-                                <div class="my-stat-value">${user.points}</div>
-                                <div class="my-stat-label">Points</div>
-                            </div>
-                            <div class="my-stat">
-                                <div class="my-stat-value">${user.donations}</div>
-                                <div class="my-stat-label">Donations</div>
-                            </div>
-                            <div class="my-stat">
-                                <div class="my-stat-value">${user.city}</div>
-                                <div class="my-stat-label">City</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+order.forEach(i=>{
 
-        function renderPodium(topThree) {
-            const container = document.getElementById('podium');
-            if (topThree.length < 3) return;
+const u=users[i];
 
-            const podiumHtml = `
-                <div class="podium-item" style="order: 2; animation-delay: 0.2s;">
-                    <div class="podium-avatar">
-                        <img src="${topThree[1].avatar}" alt="${topThree[1].name}">
-                    </div>
-                    <div class="podium-rank">#2</div>
-                    <div class="podium-name">${topThree[1].name}</div>
-                    <div class="podium-points">${topThree[1].points} pts</div>
-                </div>
-                <div class="podium-item" style="order: 1; transform: scale(1.1); animation-delay: 0.1s;">
-                    <div class="podium-avatar" style="border-color: #ffd700;">
-                        <img src="${topThree[0].avatar}" alt="${topThree[0].name}">
-                    </div>
-                    <div class="podium-rank" style="color: #ffd700;">#1</div>
-                    <div class="podium-name">${topThree[0].name}</div>
-                    <div class="podium-points">${topThree[0].points} pts</div>
-                </div>
-                <div class="podium-item" style="order: 3; animation-delay: 0.3s;">
-                    <div class="podium-avatar">
-                        <img src="${topThree[2].avatar}" alt="${topThree[2].name}">
-                    </div>
-                    <div class="podium-rank">#3</div>
-                    <div class="podium-name">${topThree[2].name}</div>
-                    <div class="podium-points">${topThree[2].points} pts</div>
-                </div>
-            `;
-            container.innerHTML = podiumHtml;
-        }
+const div=document.createElement("div");
+div.classList.add("block");
 
-        function renderLeaderboardTable(users, currentUserEmail) {
-            const container = document.getElementById('leaderboardRows');
-            
-            let html = '';
-            users.forEach(user => {
-                const isCurrentUser = user.email === currentUserEmail;
-                const rankClass = `rank rank-${user.rank}`;
-                
-                html += `
-                    <div class="leaderboard-row ${isCurrentUser ? 'current-user' : ''}" onclick="showUserProfile('${user.email}')">
-                        <div class="${rankClass}">#${user.rank}</div>
-                        <div class="user-info">
-                            <div class="user-avatar">
-                                <img src="${user.avatar}" alt="${user.name}">
-                            </div>
-                            <div>
-                                <div class="user-name">${user.name}</div>
-                                <div class="user-city"><i class="fas fa-map-marker-alt"></i> ${user.city}</div>
-                            </div>
-                        </div>
-                        <div class="points">${user.points}</div>
-                        <div class="donations">${user.donations}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+if(i===0) div.classList.add("first");
+if(i===1) div.classList.add("second");
+if(i===2) div.classList.add("third");
 
-        function showUserProfile(email) {
-            alert(`Viewing profile of user: ${email}\n(This would open their profile page in a real app)`);
-        }
+div.innerHTML=`
+<span class="rank">${i+1}</span>
+<img src="${u.img}">
+<h3>${u.name}</h3>
+<p>${u.points}</p>
+`;
 
-        function goToPage(page) {
-            const params = new URLSearchParams({
-                name: currentUser.name,
-                email: currentUser.email,
-                role: currentUser.role,
-                city: currentUser.city
-            });
-            if (page === 'feed') {
-                window.location.href = `dashboard.html?${params.toString()}`;
-            } else {
-                window.location.href = `${page}.html?${params.toString()}`;
-            }
-        }
+podium.appendChild(div);
 
-        function logout() {
-            window.location.href = 'login.html';
-        }
+});
 
-        window.onload = initPage;
-    </script>
+/* LIST */
+
+const list=document.getElementById("leaderboard");
+
+users.forEach((u,i)=>{
+
+if(i<3) return;
+
+const li=document.createElement("li");
+
+if(u.name===currentUser) li.classList.add("me");
+
+li.innerHTML=`
+<span>${i+1}</span>
+
+<div class="profile">
+<img src="${u.img}">
+<span>${u.name}</span>
+</div>
+
+<span class="points">${u.points}</span>
+`;
+
+list.appendChild(li);
+
+});
+
+/* AUTO SCROLL TO CURRENT USER */
+
+setTimeout(()=>{
+
+const me=document.querySelector(".me");
+
+if(me){
+me.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+}
+
+},300);
+
+</script>
+
 </body>
 </html>
