@@ -17,7 +17,6 @@
             background: #f0f2f5;
             min-height: 100vh;
         }
-        /* dashboard layout */
         .dash-container {
             display: flex;
             flex-direction: column;
@@ -35,14 +34,36 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .dash-header .logo {
+        .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             font-weight: 700;
             font-size: 1.3rem;
             color: #1877f2;
+        }
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            background: #f0f2f5;
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            align-items: center;
+        }
+        .search-bar i {
+            color: #6b7a8a;
+            margin-right: 8px;
+        }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem 0;
+            width: 100%;
+            outline: none;
         }
         .user-badge {
             background: #e7f0ff;
@@ -74,18 +95,18 @@
             flex: 1;
             position: relative;
         }
-        /* side navigation (laptop) */
+        /* side navigation - updated with new sections */
         .side-nav {
-            width: 260px;
+            width: 280px;
             background: white;
-            padding: 1.8rem 0.8rem;
+            padding: 1.5rem 0.8rem;
             box-shadow: 2px 0 10px rgba(0,0,0,0.02);
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
-            height: calc(100vh - 70px);
+            gap: 0.3rem;
+            height: calc(100vh - 80px);
             position: sticky;
-            top: 70px;
+            top: 80px;
             overflow-y: auto;
         }
         .side-nav a {
@@ -104,8 +125,9 @@
             font-size: 1.2rem;
             color: #1877f2;
         }
-        .side-nav a:hover {
-            background: #eef3fc;
+        .side-nav a:hover, .side-nav a.active {
+            background: #e7f0ff;
+            color: #1877f2;
         }
         /* feed area */
         .feed-area {
@@ -116,6 +138,71 @@
             width: 100%;
             padding-bottom: 80px;
         }
+        /* create post */
+        .create-post {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .post-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .post-input textarea {
+            flex: 1;
+            border: 1px solid #d9e1ec;
+            border-radius: 2rem;
+            padding: 0.8rem 1.2rem;
+            resize: none;
+            height: 60px;
+            outline: none;
+            font-size: 1rem;
+        }
+        .post-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .photo-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .photo-upload i {
+            font-size: 1.5rem;
+            color: #1877f2;
+            cursor: pointer;
+        }
+        .photo-upload input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .post-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 0.5rem 2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 12px;
+            display: none;
+        }
+        /* feed cards */
         .feed-card {
             background: white;
             border-radius: 1.5rem;
@@ -149,6 +236,13 @@
         }
         .feed-content {
             margin: 0.8rem 0;
+            word-break: break-word;
+        }
+        .post-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 16px;
+            margin: 10px 0;
         }
         .feed-stats {
             border-top: 1px solid #e9edf2;
@@ -157,7 +251,46 @@
             gap: 1.5rem;
             color: #4b5563;
         }
-        /* bottom navigation (mobile) */
+        .feed-stats span {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .feed-stats i.liked {
+            color: #1877f2;
+            font-weight: 900;
+        }
+        .comment-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e9edf2;
+        }
+        .comment-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .comment-input input {
+            flex: 1;
+            border: 1px solid #d9e1ec;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            outline: none;
+        }
+        .comment-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .comment-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 0.9rem;
+        }
+        .comment-item strong {
+            color: #1877f2;
+        }
+        /* bottom navigation */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -171,21 +304,53 @@
             border-top-left-radius: 24px;
             border-top-right-radius: 24px;
             z-index: 20;
+            overflow-x: auto;
         }
         .bottom-nav a {
             text-align: center;
             color: #4b5563;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
+            min-width: 60px;
         }
         .bottom-nav a i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
-        /* responsive */
+        .bottom-nav a.active {
+            color: #1877f2;
+        }
+        /* page content (for other sections) */
+        .page-content {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 1rem;
+            border-bottom: 1px solid #e9edf2;
+        }
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1877f2;
+            width: 40px;
+        }
+        .emergency-guide {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 1rem;
+        }
         @media (max-width: 768px) {
             .side-nav {
                 display: none;
@@ -196,18 +361,27 @@
             .feed-area {
                 padding: 1rem 1rem 80px 1rem;
             }
-        }
-        .logout-btn {
-            cursor: pointer;
+            .dash-header {
+                padding: 0.5rem 1rem;
+            }
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="dash-container">
-        <!-- header with user info -->
+        <!-- header with search -->
         <header class="dash-header">
             <div class="logo">
                 <i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search posts, people, organizations..." onkeyup="searchPosts()">
             </div>
             <div class="user-badge" id="userBadge">
                 <i class="fas fa-user-circle"></i>
@@ -219,71 +393,109 @@
         </header>
 
         <div class="dash-main">
-            <!-- SIDE NAVIGATION (laptop) -->
-            <nav class="side-nav">
-                <a href="#" onclick="navTo('home')"><i class="fas fa-home"></i> Home (feed)</a>
-                <a href="#" onclick="navTo('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="navTo('volunteer')"><i class="fas fa-hands"></i> Volunteer</a>
-                <a href="#" onclick="navTo('ngos')"><i class="fas fa-hand-holding-heart"></i> NGOs</a>
-                <a href="#" onclick="navTo('organisation')"><i class="fas fa-building"></i> Organisation</a>
-                <a href="#" onclick="navTo('messages')"><i class="fas fa-comment-dots"></i> Messages</a>
+            <!-- SIDE NAVIGATION (updated sections) -->
+            <nav class="side-nav" id="sideNav">
+                <a href="#" onclick="showSection('feed', this)" class="active"><i class="fas fa-newspaper"></i> Feed</a>
+                <a href="#" onclick="showSection('donation', this)"><i class="fas fa-hand-holding-heart"></i> Donation</a>
+                <a href="#" onclick="showSection('leaderboard', this)"><i class="fas fa-trophy"></i> Leaderboard</a>
+                <a href="#" onclick="showSection('profile', this)"><i class="fas fa-id-card"></i> Profile</a>
+                <a href="#" onclick="showSection('emergency', this)"><i class="fas fa-ambulance"></i> Emergency Guide</a>
                 <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
 
-            <!-- FEED AREA -->
-            <div class="feed-area" id="feedArea">
-                <!-- feed cards (static but personalized via js) -->
-                <div class="feed-card">
-                    <div class="feed-card-header">
-                        <div class="avatar"><i class="fas fa-hand-sparkles"></i></div>
-                        <div class="feed-info">
-                            <h4 id="feedUserName">Amit NGO</h4>
-                            <small><i class="fas fa-map-marker-alt"></i> <span id="feedUserCity">Ripur</span> · 2h ago</small>
+            <!-- MAIN CONTENT AREA (dynamic) -->
+            <div class="feed-area" id="mainContent">
+                <!-- Feed section (default) -->
+                <div id="feedSection">
+                    <!-- Create post -->
+                    <div class="create-post">
+                        <div class="post-input">
+                            <div class="avatar"><i class="fas fa-user"></i></div>
+                            <textarea id="postText" placeholder="Share something helpful..."></textarea>
                         </div>
+                        <div class="post-actions">
+                            <div class="photo-upload">
+                                <i class="fas fa-camera"></i>
+                                <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+                            </div>
+                            <button class="post-btn" onclick="createPost()"><i class="fas fa-paper-plane"></i> Post</button>
+                        </div>
+                        <img id="imagePreview" class="image-preview" alt="Preview">
                     </div>
-                    <div class="feed-content">
-                        <p>✨ We just distributed 50 food packets near railway station. Looking for volunteers for tomorrow!</p>
-                    </div>
-                    <div class="feed-stats">
-                        <span><i class="far fa-heart"></i> 24</span>
-                        <span><i class="far fa-comment"></i> 7</span>
-                        <span><i class="far fa-share-square"></i> 5</span>
+
+                    <!-- Posts container -->
+                    <div id="postsContainer"></div>
+                </div>
+
+                <!-- Other sections (hidden by default) -->
+                <div id="donationSection" style="display: none;">
+                    <div class="page-content">
+                        <h2><i class="fas fa-hand-holding-heart"></i> Donation Campaignd</h2>
+                        <p>Help those in need. Current campaigns:</p>
+                        <div class="leaderboard-item">
+                            <div class="rank">🧧</div>
+                            <div>Flood Relief - Bilaspur <br> <small>Target: ₹50,000 • Raised: ₹32,450</small></div>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div class="rank">📚</div>
+                            <div>Education for All - Ripur <br> <small>Target: 1000 books • Collected: 647</small></div>
+                        </div>
+                        <button class="post-btn" style="margin-top:1rem;" onclick="alert('Donation page coming soon!')">Donate Now</button>
                     </div>
                 </div>
 
-                <div class="feed-card">
-                    <div class="feed-card-header">
-                        <div class="avatar"><i class="fas fa-tree"></i></div>
-                        <div class="feed-info">
-                            <h4>Green Volunteers</h4>
-                            <small><i class="fas fa-map-marker-alt"></i> Bilaspur · yesterday</small>
+                <div id="leaderboardSection" style="display: none;">
+                    <div class="page-content">
+                        <h2><i class="fas fa-trophy"></i> Top Volunteers</h2>
+                        <div class="leaderboard-item">
+                            <div class="rank">🥇</div>
+                            <div><strong>Priya Sharma</strong> - 450 points <br> <small>50 hours volunteered</small></div>
                         </div>
-                    </div>
-                    <div class="feed-content">
-                        <p>🌳 Plantation drive this Saturday at Kabir Nagar. Be there!</p>
-                    </div>
-                    <div class="feed-stats">
-                        <span><i class="far fa-heart"></i> 42</span>
-                        <span><i class="far fa-comment"></i> 12</span>
-                        <span><i class="far fa-share-square"></i> 8</span>
+                        <div class="leaderboard-item">
+                            <div class="rank">🥈</div>
+                            <div><strong>Rahul Verma</strong> - 380 points <br> <small>42 hours volunteered</small></div>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div class="rank">🥉</div>
+                            <div><strong>Anjali Patel</strong> - 315 points <br> <small>35 hours volunteered</small></div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="feed-card">
-                    <div class="feed-card-header">
-                        <div class="avatar"><i class="fas fa-book-open"></i></div>
-                        <div class="feed-info">
-                            <h4>Education For All</h4>
-                            <small><i class="fas fa-map-marker-alt"></i> Ripur · 3 days ago</small>
+                <div id="profileSection" style="display: none;">
+                    <div class="page-content">
+                        <h2><i class="fas fa-id-card"></i> Your Profile</h2>
+                        <div style="text-align: left; max-width: 300px; margin: 2rem auto;">
+                            <p><strong>Name:</strong> <span id="profileName"></span></p>
+                            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                            <p><strong>Role:</strong> <span id="profileRole"></span></p>
+                            <p><strong>City:</strong> <span id="profileCity"></span></p>
+                            <p><strong>Posts:</strong> <span id="profilePosts">0</span></p>
                         </div>
                     </div>
-                    <div class="feed-content">
-                        <p>📚 Free tuition for class 1-5 starts Monday. Register at centre.</p>
-                    </div>
-                    <div class="feed-stats">
-                        <span><i class="far fa-heart"></i> 31</span>
-                        <span><i class="far fa-comment"></i> 4</span>
-                        <span><i class="far fa-share-square"></i> 2</span>
+                </div>
+
+                <div id="emergencySection" style="display: none;">
+                    <div class="page-content">
+                        <h2><i class="fas fa-ambulance"></i> Emergency Guide</h2>
+                        <div class="emergency-guide">
+                            <h3>🚨 Police: 100</h3>
+                            <h3>🚑 Ambulance: 102</h3>
+                            <h3>🔥 Fire: 101</h3>
+                        </div>
+                        <div style="margin-top:2rem;">
+                            <h3>First Aid Tips</h3>
+                            <ul style="list-style: none; text-align: left;">
+                                <li>✓ CPR: 30 chest compressions, 2 breaths</li>
+                                <li>✓ Bleeding: Apply pressure with clean cloth</li>
+                                <li>✓ Burns: Cool with running water 10-20 min</li>
+                            </ul>
+                        </div>
+                        <div class="emergency-guide" style="margin-top:2rem;">
+                            <h3>🆘 Helpline Numbers</h3>
+                            <p>Ripur: 07752-123456</p>
+                            <p>Bilaspur: 07752-654321</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -291,74 +503,285 @@
 
         <!-- BOTTOM NAVIGATION (mobile) -->
         <nav class="bottom-nav">
-            <a href="#" onclick="navTo('home')"><i class="fas fa-home"></i> <span>Home</span></a>
-            <a href="#" onclick="navTo('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="navTo('volunteer')"><i class="fas fa-hands"></i> <span>Volunteer</span></a>
-            <a href="#" onclick="navTo('ngos')"><i class="fas fa-hand-holding-heart"></i> <span>NGOs</span></a>
-            <a href="#" onclick="navTo('organisation')"><i class="fas fa-building"></i> <span>Orgs</span></a>
+            <a href="#" onclick="showSection('feed', this)" class="active"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
+            <a href="#" onclick="showSection('donation', this)"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
+            <a href="#" onclick="showSection('leaderboard', this)"><i class="fas fa-trophy"></i> <span>Top</span></a>
+            <a href="#" onclick="showSection('profile', this)"><i class="fas fa-id-card"></i> <span>Profile</span></a>
+            <a href="#" onclick="showSection('emergency', this)"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
             <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
         </nav>
     </div>
 
     <script>
-        // ---------- get user from URL (passed by login page) ----------
+        // ---------- user data from URL ----------
+        let currentUser = null;
+
         function getUserFromUrl() {
             const params = new URLSearchParams(window.location.search);
-            const name = params.get('name');
-            const email = params.get('email');
-            const role = params.get('role');
-            const city = params.get('city');
-            
-            if (name && email && role && city) {
-                return { name, email, role, city };
-            }
-            return null;
+            return {
+                name: params.get('name') || 'Guest User',
+                email: params.get('email') || 'guest@example.com',
+                role: params.get('role') || 'volunteer',
+                city: params.get('city') || 'ripur'
+            };
         }
 
-        // ---------- display user info on dashboard ----------
+        // ---------- POSTS STORAGE ----------
+        const POSTS_KEY = 'helpinghands_posts';
+
+        // Initialize default posts
+        if (!localStorage.getItem(POSTS_KEY)) {
+            const defaultPosts = [
+                {
+                    id: Date.now() - 86400000,
+                    author: 'Riya Sharma',
+                    authorRole: 'volunteer',
+                    city: 'ripur',
+                    text: '✨ We just distributed 50 food packets near railway station. Looking for volunteers for tomorrow!',
+                    image: null,
+                    likes: 24,
+                    likedBy: [],
+                    comments: [
+                        { user: 'Amit', text: 'I can join!' },
+                        { user: 'Neha', text: 'What time?' }
+                    ],
+                    timestamp: Date.now() - 86400000
+                },
+                {
+                    id: Date.now() - 172800000,
+                    author: 'Green Volunteers',
+                    authorRole: 'ngo',
+                    city: 'bilaspur',
+                    text: '🌳 Plantation drive this Saturday at Kabir Nagar. Be there!',
+                    image: null,
+                    likes: 42,
+                    likedBy: [],
+                    comments: [],
+                    timestamp: Date.now() - 172800000
+                }
+            ];
+            localStorage.setItem(POSTS_KEY, JSON.stringify(defaultPosts));
+        }
+
+        // ---------- init dashboard ----------
         function initDashboard() {
-            const user = getUserFromUrl();
+            currentUser = getUserFromUrl();
             
-            if (user) {
-                // update badge
-                document.getElementById('displayName').innerText = user.name;
-                let roleDisplay = user.role;
-                if (user.role === 'ngo') roleDisplay = 'NGO';
-                else if (user.role === 'organisation') roleDisplay = 'Organisation';
-                else roleDisplay = 'Volunteer';
-                document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${user.city}`;
-                
-                // update feed with user info
-                document.getElementById('feedUserName').innerText = user.name.split(' ')[0] + ' ' + (user.role==='ngo'?'NGO':user.role);
-                document.getElementById('feedUserCity').innerText = user.city;
-            } else {
-                // no user data in URL - redirect back to login
-                alert('No user data found. Please login first.');
-                window.location.href = 'login.html';
-            }
+            // update badge
+            document.getElementById('displayName').innerText = currentUser.name;
+            let roleDisplay = currentUser.role;
+            if (currentUser.role === 'ngo') roleDisplay = 'NGO';
+            else if (currentUser.role === 'organisation') roleDisplay = 'Organisation';
+            else roleDisplay = 'Volunteer';
+            document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+            
+            // profile section
+            document.getElementById('profileName').innerText = currentUser.name;
+            document.getElementById('profileEmail').innerText = currentUser.email;
+            document.getElementById('profileRole').innerText = roleDisplay;
+            document.getElementById('profileCity').innerText = currentUser.city;
+            
+            // load posts
+            displayPosts();
         }
 
-        // ---------- navigation (redirects to separate pages as requested) ----------
-        function navTo(page) {
-            if (page === 'home') {
-                // stay on dashboard, scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        // ---------- POST FUNCTIONS ----------
+        function createPost() {
+            const text = document.getElementById('postText').value.trim();
+            if (!text) {
+                alert('Please write something to post');
                 return;
             }
-            // For demo, we simulate redirect with alert + optional real redirect
-            // In real scenario, you would have actual HTML files
-            alert(`🔁 Redirecting to ${page}.html (separate page)\nThis would navigate to a different HTML file.`);
+
+            const imagePreview = document.getElementById('imagePreview');
+            const imageData = imagePreview.src && imagePreview.style.display !== 'none' ? imagePreview.src : null;
+
+            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
             
-            // UNCOMMENT below if you have actual HTML files:
-            // window.location.href = `${page}.html`;
+            const newPost = {
+                id: Date.now(),
+                author: currentUser.name,
+                authorRole: currentUser.role,
+                city: currentUser.city,
+                text: text,
+                image: imageData,
+                likes: 0,
+                likedBy: [],
+                comments: [],
+                timestamp: Date.now()
+            };
+
+            posts.unshift(newPost);
+            localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+
+            // clear form
+            document.getElementById('postText').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('imagePreview').src = '';
+            
+            displayPosts();
+            updateProfilePostCount();
         }
 
-        // ---------- logout (redirect back to login) ----------
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function displayPosts(filteredPosts = null) {
+            const posts = filteredPosts || JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
+            const container = document.getElementById('postsContainer');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="page-content">No posts yet. Be the first to post!</div>';
+                return;
+            }
+
+            let html = '';
+            posts.sort((a,b) => b.timestamp - a.timestamp).forEach(post => {
+                const date = new Date(post.timestamp).toLocaleString();
+                const likedClass = post.likedBy && post.likedBy.includes(currentUser.email) ? 'liked' : '';
+                
+                html += `
+                    <div class="feed-card" data-post-id="${post.id}">
+                        <div class="feed-card-header">
+                            <div class="avatar"><i class="fas fa-user"></i></div>
+                            <div class="feed-info">
+                                <h4>${post.author} <small>(${post.authorRole})</small></h4>
+                                <small><i class="fas fa-map-marker-alt"></i> ${post.city} · ${date}</small>
+                            </div>
+                        </div>
+                        <div class="feed-content">
+                            <p>${post.text.replace(/\n/g, '<br>')}</p>
+                `;
+                if (post.image) {
+                    html += `<img src="${post.image}" class="post-image" alt="Post image">`;
+                }
+                html += `
+                        </div>
+                        <div class="feed-stats">
+                            <span onclick="likePost(${post.id})"><i class="fa${likedClass ? 's' : 'r'} fa-heart ${likedClass}"></i> ${post.likes || 0}</span>
+                            <span onclick="toggleComments(${post.id})"><i class="far fa-comment"></i> ${post.comments ? post.comments.length : 0}</span>
+                            <span><i class="far fa-share-square"></i> Share</span>
+                        </div>
+                        <div id="comments-${post.id}" style="display: none;" class="comment-section">
+                            <div class="comment-input">
+                                <input type="text" id="comment-${post.id}" placeholder="Write a comment...">
+                                <button class="post-btn" style="padding:0.3rem 1rem;" onclick="addComment(${post.id})">Post</button>
+                            </div>
+                            <div class="comment-list" id="comment-list-${post.id}">
+                `;
+                if (post.comments) {
+                    post.comments.forEach(c => {
+                        html += `<div class="comment-item"><strong>${c.user}:</strong> ${c.text}</div>`;
+                    });
+                }
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function likePost(postId) {
+            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (!post.likedBy) post.likedBy = [];
+                const userIndex = post.likedBy.indexOf(currentUser.email);
+                if (userIndex === -1) {
+                    post.likedBy.push(currentUser.email);
+                    post.likes = (post.likes || 0) + 1;
+                } else {
+                    post.likedBy.splice(userIndex, 1);
+                    post.likes = (post.likes || 0) - 1;
+                }
+                localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+                displayPosts();
+            }
+        }
+
+        function addComment(postId) {
+            const input = document.getElementById(`comment-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (!post.comments) post.comments = [];
+                post.comments.push({ user: currentUser.name, text: text });
+                localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+                input.value = '';
+                displayPosts();
+                // reopen comments
+                document.getElementById(`comments-${postId}`).style.display = 'block';
+            }
+        }
+
+        function toggleComments(postId) {
+            const el = document.getElementById(`comments-${postId}`);
+            if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function searchPosts() {
+            const term = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!term) {
+                displayPosts();
+                return;
+            }
+            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
+            const filtered = posts.filter(p => 
+                p.text.toLowerCase().includes(term) || 
+                p.author.toLowerCase().includes(term) ||
+                p.city.toLowerCase().includes(term)
+            );
+            displayPosts(filtered);
+        }
+
+        function updateProfilePostCount() {
+            const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
+            const userPosts = posts.filter(p => p.author === currentUser.name).length;
+            document.getElementById('profilePosts').innerText = userPosts;
+        }
+
+        // ---------- SECTION SWITCHING ----------
+        function showSection(section, element) {
+            // hide all sections
+            document.getElementById('feedSection').style.display = 'none';
+            document.getElementById('donationSection').style.display = 'none';
+            document.getElementById('leaderboardSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
+            document.getElementById('emergencySection').style.display = 'none';
+            
+            // show selected
+            document.getElementById(section + 'Section').style.display = 'block';
+            
+            // update active class in side and bottom nav
+            const links = document.querySelectorAll('.side-nav a, .bottom-nav a');
+            links.forEach(link => link.classList.remove('active'));
+            if (element) element.classList.add('active');
+            
+            if (section === 'profile') updateProfilePostCount();
+        }
+
+        // ---------- LOGOUT ----------
         function logout() {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
 
-        // ---------- run on page load ----------
+        // ---------- run on load ----------
         window.onload = initDashboard;
     </script>
 </body>
