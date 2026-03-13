@@ -44,6 +44,7 @@
             font-weight: 700;
             font-size: 1.3rem;
             color: #1877f2;
+            cursor: pointer;
         }
         .search-bar {
             flex: 1;
@@ -96,7 +97,7 @@
             flex: 1;
             position: relative;
         }
-        /* side navigation - all links go to separate pages except feed (current) */
+        /* side navigation */
         .side-nav {
             width: 280px;
             background: white;
@@ -130,7 +131,7 @@
             background: #e7f0ff;
             color: #1877f2;
         }
-        /* feed area - only feed here */
+        /* feed area */
         .feed-area {
             flex: 1;
             padding: 1.5rem 2rem;
@@ -291,7 +292,24 @@
         .comment-item strong {
             color: #1877f2;
         }
-        /* bottom navigation - all links go to separate pages */
+        /* alert message */
+        .alert-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ffc107;
+            font-weight: 500;
+            display: none;
+        }
+        .allowed-terms-hint {
+            font-size: 0.8rem;
+            color: #6b7a8a;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        /* bottom navigation */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -325,23 +343,11 @@
             color: #1877f2;
         }
         @media (max-width: 768px) {
-            .side-nav {
-                display: none;
-            }
-            .bottom-nav {
-                display: flex;
-            }
-            .feed-area {
-                padding: 1rem 1rem 80px 1rem;
-            }
-            .dash-header {
-                padding: 0.5rem 1rem;
-            }
-            .search-bar {
-                order: 3;
-                max-width: 100%;
-                width: 100%;
-            }
+            .side-nav { display: none; }
+            .bottom-nav { display: flex; }
+            .feed-area { padding: 1rem 1rem 80px 1rem; }
+            .dash-header { padding: 0.5rem 1rem; }
+            .search-bar { order: 3; max-width: 100%; width: 100%; }
         }
     </style>
 </head>
@@ -349,7 +355,7 @@
     <div class="dash-container">
         <!-- header with search -->
         <header class="dash-header">
-            <div class="logo">
+            <div class="logo" onclick="goToPage('feed')">
                 <i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span>
             </div>
             <div class="search-bar">
@@ -366,7 +372,7 @@
         </header>
 
         <div class="dash-main">
-            <!-- SIDE NAVIGATION - all links go to separate pages (except feed) -->
+            <!-- SIDE NAVIGATION -->
             <nav class="side-nav" id="sideNav">
                 <a href="#" class="active" onclick="return false;"><i class="fas fa-newspaper"></i> Feed</a>
                 <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
@@ -378,11 +384,17 @@
 
             <!-- MAIN CONTENT - only FEED -->
             <div class="feed-area" id="mainContent">
+                <!-- Alert message for non-compliant posts -->
+                <div id="postAlert" class="alert-message">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    You can only post helping stories and contributions using approved terms (Helping, Donation, Volunteer, etc.)
+                </div>
+
                 <!-- Create post -->
                 <div class="create-post">
                     <div class="post-input">
                         <div class="avatar"><i class="fas fa-user"></i></div>
-                        <textarea id="postText" placeholder="Share something helpful..."></textarea>
+                        <textarea id="postText" placeholder="Share a helping story or contribution... (e.g., 'We provided relief aid in Bilaspur')"></textarea>
                     </div>
                     <div class="post-actions">
                         <div class="photo-upload">
@@ -392,6 +404,9 @@
                         <button class="post-btn" onclick="createPost()"><i class="fas fa-paper-plane"></i> Post</button>
                     </div>
                     <img id="imagePreview" class="image-preview" alt="Preview">
+                    <div class="allowed-terms-hint">
+                        <i class="fas fa-info-circle"></i> Allowed: helping, aid, support, relief, care, donation, volunteer, welfare, community, etc.
+                    </div>
                 </div>
 
                 <!-- Posts container -->
@@ -399,7 +414,7 @@
             </div>
         </div>
 
-        <!-- BOTTOM NAVIGATION - all links go to separate pages (except feed) -->
+        <!-- BOTTOM NAVIGATION -->
         <nav class="bottom-nav">
             <a href="#" class="active" onclick="return false;"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
             <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
@@ -427,7 +442,7 @@
         // ---------- POSTS STORAGE ----------
         const POSTS_KEY = 'helpinghands_posts';
 
-        // Initialize default posts
+        // Initialize default posts (all compliant with terms)
         if (!localStorage.getItem(POSTS_KEY)) {
             const defaultPosts = [
                 {
@@ -450,7 +465,7 @@
                     author: 'Green Volunteers',
                     authorRole: 'ngo',
                     city: 'bilaspur',
-                    text: '🌳 Plantation drive this Saturday at Kabir Nagar. Be there!',
+                    text: '🌳 Plantation drive this Saturday at Kabir Nagar. Be there for community service!',
                     image: null,
                     likes: 42,
                     likedBy: [],
@@ -459,6 +474,28 @@
                 }
             ];
             localStorage.setItem(POSTS_KEY, JSON.stringify(defaultPosts));
+        }
+
+        // ---------- ALLOWED TERMS (comprehensive list) ----------
+        const allowedTerms = [
+            // Helping & Support
+           'help', 'assistance', 'aid', 'support', 'relief', 'care', 'service', 'guidance', 'backing', 'solidarity', 'compassion',
+            'kindness', 'empathy', 'humanitarianism', 'cooperation', 'collaboration', 'encouragement', 'protection', 'advocacy', 'rescue', 'rehabilitation',
+            // Donation & Contribution
+            'donation', 'contribution', 'charity', 'funding', 'sponsorship', 'crowdfunding', 'grant', 'endowment', 'subsidy', 'almsgiving',
+            'philanthropy', 'giving', 'offering', 'patronage', 'resource-sharing', 'support-fund', 'financial-aid', 'micro-donation', 'aid-fund', 'gift',
+            // Social & Welfare
+            'welfare', 'development', 'empowerment', 'inclusion', 'equality', 'justice', 'opportunity', 'livelihood', 'wellbeing', 'security',
+            'sustainability', 'stability', 'progress', 'awareness', 'education', 'healthcare', 'nutrition', 'shelter', 'protection', 'community',
+            // Volunteer & Action
+            'volunteerism', 'participation', 'engagement', 'mobilization', 'outreach', 'campaign', 'initiative', 'mission', 'action', 'movement',
+            'service-drive', 'relief-work', 'community-service', 'field-support', 'task-force', 'aid-network', 'helping-hands', 'support-team'
+        ];
+
+        // Function to check if post text contains at least one allowed term
+        function isPostAllowed(text) {
+            const lowerText = text.toLowerCase();
+            return allowedTerms.some(term => lowerText.includes(term.toLowerCase()));
         }
 
         // ---------- init dashboard ----------
@@ -483,6 +520,18 @@
             if (!text) {
                 alert('Please write something to post');
                 return;
+            }
+
+            // Check if post contains allowed terms
+            if (!isPostAllowed(text)) {
+                const alertBox = document.getElementById('postAlert');
+                alertBox.style.display = 'block';
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+                return;
+            } else {
+                document.getElementById('postAlert').style.display = 'none';
             }
 
             const imagePreview = document.getElementById('imagePreview');
@@ -532,7 +581,7 @@
             const container = document.getElementById('postsContainer');
             
             if (posts.length === 0) {
-                container.innerHTML = '<div class="page-content">No posts yet. Be the first to post!</div>';
+                container.innerHTML = '<div class="page-content">No posts yet. Be the first to post a helping story!</div>';
                 return;
             }
 
@@ -643,13 +692,16 @@
 
         // ---------- NAVIGATION TO SEPARATE PAGES ----------
         function goToPage(page) {
-            // Pass user data to each page via URL parameters
             const params = new URLSearchParams({
                 name: currentUser.name,
                 email: currentUser.email,
                 role: currentUser.role,
                 city: currentUser.city
             });
+            if (page === 'feed') {
+                // already on feed
+                return;
+            }
             window.location.href = `${page}.html?${params.toString()}`;
         }
 
