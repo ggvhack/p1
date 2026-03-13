@@ -1,37 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpingHands • Leaderboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; }
-        .dash-container { display: flex; flex-direction: column; width: 100%; min-height: 100vh; }
-        .dash-header { background: white; padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; flex-wrap: wrap; gap: 10px; }
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: #1877f2; cursor: pointer; }
-        .user-badge { background: #e7f0ff; border-radius: 2rem; padding: 0.3rem 1.2rem 0.3rem 0.8rem; display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
-        .user-badge i { font-size: 1.5rem; color: #1877f2; }
-        .badge-detail { line-height: 1.2; }
-        .badge-name { font-weight: 700; font-size: 0.95rem; }
-        .badge-role { font-size: 0.75rem; color: #4b5563; }
-        .dash-main { display: flex; flex: 1; }
-        .side-nav { width: 280px; background: white; padding: 1.5rem 0.8rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 0.3rem; height: calc(100vh - 80px); position: sticky; top: 80px; overflow-y: auto; }
-        .side-nav a { text-decoration: none; color: #2c3e50; padding: 0.9rem 1.2rem; border-radius: 2rem; font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s; }
-        .side-nav a i { width: 24px; font-size: 1.2rem; color: #1877f2; }
-        .side-nav a:hover, .side-nav a.active { background: #e7f0ff; color: #1877f2; }
-        .content-area { flex: 1; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 80px; }
-        .page-content { background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .leaderboard-item { display: flex; align-items: center; gap: 15px; padding: 1rem; border-bottom: 1px solid #e9edf2; }
-        .rank { font-size: 1.5rem; font-weight: 700; color: #1877f2; width: 40px; }
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); justify-content: space-around; padding: 0.6rem 0.8rem; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 20; overflow-x: auto; }
-        .bottom-nav a { text-align: center; color: #4b5563; font-size: 0.7rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 60px; }
-        .bottom-nav a i { font-size: 1.3rem; }
-        .bottom-nav a.active { color: #1877f2; }
-        @media (max-width: 768px) { .side-nav { display: none; } .bottom-nav { display: flex; } .content-area { padding: 1rem 1rem 80px 1rem; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(#f0f2f5);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+color:black;
+}
+
+.container{
+width:100%;
+max-width:420px;
+background:#F0F4F5;
+padding:25px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
+
+h1{
+text-align:center;
+margin-bottom:25px;
+}
+
+/* PODIUM */
+
+.podium{
+display:flex;
+align-items:flex-end;
+justify-content:center;
+gap:10px;
+margin-bottom:25px;
+}
+
+.block{
+flex:1;
+text-align:center;
+border-radius:10px 10px 0 0;
+position:relative;
+padding-top:10px;
+animation:rise .7s ease;
+}
+
+.block img{
+width:50px;
+height:50px;
+border-radius:50%;
+border:3px solid white;
+}
+
+.block h3{
+font-size:14px;
+margin-top:5px;
+}
+
+.block p{
+font-size:13px;
+}
+
+.first{
+height:150px;
+background:#14C1EB;
+color:black;
+}
+
+.second{
+height:120px;
+background:silver;
+color:black;
+}
+
+.third{
+height:100px;
+background:#EB14C1;
+color:black;
+}
+
+.rank{
+position:absolute;
+top:1px;
+left:50%;
+transform:translateX(-50%);
+background:black;
+color:white;
+padding:4px 10px;
+border-radius:20px;
+font-size:10px;
+}
+
+/* SCROLL LIST */
+
+.listContainer{
+max-height:260px;
+overflow-y:auto;
+border-radius:10px;
+}
+
+ul{
+list-style:none;
+}
+
+li{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,0.15);
+font-size:14px;
+transition:0.3s;
+}
+
+li:hover{
+background:rgba(255,255,255,0.1);
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:10px;
+flex:1;
+}
+
+.profile img{
+width:35px;
+height:35px;
+border-radius:50%;
+}
+
+.points{
+color:black;
+font-weight:bold;
+}
+
+/* CURRENT USER */
+
+.me{
+background:#EB1456 !important;
+}
+
+/* ANIMATION */
+
+@keyframes rise{
+from{
+transform:translateY(40px);
+opacity:0;
+}
+to{
+transform:translateY(0);
+opacity:1;
+}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:500px){
+
+.container{
+padding:18px;
+}
+
+.block img{
+width:45px;
+height:45px;
+}
+
+h1{
+font-size:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
     <div class="dash-container">
         <header class="dash-header">
@@ -68,7 +224,7 @@
     </div>
     <script>
         let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'Raipur' }; }
+        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'ripur' }; }
         function initPage() { currentUser = getUserFromUrl(); document.getElementById('displayName').innerText = currentUser.name; let roleDisplay = currentUser.role; if (currentUser.role === 'ngo') roleDisplay = 'NGO'; else if (currentUser.role === 'organisation') roleDisplay = 'Organisation'; else roleDisplay = 'Volunteer'; document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; }
         function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
         function logout() { window.location.href = 'login.html'; }
