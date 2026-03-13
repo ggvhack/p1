@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpingHands • Donation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>HelpingHands • Donation Hub</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -42,6 +43,7 @@
             font-weight: 700;
             font-size: 1.3rem;
             color: #1877f2;
+            cursor: pointer;
         }
         .user-badge {
             background: #e7f0ff;
@@ -109,47 +111,218 @@
         .content-area {
             flex: 1;
             padding: 1.5rem 2rem;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
             padding-bottom: 80px;
         }
-        .page-content {
+        /* Stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
             background: white;
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 1.2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-        .leaderboard-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 1rem;
-            border-bottom: 1px solid #e9edf2;
+            gap: 1rem;
         }
-        .rank {
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: #e7f0ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1877f2;
+            font-size: 1.5rem;
+        }
+        .stat-info h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #1877f2;
-            width: 40px;
         }
-        .emergency-guide {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-            padding: 1rem;
-            margin: 1rem 0;
+        .stat-info p {
+            color: #6b7a8a;
+            font-size: 0.9rem;
+        }
+        /* Delivery partner section */
+        .delivery-section {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .delivery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .delivery-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+        .delivery-orders {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .order-card {
+            border: 1px solid #e9edf2;
             border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
-        .post-btn {
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-points {
+            background: #ffc107;
+            color: #856404;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .deliver-btn {
             background: #1877f2;
             color: white;
             border: none;
-            padding: 0.5rem 2rem;
+            padding: 0.5rem;
             border-radius: 2rem;
-            font-weight: 600;
             cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+        .deliver-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        /* Nearby organizations */
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .org-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .org-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .org-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .org-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e7f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #1877f2;
+        }
+        .org-info h4 {
+            font-weight: 700;
+        }
+        .org-location {
+            color: #6b7a8a;
+            font-size: 0.9rem;
+        }
+        .org-contact {
+            display: flex;
+            gap: 1rem;
             margin-top: 1rem;
         }
+        .call-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+        }
+        .direction-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+        }
+        /* Individual help requests */
+        .requests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .request-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .request-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+        .request-story {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            color: #2c3e50;
+        }
+        .request-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        /* Bottom navigation */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -215,22 +388,59 @@
             </nav>
 
             <div class="content-area">
-                <div class="page-content">
-                    <h2><i class="fas fa-hand-holding-heart"></i> Donation Campaigns</h2>
-                    <p>Help those in need. Current campaigns:</p>
-                    <div class="leaderboard-item">
-                        <div class="rank">🧧</div>
-                        <div><strong>Flood Relief - Bilaspur</strong> <br> <small>Target: ₹50,000 • Raised: ₹32,450</small></div>
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                        <div class="stat-info">
+                            <h3 id="donationCount">0</h3>
+                            <p>My Donations</p>
+                        </div>
                     </div>
-                    <div class="leaderboard-item">
-                        <div class="rank">📚</div>
-                        <div><strong>Education for All - Ripur</strong> <br> <small>Target: 1000 books • Collected: 647</small></div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                        <div class="stat-info">
+                            <h3 id="deliveryCount">0</h3>
+                            <p>Deliveries</p>
+                        </div>
                     </div>
-                    <div class="leaderboard-item">
-                        <div class="rank">🏥</div>
-                        <div><strong>Medical Camp - Ripur</strong> <br> <small>Target: ₹25,000 • Raised: ₹18,200</small></div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <div class="stat-info">
+                            <h3 id="pointsEarned">0</h3>
+                            <p>Points Earned</p>
+                        </div>
                     </div>
-                    <button class="post-btn" onclick="alert('Donation page coming soon!')">Donate Now</button>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <h3 id="pendingStatus">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Partner Section -->
+                <div class="delivery-section">
+                    <div class="delivery-header">
+                        <h2><i class="fas fa-truck"></i> Be a Delivery Partner</h2>
+                        <span class="delivery-badge"><i class="fas fa-bolt"></i> Earn 10 points per delivery</span>
+                    </div>
+                    <div class="delivery-orders" id="deliveryOrders">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Nearby Organizations -->
+                <h2 class="section-title"><i class="fas fa-building"></i> Nearby Organizations</h2>
+                <div class="org-grid" id="nearbyOrgs">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Individual Help Requests -->
+                <h2 class="section-title"><i class="fas fa-users"></i> People Need Help Nearby</h2>
+                <div class="requests-grid" id="helpRequests">
+                    <!-- Dynamically populated -->
                 </div>
             </div>
         </div>
@@ -246,7 +456,154 @@
     </div>
 
     <script>
+        // User data
         let currentUser = null;
+        
+        // Storage keys
+        const DONATION_KEY = 'helpinghands_donations';
+        const DELIVERY_KEY = 'helpinghands_deliveries';
+        const ORGS_KEY = 'helpinghands_orgs';
+        const REQUESTS_KEY = 'helpinghands_requests';
+
+        // Initialize data
+        function initializeData() {
+            // Organizations data
+            if (!localStorage.getItem(ORGS_KEY)) {
+                const orgs = [
+                    {
+                        id: 1,
+                        name: 'Sahyog NGO',
+                        type: 'NGO',
+                        image: '🏥',
+                        location: 'Ripur, Main Road',
+                        distance: '1.2 km',
+                        phone: '+91 98765 43210',
+                        lat: 23.5,
+                        lng: 87.3
+                    },
+                    {
+                        id: 2,
+                        name: 'Old Age Home - Seva',
+                        type: 'Old Age Home',
+                        image: '👴',
+                        location: 'Bilaspur, Station Road',
+                        distance: '2.5 km',
+                        phone: '+91 98765 43211',
+                        lat: 23.6,
+                        lng: 87.4
+                    },
+                    {
+                        id: 3,
+                        name: 'Children Shelter Home',
+                        type: 'Child Shelter',
+                        image: '🧸',
+                        location: 'Ripur, Gandhi Nagar',
+                        distance: '0.8 km',
+                        phone: '+91 98765 43212',
+                        lat: 23.5,
+                        lng: 87.3
+                    },
+                    {
+                        id: 4,
+                        name: 'Care & Share Foundation',
+                        type: 'NGO',
+                        image: '🤝',
+                        location: 'Bilaspur, Civil Lines',
+                        distance: '3.1 km',
+                        phone: '+91 98765 43213',
+                        lat: 23.6,
+                        lng: 87.4
+                    }
+                ];
+                localStorage.setItem(ORGS_KEY, JSON.stringify(orgs));
+            }
+
+            // Individual help requests
+            if (!localStorage.getItem(REQUESTS_KEY)) {
+                const requests = [
+                    {
+                        id: 1,
+                        name: 'Ram Kumar',
+                        age: 65,
+                        story: 'Need food and medicines. Living alone, no family support.',
+                        image: 'https://images.unsplash.com/photo-1544027993-37dbfe44362b?w=400',
+                        location: 'Ripur, Old City',
+                        distance: '0.5 km',
+                        phone: '+91 98765 43214',
+                        needs: ['Food', 'Medicines'],
+                        status: 'urgent'
+                    },
+                    {
+                        id: 2,
+                        name: 'Sunita Devi',
+                        age: 45,
+                        story: 'Single mother, need school supplies for two children.',
+                        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400',
+                        location: 'Bilaspur, New Colony',
+                        distance: '1.8 km',
+                        phone: '+91 98765 43215',
+                        needs: ['School Supplies', 'Clothes'],
+                        status: 'regular'
+                    },
+                    {
+                        id: 3,
+                        name: 'Children Home Group',
+                        story: 'Need blankets and warm clothes for 15 children this winter.',
+                        image: 'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=400',
+                        location: 'Ripur, Nehru Nagar',
+                        distance: '2.1 km',
+                        phone: '+91 98765 43216',
+                        needs: ['Blankets', 'Winter Clothes'],
+                        status: 'urgent'
+                    }
+                ];
+                localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
+            }
+
+            // Delivery orders
+            if (!localStorage.getItem(DELIVERY_KEY)) {
+                const deliveries = [
+                    {
+                        id: 101,
+                        from: 'Riya Sharma',
+                        to: 'Sahyog NGO',
+                        items: 'Food packets (20)',
+                        distance: '1.2 km',
+                        points: 10,
+                        status: 'available',
+                        location: 'Ripur'
+                    },
+                    {
+                        id: 102,
+                        from: 'Amit Patel',
+                        to: 'Old Age Home',
+                        items: 'Medicines',
+                        distance: '2.5 km',
+                        points: 10,
+                        status: 'available',
+                        location: 'Bilaspur'
+                    },
+                    {
+                        id: 103,
+                        from: 'Neha Singh',
+                        to: 'Children Shelter',
+                        items: 'School bags',
+                        distance: '0.8 km',
+                        points: 10,
+                        status: 'available',
+                        location: 'Ripur'
+                    }
+                ];
+                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
+            }
+
+            // User donations
+            if (!localStorage.getItem(DONATION_KEY)) {
+                localStorage.setItem(DONATION_KEY, JSON.stringify([]));
+            }
+        }
+
+        // Get user data from URL
         function getUserFromUrl() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -256,15 +613,204 @@
                 city: params.get('city') || 'ripur'
             };
         }
+
+        // Initialize page
         function initPage() {
             currentUser = getUserFromUrl();
+            
+            // Update user badge
             document.getElementById('displayName').innerText = currentUser.name;
             let roleDisplay = currentUser.role;
             if (currentUser.role === 'ngo') roleDisplay = 'NGO';
             else if (currentUser.role === 'organisation') roleDisplay = 'Organisation';
             else roleDisplay = 'Volunteer';
             document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+
+            // Initialize data
+            initializeData();
+
+            // Update stats
+            updateStats();
+
+            // Load all sections
+            loadDeliveryOrders();
+            loadNearbyOrgs();
+            loadHelpRequests();
         }
+
+        // Update donation stats
+        function updateStats() {
+            const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
+            const userDonations = donations.filter(d => d.donor === currentUser.email);
+            
+            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+            const userDeliveries = deliveries.filter(d => d.deliveredBy === currentUser.email);
+            
+            const pendingDeliveries = userDeliveries.filter(d => d.status === 'pending').length;
+            
+            // Calculate points (10 per delivery)
+            const points = userDeliveries.length * 10;
+
+            document.getElementById('donationCount').innerText = userDonations.length;
+            document.getElementById('deliveryCount').innerText = userDeliveries.length;
+            document.getElementById('pointsEarned').innerText = points;
+            document.getElementById('pendingStatus').innerText = pendingDeliveries;
+        }
+
+        // Load delivery orders
+        function loadDeliveryOrders() {
+            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+            const available = deliveries.filter(d => d.status === 'available');
+            
+            const container = document.getElementById('deliveryOrders');
+            if (available.length === 0) {
+                container.innerHTML = '<p style="color:#6b7a8a;">No deliveries available right now.</p>';
+                return;
+            }
+
+            let html = '';
+            available.forEach(order => {
+                html += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <strong>${order.items}</strong>
+                            <span class="order-points"><i class="fas fa-star"></i> ${order.points} pts</span>
+                        </div>
+                        <p><i class="fas fa-map-marker-alt"></i> From: ${order.from}</p>
+                        <p><i class="fas fa-flag-checkered"></i> To: ${order.to}</p>
+                        <p><i class="fas fa-road"></i> Distance: ${order.distance}</p>
+                        <button class="deliver-btn" onclick="acceptDelivery(${order.id})">
+                            <i class="fas fa-bicycle"></i> Accept Delivery
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Accept delivery order
+        function acceptDelivery(orderId) {
+            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+            const order = deliveries.find(d => d.id === orderId);
+            
+            if (order) {
+                order.status = 'pending';
+                order.deliveredBy = currentUser.email;
+                order.acceptedAt = new Date().toISOString();
+                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
+                
+                // Update stats
+                updateStats();
+                loadDeliveryOrders();
+                
+                alert('✅ Delivery accepted! You can track it in your profile.');
+            }
+        }
+
+        // Load nearby organizations
+        function loadNearbyOrgs() {
+            const orgs = JSON.parse(localStorage.getItem(ORGS_KEY)) || [];
+            const container = document.getElementById('nearbyOrgs');
+            
+            let html = '';
+            orgs.forEach(org => {
+                html += `
+                    <div class="org-card">
+                        <div class="org-header">
+                            <div class="org-image">${org.image}</div>
+                            <div class="org-info">
+                                <h4>${org.name}</h4>
+                                <p class="org-location"><i class="fas fa-map-marker-alt"></i> ${org.location}</p>
+                                <p class="org-location"><i class="fas fa-road"></i> ${org.distance}</p>
+                            </div>
+                        </div>
+                        <div class="org-contact">
+                            <a href="tel:${org.phone}" class="call-btn">
+                                <i class="fas fa-phone"></i> Call
+                            </a>
+                            <a href="https://maps.google.com/?q=${org.lat},${org.lng}" target="_blank" class="direction-btn">
+                                <i class="fas fa-directions"></i> Directions
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Load individual help requests
+        function loadHelpRequests() {
+            const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
+            const container = document.getElementById('helpRequests');
+            
+            let html = '';
+            requests.forEach(request => {
+                const urgencyClass = request.status === 'urgent' ? 'order-points' : '';
+                html += `
+                    <div class="request-card">
+                        <img src="${request.image}" class="request-image" alt="${request.name}" onerror="this.src='https://via.placeholder.com/400x200?text=Help+Request'">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h4>${request.name} ${request.age ? '('+request.age+' yrs)' : ''}</h4>
+                            <span class="order-points"><i class="fas fa-exclamation-circle"></i> ${request.distance}</span>
+                        </div>
+                        <p class="request-story">${request.story}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> ${request.location}</p>
+                        <p><strong>Needs:</strong> ${request.needs.join(', ')}</p>
+                        <div class="request-footer">
+                            <a href="tel:${request.phone}" class="call-btn">
+                                <i class="fas fa-phone"></i> Contact
+                            </a>
+                            <button class="direction-btn" onclick="donateToRequest(${request.id})">
+                                <i class="fas fa-gift"></i> Donate
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Donate to individual request
+        function donateToRequest(requestId) {
+            const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
+            const request = requests.find(r => r.id === requestId);
+            
+            const item = prompt('What would you like to donate? (e.g., food, clothes, medicines)');
+            if (item) {
+                const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
+                donations.push({
+                    id: Date.now(),
+                    donor: currentUser.email,
+                    donorName: currentUser.name,
+                    requestId: requestId,
+                    recipient: request.name,
+                    item: item,
+                    status: 'pledged',
+                    date: new Date().toISOString()
+                });
+                localStorage.setItem(DONATION_KEY, JSON.stringify(donations));
+                
+                // Create delivery order
+                const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+                deliveries.push({
+                    id: Date.now(),
+                    from: currentUser.name,
+                    to: request.name,
+                    items: item,
+                    distance: request.distance,
+                    points: 10,
+                    status: 'available',
+                    location: request.location.split(',')[0]
+                });
+                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
+                
+                updateStats();
+                loadDeliveryOrders();
+                alert('✅ Thank you for your donation! A delivery request has been created.');
+            }
+        }
+
+        // Navigation
         function goToPage(page) {
             const params = new URLSearchParams({
                 name: currentUser.name,
@@ -272,12 +818,18 @@
                 role: currentUser.role,
                 city: currentUser.city
             });
-            if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`;
-            else window.location.href = `${page}.html?${params.toString()}`;
+            if (page === 'feed') {
+                window.location.href = `dashboard.html?${params.toString()}`;
+            } else {
+                window.location.href = `${page}.html?${params.toString()}`;
+            }
         }
+
+        // Logout
         function logout() {
             window.location.href = 'login.html';
         }
+
         window.onload = initPage;
     </script>
 </body>
