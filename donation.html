@@ -116,6 +116,56 @@
             width: 100%;
             padding-bottom: 80px;
         }
+        /* Banner image */
+        .campaign-banner {
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 2rem;
+            padding: 2rem 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1200');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            isolation: isolate;
+        }
+        .campaign-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2rem;
+            z-index: -1;
+        }
+        .banner-text h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .banner-text p {
+            opacity: 0.9;
+        }
+        .create-campaign-btn {
+            background: white;
+            color: #1877f2;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: 0.2s;
+        }
+        .create-campaign-btn:hover {
+            background: #f0f2f5;
+            transform: scale(1.02);
+        }
         /* Stats cards */
         .stats-grid {
             display: grid;
@@ -322,6 +372,68 @@
             gap: 1rem;
             margin-top: 1rem;
         }
+        /* Campaign section */
+        .campaign-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .campaign-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .campaign-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .campaign-detail {
+            padding: 1.2rem;
+        }
+        .campaign-detail h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .campaign-meta {
+            display: flex;
+            gap: 1rem;
+            color: #6b7a8a;
+            font-size: 0.9rem;
+            margin: 0.7rem 0;
+        }
+        .campaign-footer {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .volunteer-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+        }
+        .call-org-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
         /* Bottom navigation */
         .bottom-nav {
             display: none;
@@ -360,6 +472,67 @@
             .bottom-nav { display: flex; }
             .content-area { padding: 1rem 1rem 80px 1rem; }
         }
+
+        /* --- Donor action panel (after accept) --- */
+        .donor-action-panel {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 6px solid #1877f2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .donor-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .donor-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .donor-contact {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            color: #2c3e50;
+        }
+        .donor-contact span i {
+            width: 24px;
+            color: #1877f2;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        .call-donor-btn, .map-donor-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .call-donor-btn {
+            background: #28a745;
+            color: white;
+        }
+        .map-donor-btn {
+            background: #1877f2;
+            color: white;
+        }
+        .call-donor-btn:hover, .map-donor-btn:hover {
+            filter: brightness(0.95);
+        }
     </style>
 </head>
 <body>
@@ -388,6 +561,30 @@
             </nav>
 
             <div class="content-area">
+                <!-- Banner + create campaign -->
+                <div class="campaign-banner">
+                    <div class="banner-text">
+                        <h2>🌱  Share the warmth</h2>
+                        <p>Join a campaign or start your own social activity</p>
+                    </div>
+                    <button class="create-campaign-btn" onclick="createNewCampaign()"><i class="fas fa-plus-circle"></i> Create campaign</button>
+                </div>
+
+                <!-- DONOR ACTION PANEL (dynamic, shown after accepting a delivery) -->
+                <div id="donorActionPanel" class="donor-action-panel" style="display: none;">
+                    <div class="donor-details">
+                        <span class="donor-name" id="donorName">Loading...</span>
+                        <div class="donor-contact">
+                            <span><i class="fas fa-phone-alt"></i> <span id="donorPhone">+91</span></span>
+                            <span><i class="fas fa-map-marker-alt"></i> <span id="donorAddress">address</span></span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a id="callDonorLink" href="tel:" class="call-donor-btn"><i class="fas fa-phone"></i> Call donor</a>
+                        <a id="mapDonorLink" href="#" target="_blank" class="map-donor-btn"><i class="fas fa-map-marked-alt"></i> Directions</a>
+                    </div>
+                </div>
+
                 <!-- Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -437,6 +634,12 @@
                     <!-- Dynamically populated -->
                 </div>
 
+                <!-- UPCOMING CAMPAIGNS / SOCIAL ACTIVITIES -->
+                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Upcoming campaigns & activities</h2>
+                <div class="campaign-grid" id="campaignList">
+                    <!-- dynamic -->
+                </div>
+
                 <!-- Individual Help Requests -->
                 <h2 class="section-title"><i class="fas fa-users"></i> People Need Help Nearby</h2>
                 <div class="requests-grid" id="helpRequests">
@@ -458,23 +661,25 @@
     <script>
         // User data
         let currentUser = null;
-        
+        let lastAcceptedDonor = null;  // store full donor info
+
         // Storage keys
         const DONATION_KEY = 'CareConnect_donations';
         const DELIVERY_KEY = 'CareConnect_deliveries';
         const ORGS_KEY = 'CareConnect_orgs';
         const REQUESTS_KEY = 'CareConnect_requests';
+        const CAMPAIGN_KEY = 'CareConnect_campaigns';
 
         // Initialize data
         function initializeData() {
-            // Organizations data
+            // Organizations with actual images (placeholder emoji + unsplash)
             if (!localStorage.getItem(ORGS_KEY)) {
                 const orgs = [
                     {
                         id: 1,
                         name: 'Sahyog NGO',
                         type: 'NGO',
-                        image: '🏥',
+                        image: 'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=100&h=100&fit=crop',
                         location: 'Raipur, Main Road',
                         distance: '1.2 km',
                         phone: '+91 98765 43210',
@@ -485,7 +690,7 @@
                         id: 2,
                         name: 'Old Age Home - Seva',
                         type: 'Old Age Home',
-                        image: '👴',
+                        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=100&h=100&fit=crop',
                         location: 'Bilaspur, Station Road',
                         distance: '2.5 km',
                         phone: '+91 98765 43211',
@@ -496,7 +701,7 @@
                         id: 3,
                         name: 'Children Shelter Home',
                         type: 'Child Shelter',
-                        image: '🧸',
+                        image: 'https://images.unsplash.com/photo-1542810634-71277ad95d5d?w=100&h=100&fit=crop',
                         location: 'Raipur, Gandhi Nagar',
                         distance: '0.8 km',
                         phone: '+91 98765 43212',
@@ -507,7 +712,7 @@
                         id: 4,
                         name: 'Care & Share Foundation',
                         type: 'NGO',
-                        image: '🤝',
+                        image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=100&h=100&fit=crop',
                         location: 'Bilaspur, Civil Lines',
                         distance: '3.1 km',
                         phone: '+91 98765 43213',
@@ -518,7 +723,7 @@
                 localStorage.setItem(ORGS_KEY, JSON.stringify(orgs));
             }
 
-            // Individual help requests
+            // Individual help requests with real images
             if (!localStorage.getItem(REQUESTS_KEY)) {
                 const requests = [
                     {
@@ -560,7 +765,7 @@
                 localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
             }
 
-            // Delivery orders
+            // Delivery orders (include donorPhone and donorAddress + lat/lng if possible)
             if (!localStorage.getItem(DELIVERY_KEY)) {
                 const deliveries = [
                     {
@@ -571,7 +776,11 @@
                         distance: '1.2 km',
                         points: 10,
                         status: 'available',
-                        location: 'Raipur'
+                        location: 'Raipur',
+                        donorPhone: '+91 98765 43220',
+                        donorAddress: 'Raipur, Shastri Nagar, near City Hospital',
+                        donorLat: 23.5,
+                        donorLng: 87.3
                     },
                     {
                         id: 102,
@@ -581,7 +790,11 @@
                         distance: '2.5 km',
                         points: 10,
                         status: 'available',
-                        location: 'Bilaspur'
+                        location: 'Bilaspur',
+                        donorPhone: '+91 98765 43221',
+                        donorAddress: 'Bilaspur, Tilak Nagar, Street 4',
+                        donorLat: 23.6,
+                        donorLng: 87.4
                     },
                     {
                         id: 103,
@@ -591,7 +804,11 @@
                         distance: '0.8 km',
                         points: 10,
                         status: 'available',
-                        location: 'Raipur'
+                        location: 'Raipur',
+                        donorPhone: '+91 98765 43222',
+                        donorAddress: 'Raipur, Avanti Vihar, Phase 2',
+                        donorLat: 23.52,
+                        donorLng: 87.32
                     }
                 ];
                 localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
@@ -600,6 +817,43 @@
             // User donations
             if (!localStorage.getItem(DONATION_KEY)) {
                 localStorage.setItem(DONATION_KEY, JSON.stringify([]));
+            }
+
+            // Campaigns
+            if (!localStorage.getItem(CAMPAIGN_KEY)) {
+                const campaigns = [
+                    {
+                        id: 201,
+                        title: 'Winter Clothes Drive',
+                        organizer: 'Care & Share Foundation',
+                        location: 'Community Hall, Raipur',
+                        date: '2025-12-10',
+                        phone: '+91 98765 43230',
+                        description: 'Collecting warm clothes for homeless.',
+                        banner: 'https://images.unsplash.com/photo-1517048676738-d65ab93792e2?w=400'
+                    },
+                    {
+                        id: 202,
+                        title: 'Food distribution - Sunday',
+                        organizer: 'Sahyog Volunteers',
+                        location: 'Railway Station, Bilaspur',
+                        date: '2025-11-28',
+                        phone: '+91 98765 43231',
+                        description: 'Cooked food packets for needy.',
+                        banner: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400'
+                    },
+                    {
+                        id: 203,
+                        title: 'Health checkup camp',
+                        organizer: 'Young India NGO',
+                        location: 'Old Age Home, Raipur',
+                        date: '2025-12-05',
+                        phone: '+91 98765 43232',
+                        description: 'Free basic health checkup & medicines',
+                        banner: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=400'
+                    }
+                ];
+                localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(campaigns));
             }
         }
 
@@ -618,7 +872,6 @@
         function initPage() {
             currentUser = getUserFromUrl();
             
-            // Update user badge
             document.getElementById('displayName').innerText = currentUser.name;
             let roleDisplay = currentUser.role;
             if (currentUser.role === 'ngo') roleDisplay = 'NGO';
@@ -626,19 +879,17 @@
             else roleDisplay = 'Volunteer';
             document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
 
-            // Initialize data
             initializeData();
-
-            // Update stats
             updateStats();
-
-            // Load all sections
             loadDeliveryOrders();
             loadNearbyOrgs();
             loadHelpRequests();
+            loadCampaigns();
+
+            // hide donor panel initially
+            document.getElementById('donorActionPanel').style.display = 'none';
         }
 
-        // Update donation stats
         function updateStats() {
             const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
             const userDonations = donations.filter(d => d.donor === currentUser.email);
@@ -647,8 +898,6 @@
             const userDeliveries = deliveries.filter(d => d.deliveredBy === currentUser.email);
             
             const pendingDeliveries = userDeliveries.filter(d => d.status === 'pending').length;
-            
-            // Calculate points (10 per delivery)
             const points = userDeliveries.length * 10;
 
             document.getElementById('donationCount').innerText = userDonations.length;
@@ -657,7 +906,6 @@
             document.getElementById('pendingStatus').innerText = pendingDeliveries;
         }
 
-        // Load delivery orders
         function loadDeliveryOrders() {
             const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
             const available = deliveries.filter(d => d.status === 'available');
@@ -688,7 +936,7 @@
             container.innerHTML = html;
         }
 
-        // Accept delivery order
+        // Accept delivery: pin donor info + show call & map buttons
         function acceptDelivery(orderId) {
             const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
             const order = deliveries.find(d => d.id === orderId);
@@ -699,15 +947,38 @@
                 order.acceptedAt = new Date().toISOString();
                 localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
                 
-                // Update stats
+                // Store donor info for panel
+                const donorInfo = {
+                    name: order.from,
+                    phone: order.donorPhone || '+91 98765 43299',
+                    address: order.donorAddress || order.location || 'Raipur, near bus stand',
+                    lat: order.donorLat || 23.5,
+                    lng: order.donorLng || 87.3
+                };
+                lastAcceptedDonor = donorInfo;
+
+                // Update donor action panel
+                document.getElementById('donorName').innerText = donorInfo.name;
+                document.getElementById('donorPhone').innerText = donorInfo.phone;
+                document.getElementById('donorAddress').innerText = donorInfo.address;
+
+                // Set call link
+                document.getElementById('callDonorLink').href = `tel:${donorInfo.phone}`;
+
+                // Set map link (Google Maps)
+                const mapLink = `https://maps.google.com/?q=${donorInfo.lat},${donorInfo.lng}`;
+                document.getElementById('mapDonorLink').href = mapLink;
+
+                // Show panel
+                document.getElementById('donorActionPanel').style.display = 'flex';
+
                 updateStats();
                 loadDeliveryOrders();
                 
-                alert('✅ Delivery accepted! You can track it in your profile.');
+                alert('✅ Delivery accepted! Call donor or navigate using buttons above.');
             }
         }
 
-        // Load nearby organizations
         function loadNearbyOrgs() {
             const orgs = JSON.parse(localStorage.getItem(ORGS_KEY)) || [];
             const container = document.getElementById('nearbyOrgs');
@@ -717,7 +988,7 @@
                 html += `
                     <div class="org-card">
                         <div class="org-header">
-                            <div class="org-image">${org.image}</div>
+                            <img class="org-image" src="${org.image}" alt="org" onerror="this.src='https://via.placeholder.com/60?text=Org'">
                             <div class="org-info">
                                 <h4>${org.name}</h4>
                                 <p class="org-location"><i class="fas fa-map-marker-alt"></i> ${org.location}</p>
@@ -738,14 +1009,12 @@
             container.innerHTML = html;
         }
 
-        // Load individual help requests
         function loadHelpRequests() {
             const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
             const container = document.getElementById('helpRequests');
             
             let html = '';
             requests.forEach(request => {
-                const urgencyClass = request.status === 'urgent' ? 'order-points' : '';
                 html += `
                     <div class="request-card">
                         <img src="${request.image}" class="request-image" alt="${request.name}" onerror="this.src='https://via.placeholder.com/400x200?text=Help+Request'">
@@ -790,7 +1059,7 @@
                 });
                 localStorage.setItem(DONATION_KEY, JSON.stringify(donations));
                 
-                // Create delivery order
+                // Create delivery order with dummy donor phone/address (current user)
                 const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
                 deliveries.push({
                     id: Date.now(),
@@ -800,14 +1069,73 @@
                     distance: request.distance,
                     points: 10,
                     status: 'available',
-                    location: request.location.split(',')[0]
+                    location: request.location.split(',')[0],
+                    donorPhone: currentUser.phone || '+91 98765 43299',   // if phone exists in user
+                    donorAddress: currentUser.address || 'Raipur, near Gandhi chowk',
+                    donorLat: 23.5,
+                    donorLng: 87.3
                 });
                 localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
                 
                 updateStats();
                 loadDeliveryOrders();
-                alert('✅ Thank you for your donation! A delivery request has been created.');
+                alert('✅ Thank you! A delivery request has been created. (Donor contact will be shown when a volunteer accepts.)');
             }
+        }
+
+        // Load campaigns
+        function loadCampaigns() {
+            const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
+            const container = document.getElementById('campaignList');
+            let html = '';
+            campaigns.forEach(c => {
+                html += `
+                <div class="campaign-card">
+                    <img src="${c.banner}" class="campaign-img" alt="campaign" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400'">
+                    <div class="campaign-detail">
+                        <h4>${c.title}</h4>
+                        <p>${c.description || 'Join us to make a difference'}</p>
+                        <div class="campaign-meta">
+                            <span><i class="fas fa-calendar"></i> ${c.date}</span>
+                            <span><i class="fas fa-map-pin"></i> ${c.location}</span>
+                        </div>
+                        <div class="campaign-footer">
+                            <a href="tel:${c.phone}" class="call-org-btn"><i class="fas fa-phone"></i> Call</a>
+                            <button class="volunteer-btn" onclick="volunteerForCampaign('${c.title}')"><i class="fas fa-hand-paper"></i> Volunteer</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function volunteerForCampaign(title) {
+            alert(`💪 Thank you for volunteering for "${title}"! The organizer will contact you soon.`);
+        }
+
+        function createNewCampaign() {
+            const title = prompt('Campaign title?');
+            if (!title) return;
+            const loc = prompt('Location?');
+            const phone = prompt('Contact phone?');
+            if (!loc || !phone) return;
+
+            const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
+            const newCamp = {
+                id: Date.now(),
+                title,
+                organizer: currentUser.name,
+                location: loc,
+                date: new Date().toISOString().slice(0,10),
+                phone: phone,
+                description: 'New social activity',
+                banner: 'https://images.unsplash.com/photo-1517048676738-d65ab93792e2?w=400'
+            };
+            campaigns.push(newCamp);
+            localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(campaigns));
+            loadCampaigns();
+            alert('Campaign created!');
         }
 
         // Navigation
@@ -825,7 +1153,6 @@
             }
         }
 
-        // Logout
         function logout() {
             window.location.href = 'login.html';
         }
