@@ -83,7 +83,7 @@
             document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; 
         }
         function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
-        function logout() { window.location.href = 'login.html'; }
+        function logout() { window.location.href = 'index.html'; }
         window.onload = initPage;
     </script>
 </body>
