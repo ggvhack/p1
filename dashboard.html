@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HelpingHands • Feed</title>
+    <title>CareConnect • Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -264,7 +264,7 @@
 
     <header class="dash-header">
         <div class="logo" onclick="goToPage('feed')">
-            <i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span>
+            <i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span>
         </div>
         <div class="search-bar">
             <i class="fas fa-search"></i>
@@ -381,7 +381,7 @@
 /* ─── STATE ─── */
 let currentUser = null;
 let activeFilter = 'all';
-const POSTS_KEY = 'helpinghands_posts';
+const POSTS_KEY = 'CareConnect_posts';
 
 /* ─── AVATAR COLOR PALETTE ─── */
 const AVATAR_COLORS = ['#1877f2','#16a34a','#dc2626','#7c3aed','#d97706','#0891b2','#be185d'];
@@ -395,9 +395,9 @@ function isPostAllowed(text) { const t = text.toLowerCase(); return allowedTerms
 function seedPosts() {
     if (localStorage.getItem(POSTS_KEY)) return;
     const posts = [
-        { id: Date.now()-86400000, author:'Riya Sharma', authorRole:'volunteer', city:'Ripur', text:'✨ We just distributed 50 food packets near the railway station. Huge thanks to everyone who came! Looking for volunteers tomorrow morning — who\'s joining?', image:null, likes:24, likedBy:[], comments:[{user:'Amit',text:'I can join! What time?',time:'Yesterday'},{user:'Neha',text:'Amazing work Riya! 🙏',time:'Yesterday'}], reactions:{}, timestamp:Date.now()-86400000 },
+        { id: Date.now()-86400000, author:'Riya Sharma', authorRole:'volunteer', city:'Raipur', text:'✨ We just distributed 50 food packets near the railway station. Huge thanks to everyone who came! Looking for volunteers tomorrow morning — who\'s joining?', image:null, likes:24, likedBy:[], comments:[{user:'Amit',text:'I can join! What time?',time:'Yesterday'},{user:'Neha',text:'Amazing work Riya! 🙏',time:'Yesterday'}], reactions:{}, timestamp:Date.now()-86400000 },
         { id: Date.now()-172800000, author:'Green Volunteers', authorRole:'ngo', city:'Bilaspur', text:'🌳 Plantation drive this Saturday at Kabir Nagar. Community service for a greener Bilaspur. Every tree counts! Register in the comments.', image:null, likes:42, likedBy:[], comments:[{user:'Priya',text:'Registering for this! 🌱',time:'2 days ago'}], reactions:{}, timestamp:Date.now()-172800000 },
-        { id: Date.now()-259200000, author:'CareOrg', authorRole:'organisation', city:'Ripur', text:'📚 Education for All campaign update: 647 books collected so far! Our target is 1000. If you have books to donate, drop them at our Ripur centre. Together we can give every child a chance to learn.', image:null, likes:58, likedBy:[], comments:[], reactions:{}, timestamp:Date.now()-259200000 },
+        { id: Date.now()-259200000, author:'CareOrg', authorRole:'organisation', city:'Raipur', text:'📚 Education for All campaign update: 647 books collected so far! Our target is 1000. If you have books to donate, drop them at our Raipur centre. Together we can give every child a chance to learn.', image:null, likes:58, likedBy:[], comments:[], reactions:{}, timestamp:Date.now()-259200000 },
         { id: Date.now()-345600000, author:'Sahyog NGO', authorRole:'ngo', city:'Bilaspur', text:'🏥 Health camp this Sunday at Central Park, Bilaspur. Free checkups, medicines, and wellness consultation. Bring your family! This is a community welfare initiative.', image:null, likes:33, likedBy:[], comments:[{user:'Ramesh',text:'Will definitely attend with my parents.',time:'4 days ago'}], reactions:{}, timestamp:Date.now()-345600000 }
     ];
     localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
@@ -429,7 +429,7 @@ function initDashboard() {
 
 function getUserFromUrl() {
     const p = new URLSearchParams(window.location.search);
-    return { name: p.get('name')||'Guest User', email: p.get('email')||'guest@example.com', role: p.get('role')||'volunteer', city: p.get('city')||'Ripur' };
+    return { name: p.get('name')||'Guest User', email: p.get('email')||'guest@example.com', role: p.get('role')||'volunteer', city: p.get('city')||'Raipur' };
 }
 
 /* ─── WELCOME STATS ─── */
@@ -709,9 +709,9 @@ function sharePost(postId) {
     const posts = JSON.parse(localStorage.getItem(POSTS_KEY)) || [];
     const post = posts.find(p => p.id === postId);
     if (!post) return;
-    const shareText = `${post.author} on HelpingHands: "${post.text.slice(0,120)}…"`;
+    const shareText = `${post.author} on CareConnect: "${post.text.slice(0,120)}…"`;
     if (navigator.share) {
-        navigator.share({ title: 'HelpingHands Post', text: shareText }).catch(()=>{});
+        navigator.share({ title: 'CareConnect Post', text: shareText }).catch(()=>{});
     } else {
         navigator.clipboard?.writeText(shareText).then(() => showToast('📋 Post copied to clipboard!', 'success')).catch(()=> showToast('📋 Link copied!'));
     }
@@ -782,7 +782,7 @@ function goToPage(page) {
     const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city });
     window.location.href = `${page}.html?${params}`;
 }
-function logout() { window.location.href = 'login.html'; }
+function logout() { window.location.href = 'index.html'; }
 
 window.onload = initDashboard;
 </script>

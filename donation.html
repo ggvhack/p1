@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HelpingHands • Donation Hub</title>
+    <title>CareConnect • Donation Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -530,7 +530,7 @@
     <header class="dash-header">
         <div class="logo" onclick="goToPage('feed')">
             <i class="fas fa-hand-holding-heart"></i>
-            <span>HelpingHands</span>
+            <span>CareConnect</span>
         </div>
         <div class="user-badge" onclick="goToPage('profile')">
             <i class="fas fa-user-circle"></i>
@@ -747,11 +747,11 @@
     let activeDonateRequestId = null;
     let selectedAmount = null;
 
-    const DONATION_KEY  = 'helpinghands_donations';
-    const DELIVERY_KEY  = 'helpinghands_deliveries';
-    const ORGS_KEY      = 'helpinghands_orgs';
-    const REQUESTS_KEY  = 'helpinghands_requests';
-    const CAMPAIGN_KEY  = 'helpinghands_campaigns';
+    const DONATION_KEY  = 'CareConnect_donations';
+    const DELIVERY_KEY  = 'CareConnect_deliveries';
+    const ORGS_KEY      = 'CareConnect_orgs';
+    const REQUESTS_KEY  = 'CareConnect_requests';
+    const CAMPAIGN_KEY  = 'CareConnect_campaigns';
 
     /* ─── TOAST ─── */
     function showToast(msg, type = '') {
@@ -794,7 +794,7 @@
             name: p.get('name') || 'Guest User',
             email: p.get('email') || 'guest@example.com',
             role: p.get('role') || 'volunteer',
-            city: p.get('city') || 'ripur'
+            city: p.get('city') || 'Raipur'
         };
     }
 
@@ -825,7 +825,7 @@
         if (!localStorage.getItem(CAMPAIGN_KEY)) {
             localStorage.setItem(CAMPAIGN_KEY, JSON.stringify([
                 { id:1, title:'Flood Relief – Bilaspur', description:'Help families displaced by flooding in Bilaspur. Every rupee goes to food and shelter.', date:'2024-12-20', location:'Bilaspur', phone:'+91 98765 00001', banner:'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600', raised:32450, target:50000 },
-                { id:2, title:'Education for All – Ripur', description:'Collect 1000 books for underprivileged students across 5 schools in Ripur.', date:'2024-12-28', location:'Ripur', phone:'+91 98765 00002', banner:'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600', raised:647, target:1000, unit:'books' },
+                { id:2, title:'Education for All – Raipur', description:'Collect 1000 books for underprivileged students across 5 schools in Raipur.', date:'2024-12-28', location:'Raipur', phone:'+91 98765 00002', banner:'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600', raised:647, target:1000, unit:'books' },
                 { id:3, title:'Winter Warmth Drive', description:'Distribute blankets and warm clothes to elderly and homeless before winter peak.', date:'2025-01-05', location:'Raipur', phone:'+91 98765 00003', banner:'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600', raised:18000, target:30000 }
             ]));
         }
@@ -1128,7 +1128,7 @@
             id: Date.now(), from: currentUser.name, to: request?.name || 'Recipient',
             items: item || amount, distance: request?.distance || '—', points: 10,
             status: 'available', location: request?.location?.split(',')[0] || '—',
-            donorPhone: '+91 98765 43299', donorAddress: currentUser.city + ', HelpingHands User',
+            donorPhone: '+91 98765 43299', donorAddress: currentUser.city + ', CareConnect User',
             donorLat: 23.5, donorLng: 87.3
         });
         localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));

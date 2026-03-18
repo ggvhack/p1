@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpingHands • Profile</title>
+    <title>CareConnect • Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -154,7 +154,7 @@
 <body>
 <div style="display:flex;flex-direction:column;min-height:100vh;">
     <header class="dash-header">
-        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
+        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span></div>
         <div class="user-badge" onclick="goToPage('profile')">
             <i class="fas fa-user-circle"></i>
             <div><div class="badge-name" id="displayName">Loading...</div><div class="badge-role" id="displayRoleCity"></div></div>
@@ -311,9 +311,9 @@
         document.getElementById('infoCity').innerText  = currentUser.city;
 
         // Stats from localStorage
-        const posts     = (JSON.parse(localStorage.getItem('helpinghands_posts')) || []).filter(p => p.author === currentUser.name).length;
-        const donations = (JSON.parse(localStorage.getItem('helpinghands_donations')) || []).filter(d => d.donor === currentUser.email).length;
-        const deliveries= (JSON.parse(localStorage.getItem('helpinghands_deliveries')) || []).filter(d => d.volunteer === currentUser.email && d.status === 'accepted').length;
+        const posts     = (JSON.parse(localStorage.getItem('CareConnect_posts')) || []).filter(p => p.author === currentUser.name).length;
+        const donations = (JSON.parse(localStorage.getItem('CareConnect_donations')) || []).filter(d => d.donor === currentUser.email).length;
+        const deliveries= (JSON.parse(localStorage.getItem('CareConnect_deliveries')) || []).filter(d => d.volunteer === currentUser.email && d.status === 'accepted').length;
         const points    = deliveries * 10;
 
         countUp(document.getElementById('statPosts'), posts);
@@ -350,7 +350,7 @@
         if (posts > 0)     items.push({ color: '#1877f2', text: `Created ${posts} post${posts>1?'s':''} on the community feed`, time: 'Recently' });
         if (donations > 0) items.push({ color: '#16a34a', text: `Made ${donations} donation${donations>1?'s':''} to people in need`, time: 'Recently' });
         if (deliveries > 0)items.push({ color: '#d97706', text: `Completed ${deliveries} delivery${deliveries>1?'s':''}`, time: 'Recently' });
-        items.push({ color: '#6b7a8a', text: 'Joined HelpingHands community', time: 'March 2026' });
+        items.push({ color: '#6b7a8a', text: 'Joined CareConnect community', time: 'March 2026' });
 
         document.getElementById('activityFeed').innerHTML = items.length
             ? items.map(i => `

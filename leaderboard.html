@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HelpingHands • Leaderboard</title>
+    <title>CareConnect • Leaderboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -176,7 +176,7 @@
 <body>
 <div style="display:flex;flex-direction:column;min-height:100vh;">
     <header class="dash-header">
-        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
+        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span></div>
         <div class="user-badge" onclick="goToPage('profile')">
             <i class="fas fa-user-circle"></i>
             <div><div class="badge-name" id="displayName">Loading...</div><div class="badge-role" id="displayRoleCity"></div></div>
@@ -380,7 +380,7 @@
         const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city });
         window.location.href = page === 'feed' ? `dashboard.html?${params}` : `${page}.html?${params}`;
     }
-    function logout() { window.location.href = 'login.html'; }
+    function logout() { window.location.href = 'index.html'; }
     window.onload = initPage;
 </script>
 </body>
