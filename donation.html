@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>CareConnect • Donation Hub</title>
+    <title>HelpingHands • Donation Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -530,7 +530,7 @@
     <header class="dash-header">
         <div class="logo" onclick="goToPage('feed')">
             <i class="fas fa-hand-holding-heart"></i>
-            <span>CareConnect</span>
+            <span>HelpingHands</span>
         </div>
         <div class="user-badge" onclick="goToPage('profile')">
             <i class="fas fa-user-circle"></i>
@@ -622,6 +622,7 @@
                     <span class="pill" onclick="filterOrgs('NGO', this)">NGO</span>
                     <span class="pill" onclick="filterOrgs('Old Age Home', this)">Old Age</span>
                     <span class="pill" onclick="filterOrgs('Child Shelter', this)">Children</span>
+                    <span class="pill" onclick="filterOrgs('Women Welfare', this)">Women</span>
                 </div>
             </div>
             <div class="org-grid" id="nearbyOrgs"></div>
@@ -747,11 +748,11 @@
     let activeDonateRequestId = null;
     let selectedAmount = null;
 
-    const DONATION_KEY  = 'CareConnect_donations';
-    const DELIVERY_KEY  = 'CareConnect_deliveries';
-    const ORGS_KEY      = 'CareConnect_orgs';
-    const REQUESTS_KEY  = 'CareConnect_requests';
-    const CAMPAIGN_KEY  = 'CareConnect_campaigns';
+    const DONATION_KEY  = 'helpinghands_donations';
+    const DELIVERY_KEY  = 'helpinghands_deliveries';
+    const ORGS_KEY      = 'helpinghands_orgs';
+    const REQUESTS_KEY  = 'helpinghands_requests';
+    const CAMPAIGN_KEY  = 'helpinghands_campaigns';
 
     /* ─── TOAST ─── */
     function showToast(msg, type = '') {
@@ -794,41 +795,171 @@
             name: p.get('name') || 'Guest User',
             email: p.get('email') || 'guest@example.com',
             role: p.get('role') || 'volunteer',
-            city: p.get('city') || 'Raipur'
+            city: p.get('city') || 'ripur'
         };
     }
 
     /* ─── SEED DATA ─── */
     function initializeData() {
-        if (!localStorage.getItem(ORGS_KEY)) {
-            localStorage.setItem(ORGS_KEY, JSON.stringify([
-                { id:1, name:'Sahyog NGO', type:'NGO', location:'Raipur, Main Road', distance:'1.2 km', phone:'+91 98765 43210', lat:23.5, lng:87.3, accepts:['Food','Clothes','Books'] },
-                { id:2, name:'Old Age Home – Seva', type:'Old Age Home', location:'Bilaspur, Station Rd', distance:'2.5 km', phone:'+91 98765 43211', lat:23.6, lng:87.4, accepts:['Food','Medicines','Blankets'] },
-                { id:3, name:'Children Shelter Home', type:'Child Shelter', location:'Raipur, Gandhi Nagar', distance:'0.8 km', phone:'+91 98765 43212', lat:23.5, lng:87.3, accepts:['Books','Toys','Clothes'] },
-                { id:4, name:'Care & Share Foundation', type:'NGO', location:'Bilaspur, Civil Lines', distance:'3.1 km', phone:'+91 98765 43213', lat:23.6, lng:87.4, accepts:['All items','Money','Volunteers'] }
-            ]));
-        }
-        if (!localStorage.getItem(REQUESTS_KEY)) {
-            localStorage.setItem(REQUESTS_KEY, JSON.stringify([
-                { id:1, name:'Ram Kumar', age:65, story:'Living alone with no family support. Needs regular food and medicines to get through the month.', image:'https://images.unsplash.com/photo-1544027993-37dbfe44362b?w=400', location:'Raipur, Old City', distance:'0.5 km', phone:'+91 98765 43214', needs:['Food','Medicines'], status:'urgent' },
-                { id:2, name:'Sunita Devi', age:45, story:'Single mother of two school-going children. Needs school supplies to keep them attending classes.', image:'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400', location:'Bilaspur, New Colony', distance:'1.8 km', phone:'+91 98765 43215', needs:['School Supplies','Clothes'], status:'regular' },
-                { id:3, name:'Children Home Group', age:null, story:'15 children need warm blankets and winter clothes as temperatures drop this season.', image:'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=400', location:'Raipur, Nehru Nagar', distance:'2.1 km', phone:'+91 98765 43216', needs:['Blankets','Winter Clothes'], status:'urgent' }
-            ]));
-        }
+        // Always reseed so examples are always visible
+        localStorage.setItem(ORGS_KEY, JSON.stringify([
+            {
+                id:1, name:'Sahyog NGO', type:'NGO',
+                location:'Raipur, Main Road', distance:'1.2 km',
+                phone:'+91 98765 43210', lat:23.5, lng:87.3,
+                accepts:['Food Packets','Clothes','Books','Stationery'],
+                desc:'Active since 2015. Runs daily food drives and literacy camps across Raipur.',
+                volunteers:48, helped:1200
+            },
+            {
+                id:2, name:'Seva Old Age Home', type:'Old Age Home',
+                location:'Bilaspur, Station Road', distance:'2.5 km',
+                phone:'+91 98765 43211', lat:23.6, lng:87.4,
+                accepts:['Cooked Food','Medicines','Blankets','Woolens'],
+                desc:'Home to 32 elderly residents who need daily care, food and companionship.',
+                volunteers:15, helped:32
+            },
+            {
+                id:3, name:'Bal Sahara Children Shelter', type:'Child Shelter',
+                location:'Raipur, Gandhi Nagar', distance:'0.8 km',
+                phone:'+91 98765 43212', lat:23.5, lng:87.3,
+                accepts:['Books','Toys','School Bags','Clothes','Chocolates'],
+                desc:'Shelter for 60 orphaned and underprivileged children aged 4–16.',
+                volunteers:22, helped:60
+            },
+            {
+                id:4, name:'Care & Share Foundation', type:'NGO',
+                location:'Bilaspur, Civil Lines', distance:'3.1 km',
+                phone:'+91 98765 43213', lat:23.6, lng:87.4,
+                accepts:['All Items','Cash Donations','Volunteers','Ration Kits'],
+                desc:'Coordinates relief across both cities during floods and emergencies.',
+                volunteers:110, helped:3400
+            },
+            {
+                id:5, name:'Green Earth Volunteers', type:'NGO',
+                location:'Ripur, Lake Road', distance:'1.8 km',
+                phone:'+91 98765 43214', lat:23.51, lng:87.31,
+                accepts:['Saplings','Gardening Tools','Water Cans','Volunteers'],
+                desc:'Leading plantation and environment awareness drives every weekend.',
+                volunteers:67, helped:5000
+            },
+            {
+                id:6, name:'Mamta Women Welfare', type:'Women Welfare',
+                location:'Bilaspur, New Colony', distance:'2.0 km',
+                phone:'+91 98765 43215', lat:23.61, lng:87.41,
+                accepts:['Clothes','Sanitary Kits','Ration','Skill Kits'],
+                desc:'Supports 150+ widows and single mothers with skill training and rations.',
+                volunteers:30, helped:150
+            }
+        ]));
+
+        localStorage.setItem(REQUESTS_KEY, JSON.stringify([
+            {
+                id:1, name:'Ram Kumar', age:65,
+                story:'Ram lives alone in a small room near the railway station. He has no family support and relies entirely on neighbours for food. He needs regular meals and blood pressure medicines to survive each month.',
+                image:'https://images.unsplash.com/photo-1544027993-37dbfe44362b?w=400',
+                location:'Raipur, Old City', distance:'0.5 km',
+                phone:'+91 98765 43220',
+                needs:['Daily Food','BP Medicines','Warm Clothes'],
+                status:'urgent', daysLeft:3
+            },
+            {
+                id:2, name:'Sunita Devi', age:45,
+                story:'Sunita is a single mother of two children studying in Class 4 and 7. Her husband passed away last year and she earns barely enough to pay rent. Her children need school bags, notebooks and uniforms to continue attending school.',
+                image:'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400',
+                location:'Bilaspur, New Colony', distance:'1.8 km',
+                phone:'+91 98765 43221',
+                needs:['School Bags','Notebooks','Uniforms','Geometry Box'],
+                status:'regular', daysLeft:10
+            },
+            {
+                id:3, name:'Bal Griha Children (Group)', age:null,
+                story:'A group of 15 children at Bal Griha shelter home needs warm blankets and winter clothes as temperatures in Bilaspur drop. Most children sleep on thin mats and have no woolen clothing.',
+                image:'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=400',
+                location:'Raipur, Nehru Nagar', distance:'2.1 km',
+                phone:'+91 98765 43222',
+                needs:['Blankets (×15)','Sweaters','Socks','Caps'],
+                status:'urgent', daysLeft:5
+            },
+            {
+                id:4, name:'Meera Bai', age:72,
+                story:'Meera is a 72-year-old widow with a fractured hip. She lives with her daughter who works as a daily wage labourer. They can\'t afford physiotherapy sessions or even daily nutritious meals. Any food, medicine or financial help is deeply needed.',
+                image:'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400',
+                location:'Bilaspur, Purani Basti', distance:'3.2 km',
+                phone:'+91 98765 43223',
+                needs:['Nutrition Supplements','Physiotherapy Aid','Ration Kit'],
+                status:'urgent', daysLeft:2
+            },
+            {
+                id:5, name:'Raju & Priya (Siblings)', age:null,
+                story:'Two orphan siblings aged 9 and 12 are currently staying with a distant relative who cannot fully support them. They need school stationery, clothes and basic meals to stay in school and off the streets.',
+                image:'https://images.unsplash.com/photo-1542810634-71277ad95d5d?w=400',
+                location:'Raipur, Kabir Nagar', distance:'1.4 km',
+                phone:'+91 98765 43224',
+                needs:['School Stationery','School Fees Aid','Clothes','Shoes'],
+                status:'regular', daysLeft:14
+            },
+            {
+                id:6, name:'Flood-Affected Families (Bilaspur)', age:null,
+                story:'12 families from Naya Tola locality lost their homes and belongings in last month\'s flooding. They are now living in a temporary shelter and need basic household supplies, dry ration and clothes urgently.',
+                image:'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=400',
+                location:'Bilaspur, Naya Tola', distance:'4.0 km',
+                phone:'+91 98765 43225',
+                needs:['Dry Ration','Clothes','Utensils','Tarpaulin Sheets'],
+                status:'urgent', daysLeft:1
+            }
+        ]));
+
         if (!localStorage.getItem(DELIVERY_KEY)) {
             localStorage.setItem(DELIVERY_KEY, JSON.stringify([
-                { id:101, from:'Riya Sharma', to:'Sahyog NGO', items:'Food packets (20)', distance:'1.2 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43220', donorAddress:'Raipur, Shastri Nagar, near City Hospital', donorLat:23.5, donorLng:87.3 },
-                { id:102, from:'Amit Patel', to:'Old Age Home', items:'Medicines box', distance:'2.5 km', points:10, status:'available', location:'Bilaspur', donorPhone:'+91 98765 43221', donorAddress:'Bilaspur, Tilak Nagar, Street 4', donorLat:23.6, donorLng:87.4 },
-                { id:103, from:'Priya Singh', to:'Children Shelter', items:'Books & Stationery', distance:'0.8 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43222', donorAddress:'Raipur, Civil Lines, MG Road', donorLat:23.5, donorLng:87.3 }
+                { id:101, from:'Riya Sharma', to:'Sahyog NGO', items:'Food packets (20)', distance:'1.2 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43230', donorAddress:'Raipur, Shastri Nagar, near City Hospital', donorLat:23.5, donorLng:87.3 },
+                { id:102, from:'Amit Patel', to:'Seva Old Age Home', items:'Medicines box', distance:'2.5 km', points:10, status:'available', location:'Bilaspur', donorPhone:'+91 98765 43231', donorAddress:'Bilaspur, Tilak Nagar, Street 4', donorLat:23.6, donorLng:87.4 },
+                { id:103, from:'Priya Singh', to:'Bal Sahara Shelter', items:'Books & Stationery bag', distance:'0.8 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43232', donorAddress:'Raipur, Civil Lines, MG Road', donorLat:23.5, donorLng:87.3 }
             ]));
         }
-        if (!localStorage.getItem(CAMPAIGN_KEY)) {
-            localStorage.setItem(CAMPAIGN_KEY, JSON.stringify([
-                { id:1, title:'Flood Relief – Bilaspur', description:'Help families displaced by flooding in Bilaspur. Every rupee goes to food and shelter.', date:'2024-12-20', location:'Bilaspur', phone:'+91 98765 00001', banner:'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600', raised:32450, target:50000 },
-                { id:2, title:'Education for All – Raipur', description:'Collect 1000 books for underprivileged students across 5 schools in Raipur.', date:'2024-12-28', location:'Raipur', phone:'+91 98765 00002', banner:'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600', raised:647, target:1000, unit:'books' },
-                { id:3, title:'Winter Warmth Drive', description:'Distribute blankets and warm clothes to elderly and homeless before winter peak.', date:'2025-01-05', location:'Raipur', phone:'+91 98765 00003', banner:'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600', raised:18000, target:30000 }
-            ]));
-        }
+
+        localStorage.setItem(CAMPAIGN_KEY, JSON.stringify([
+            {
+                id:1, title:'Flood Relief – Bilaspur',
+                description:'Help 12 families displaced by flooding in Bilaspur. Every rupee is used directly for emergency food kits, temporary shelter, and basic clothing for those who lost everything.',
+                date:'2025-03-25', location:'Bilaspur',
+                phone:'+91 98765 00001',
+                banner:'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600',
+                raised:32450, target:50000
+            },
+            {
+                id:2, title:'Education for All – Ripur',
+                description:'Collect 1000 books and stationery kits for underprivileged students across 5 government schools in Ripur. Help a child stay in school this year.',
+                date:'2025-03-28', location:'Ripur',
+                phone:'+91 98765 00002',
+                banner:'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600',
+                raised:647, target:1000, unit:'books'
+            },
+            {
+                id:3, title:'Winter Warmth Drive',
+                description:'Distribute 200 blankets and warm clothing sets to elderly residents and homeless individuals before the peak winter nights. Your old woollens can save a life.',
+                date:'2025-04-05', location:'Raipur & Bilaspur',
+                phone:'+91 98765 00003',
+                banner:'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600',
+                raised:18000, target:30000
+            },
+            {
+                id:4, title:'Free Health Camp – Raipur',
+                description:'Organising a free health camp with 8 doctors for checkups, blood tests, eye care and dental care. Targeting 500 patients who cannot afford private hospitals.',
+                date:'2025-04-10', location:'Raipur, Central Park',
+                phone:'+91 98765 00004',
+                banner:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600',
+                raised:12000, target:20000
+            },
+            {
+                id:5, title:'Plantation Drive – Green Bilaspur',
+                description:'Plant 5000 trees across Bilaspur roadsides and parks this season. Volunteers needed for digging, planting and 3-month maintenance. Saplings sponsored by Green Earth NGO.',
+                date:'2025-04-15', location:'Bilaspur',
+                phone:'+91 98765 00005',
+                banner:'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600',
+                raised:3200, target:5000, unit:'trees'
+            }
+        ]));
     }
 
     /* ─── INIT ─── */
@@ -942,7 +1073,12 @@
                         <div class="org-location"><i class="fas fa-map-marker-alt"></i> ${org.location} · ${org.distance}</div>
                     </div>
                 </div>
-                <div class="org-accepts"><strong>Accepts:</strong> ${org.accepts.join(', ')}</div>
+                <p style="font-size:0.85rem;color:var(--muted);line-height:1.55;margin-bottom:0.8rem;">${org.desc || ''}</p>
+                <div style="display:flex;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap;">
+                    <span style="font-size:0.78rem;font-weight:700;color:var(--green);background:var(--green-light);padding:0.2rem 0.7rem;border-radius:3rem;display:flex;align-items:center;gap:4px;"><i class="fas fa-users"></i> ${org.volunteers || 0} volunteers</span>
+                    <span style="font-size:0.78rem;font-weight:700;color:var(--blue);background:var(--blue-light);padding:0.2rem 0.7rem;border-radius:3rem;display:flex;align-items:center;gap:4px;"><i class="fas fa-heart"></i> ${(org.helped||0).toLocaleString()} helped</span>
+                </div>
+                <div class="org-accepts"><strong>Accepts:</strong> ${org.accepts.join(' · ')}</div>
                 <div class="org-contact">
                     <a href="tel:${org.phone}" class="btn-call"><i class="fas fa-phone"></i> Call</a>
                     <a href="https://maps.google.com/?q=${org.lat},${org.lng}" target="_blank" class="btn-dir"><i class="fas fa-directions"></i> Directions</a>
@@ -1056,7 +1192,13 @@
             container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-users"></i><p>No requests match this filter.</p></div>`;
             return;
         }
-        container.innerHTML = filtered.map(r => `
+        container.innerHTML = filtered.map(r => {
+            const urgencyBar = r.daysLeft <= 3
+                ? `<div style="background:var(--red-light);border-radius:0.5rem;padding:0.35rem 0.7rem;margin-bottom:0.7rem;font-size:0.78rem;font-weight:700;color:var(--red);display:flex;align-items:center;gap:6px;"><i class="fas fa-clock"></i> Needs help within ${r.daysLeft} day${r.daysLeft===1?'':'s'}!</div>`
+                : r.daysLeft <= 7
+                ? `<div style="background:var(--amber-light);border-radius:0.5rem;padding:0.35rem 0.7rem;margin-bottom:0.7rem;font-size:0.78rem;font-weight:700;color:var(--amber);display:flex;align-items:center;gap:6px;"><i class="fas fa-hourglass-half"></i> ${r.daysLeft} days left to help</div>`
+                : '';
+            return `
             <div class="request-card ${r.status}">
                 <img src="${r.image}" class="request-image" alt="${r.name}" onerror="this.style.display='none'">
                 <div class="request-body">
@@ -1066,6 +1208,7 @@
                             ? `<span class="urgent-badge"><i class="fas fa-exclamation-circle"></i> Urgent</span>`
                             : `<span class="regular-badge">Regular</span>`}
                     </div>
+                    ${urgencyBar}
                     <p class="request-story">${r.story}</p>
                     <p class="request-meta"><i class="fas fa-map-marker-alt"></i> ${r.location} · ${r.distance}</p>
                     <div class="needs-wrap">
@@ -1077,7 +1220,7 @@
                     </div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     }
 
     function filterRequests(filter, el) {
@@ -1128,7 +1271,7 @@
             id: Date.now(), from: currentUser.name, to: request?.name || 'Recipient',
             items: item || amount, distance: request?.distance || '—', points: 10,
             status: 'available', location: request?.location?.split(',')[0] || '—',
-            donorPhone: '+91 98765 43299', donorAddress: currentUser.city + ', CareConnect User',
+            donorPhone: '+91 98765 43299', donorAddress: currentUser.city + ', HelpingHands User',
             donorLat: 23.5, donorLng: 87.3
         });
         localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
