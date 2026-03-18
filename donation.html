@@ -3,1161 +3,1150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>CareConnect • Donation Hub</title>
-    <!-- Font Awesome 6 -->
+    <title>HelpingHands • Donation Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+        :root {
+            --blue: #1877f2;
+            --blue-dark: #0d5bbf;
+            --blue-light: #e7f0ff;
+            --green: #16a34a;
+            --green-light: #dcfce7;
+            --red: #dc2626;
+            --red-light: #fee2e2;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+            --bg: #f0f2f5;
+            --white: #ffffff;
+            --text: #1e2b3a;
+            --muted: #6b7a8a;
+            --border: #e9edf2;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --radius: 1.5rem;
+            --radius-sm: 0.75rem;
+            --radius-pill: 3rem;
         }
-        body {
-            background: #f0f2f5;
-            min-height: 100vh;
-        }
-        .dash-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            min-height: 100vh;
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: var(--bg); min-height: 100vh; }
+
+        /* ── HEADER ── */
         .dash-header {
-            background: white;
+            background: var(--white);
             padding: 0.7rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            flex-wrap: wrap;
-            gap: 10px;
+            position: sticky; top: 0; z-index: 50;
+            flex-wrap: wrap; gap: 10px;
         }
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #1877f2;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 700; font-size: 1.3rem; color: var(--blue); cursor: pointer;
         }
         .user-badge {
-            background: #e7f0ff;
-            border-radius: 2rem;
+            background: var(--blue-light); border-radius: var(--radius-pill);
             padding: 0.3rem 1.2rem 0.3rem 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;
         }
-        .user-badge i {
-            font-size: 1.5rem;
-            color: #1877f2;
-        }
-        .badge-detail {
-            line-height: 1.2;
-        }
-        .badge-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-        .badge-role {
-            font-size: 0.75rem;
-            color: #4b5563;
-        }
-        .dash-main {
-            display: flex;
-            flex: 1;
-            position: relative;
-        }
+        .user-badge i { font-size: 1.5rem; color: var(--blue); }
+        .badge-name { font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
+        .badge-role { font-size: 0.75rem; color: var(--muted); }
+
+        /* ── LAYOUT ── */
+        .dash-main { display: flex; flex: 1; }
         .side-nav {
-            width: 280px;
-            background: white;
+            width: 280px; background: var(--white);
             padding: 1.5rem 0.8rem;
             box-shadow: 2px 0 10px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            height: calc(100vh - 80px);
-            position: sticky;
-            top: 80px;
-            overflow-y: auto;
+            display: flex; flex-direction: column; gap: 0.3rem;
+            height: calc(100vh - 60px); position: sticky; top: 60px; overflow-y: auto;
         }
         .side-nav a {
-            text-decoration: none;
-            color: #2c3e50;
-            padding: 0.9rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: 0.2s;
+            text-decoration: none; color: #2c3e50;
+            padding: 0.9rem 1.2rem; border-radius: var(--radius-pill);
+            font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s;
         }
-        .side-nav a i {
-            width: 24px;
-            font-size: 1.2rem;
-            color: #1877f2;
-        }
-        .side-nav a:hover, .side-nav a.active {
-            background: #e7f0ff;
-            color: #1877f2;
-        }
+        .side-nav a i { width: 24px; font-size: 1.2rem; color: var(--blue); }
+        .side-nav a:hover, .side-nav a.active { background: var(--blue-light); color: var(--blue); }
+
         .content-area {
-            flex: 1;
-            padding: 1.5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            padding-bottom: 80px;
+            flex: 1; padding: 1.5rem 2rem;
+            max-width: 1100px; margin: 0 auto; width: 100%; padding-bottom: 100px;
         }
-        /* Banner image */
+
+        /* ── BANNER ── */
         .campaign-banner {
-            width: 100%;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            border-radius: 2rem;
-            padding: 2rem 2rem;
-            margin-bottom: 2rem;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1200');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            isolation: isolate;
+            background: linear-gradient(135deg, #0f2744 0%, #1877f2 100%);
+            border-radius: var(--radius);
+            padding: 2rem 2.2rem;
+            margin-bottom: 1.8rem;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1.2rem;
+            position: relative; overflow: hidden;
         }
         .campaign-banner::before {
             content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 2rem;
-            z-index: -1;
+            position: absolute; top: -60px; right: -60px;
+            width: 260px; height: 260px;
+            background: rgba(255,255,255,0.06); border-radius: 50%;
         }
-        .banner-text h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .campaign-banner::after {
+            content: '';
+            position: absolute; bottom: -80px; right: 160px;
+            width: 180px; height: 180px;
+            background: rgba(255,255,255,0.04); border-radius: 50%;
         }
-        .banner-text p {
-            opacity: 0.9;
+        .banner-text { position: relative; z-index: 1; }
+        .banner-text .banner-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9);
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+            padding: 0.3rem 0.9rem; border-radius: var(--radius-pill);
+            margin-bottom: 0.7rem;
         }
+        .banner-text h2 { font-size: 1.7rem; color: white; margin-bottom: 0.4rem; font-weight: 800; }
+        .banner-text p { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
         .create-campaign-btn {
-            background: white;
-            color: #1877f2;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 3rem;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
+            background: var(--white); color: var(--blue);
+            border: none; padding: 0.85rem 1.8rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.95rem; cursor: pointer;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            transition: 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; align-items: center; gap: 8px;
+            position: relative; z-index: 1; white-space: nowrap;
         }
-        .create-campaign-btn:hover {
-            background: #f0f2f5;
-            transform: scale(1.02);
+        .create-campaign-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.25); }
+
+        /* ── DONOR ACTION PANEL ── */
+        .donor-action-panel {
+            background: var(--white); border-radius: var(--radius);
+            padding: 1.2rem 1.5rem; margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md); border-left: 5px solid var(--blue);
+            display: none; flex-wrap: wrap; align-items: center;
+            justify-content: space-between; gap: 1rem;
+            animation: slideDown 0.35s ease;
         }
-        /* Stats cards */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .donor-name { font-weight: 700; font-size: 1.1rem; color: var(--text); margin-bottom: 4px; }
+        .donor-contact { display: flex; gap: 1.5rem; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
+        .donor-contact span i { color: var(--blue); margin-right: 4px; }
+        .action-buttons { display: flex; gap: 0.8rem; }
+        .call-donor-btn, .map-donor-btn {
+            padding: 0.65rem 1.4rem; border-radius: var(--radius-pill);
+            font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+            border: none; cursor: pointer; font-size: 0.9rem; transition: filter 0.2s, transform 0.15s;
+        }
+        .call-donor-btn { background: var(--green); color: white; }
+        .map-donor-btn { background: var(--blue); color: white; }
+        .call-donor-btn:hover, .map-donor-btn:hover { filter: brightness(0.92); transform: translateY(-1px); }
+
+        /* ── SECTION HEADER ── */
+        .section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem; margin-top: 2rem; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .section-header-left { display: flex; align-items: center; gap: 10px; }
+        .section-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .section-header h2 { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+        .section-count {
+            background: var(--blue-light); color: var(--blue);
+            font-size: 0.75rem; font-weight: 700;
+            padding: 0.2rem 0.6rem; border-radius: var(--radius-pill);
+        }
+        .filter-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .pill {
+            background: var(--white); border: 1px solid var(--border);
+            color: var(--muted); font-size: 0.78rem; font-weight: 600;
+            padding: 0.3rem 0.8rem; border-radius: var(--radius-pill);
+            cursor: pointer; transition: all 0.18s;
+        }
+        .pill.active, .pill:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+
+        /* ── STAT CARDS ── */
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1rem; margin-bottom: 1.5rem;
         }
         .stat-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            background: var(--white); border-radius: var(--radius);
+            padding: 1.2rem 1.3rem; box-shadow: var(--shadow-sm);
+            display: flex; align-items: center; gap: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: #e7f0ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1877f2;
-            font-size: 1.5rem;
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
         }
-        .stat-info h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .stat-info p {
-            color: #6b7a8a;
-            font-size: 0.9rem;
-        }
-        /* Delivery partner section */
+        .stat-info h3 { font-size: 1.6rem; font-weight: 800; color: var(--text); line-height: 1; }
+        .stat-info p { color: var(--muted); font-size: 0.82rem; margin-top: 3px; }
+
+        /* ── DELIVERY SECTION ── */
         .delivery-section {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            background: var(--white); border-radius: var(--radius);
+            padding: 1.4rem 1.6rem; margin-bottom: 0;
+            box-shadow: var(--shadow-sm);
         }
         .delivery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;
         }
+        .delivery-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
         .delivery-badge {
-            background: #28a745;
-            color: white;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.9rem;
+            background: var(--green-light); color: var(--green);
+            padding: 0.3rem 1rem; border-radius: var(--radius-pill);
+            font-size: 0.82rem; font-weight: 700;
+            display: flex; align-items: center; gap: 6px;
         }
-        .delivery-orders {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
+        .delivery-orders { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; }
+
         .order-card {
-            border: 1px solid #e9edf2;
-            border-radius: 1rem;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+            padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.7rem;
+            transition: border-color 0.2s, box-shadow 0.2s; background: #fafbfc;
         }
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .order-card:hover { border-color: var(--blue); box-shadow: 0 4px 14px rgba(24,119,242,0.1); }
+        .order-card.accepted { border-color: var(--green); background: #f0fdf4; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; }
+        .order-route { font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; align-items: center; gap: 6px; }
+        .order-route i { color: var(--blue); font-size: 0.8rem; }
         .order-points {
-            background: #ffc107;
-            color: #856404;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            font-size: 0.9rem;
+            background: var(--amber-light); color: var(--amber);
+            padding: 0.2rem 0.7rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.8rem;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .order-meta { display: flex; gap: 1rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+        .order-meta span { display: flex; align-items: center; gap: 4px; }
+        .order-items {
+            background: var(--bg); border-radius: var(--radius-sm);
+            padding: 0.5rem 0.8rem; font-size: 0.85rem; color: var(--text);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .order-items i { color: var(--blue); }
+        .order-status-accepted {
+            display: flex; align-items: center; gap: 6px;
+            color: var(--green); font-weight: 700; font-size: 0.88rem;
         }
         .deliver-btn {
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
+            background: var(--blue); color: white; border: none;
+            padding: 0.6rem; border-radius: var(--radius-pill);
+            cursor: pointer; font-weight: 700; font-size: 0.88rem;
+            width: 100%; display: flex; align-items: center; justify-content: center; gap: 7px;
+            transition: background 0.2s, transform 0.15s;
         }
-        .deliver-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
+        .deliver-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+        .deliver-btn:disabled { background: #c5cdd8; cursor: not-allowed; transform: none; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center; padding: 2.5rem 1rem;
+            color: var(--muted);
         }
-        /* Nearby organizations */
-        .section-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .org-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
+        .empty-state i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.8rem; display: block; }
+        .empty-state p { font-size: 0.9rem; }
+
+        /* ── ORG CARDS ── */
+        .org-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem; }
         .org-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            background: var(--white); border-radius: var(--radius);
+            padding: 1.3rem; box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s;
         }
-        .org-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+        .org-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .org-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .org-avatar {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: var(--blue-light); color: var(--blue);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; font-weight: 700; flex-shrink: 0; overflow: hidden;
         }
-        .org-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #e7f0ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #1877f2;
+        .org-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+        .org-info h4 { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+        .org-type-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: var(--blue-light); color: var(--blue);
+            font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.6rem;
+            border-radius: var(--radius-pill); margin-top: 3px;
         }
-        .org-info h4 {
-            font-weight: 700;
+        .org-location { color: var(--muted); font-size: 0.82rem; margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+        .org-accepts {
+            background: var(--bg); border-radius: var(--radius-sm);
+            padding: 0.5rem 0.8rem; margin-bottom: 1rem;
+            font-size: 0.8rem; color: var(--muted);
         }
-        .org-location {
-            color: #6b7a8a;
-            font-size: 0.9rem;
+        .org-accepts strong { color: var(--text); }
+        .org-contact { display: flex; gap: 0.7rem; }
+        .btn-call {
+            background: var(--green); color: white; border: none;
+            padding: 0.5rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+            flex: 1; justify-content: center; transition: filter 0.2s;
         }
-        .org-contact {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+        .btn-call:hover { filter: brightness(0.9); }
+        .btn-dir {
+            background: var(--blue); color: white; border: none;
+            padding: 0.5rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+            flex: 1; justify-content: center; transition: filter 0.2s;
         }
-        .call-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex: 1;
-            justify-content: center;
-        }
-        .direction-btn {
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex: 1;
-            justify-content: center;
-        }
-        /* Individual help requests */
-        .requests-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .request-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-        .request-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-        }
-        .request-story {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 1rem 0;
-            color: #2c3e50;
-        }
-        .request-footer {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        /* Campaign section */
-        .campaign-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
+        .btn-dir:hover { filter: brightness(0.9); }
+
+        /* ── PROGRESS CAMPAIGN CARDS ── */
+        .campaign-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
         .campaign-card {
-            background: white;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: var(--white); border-radius: var(--radius);
+            overflow: hidden; box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s;
         }
-        .campaign-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
+        .campaign-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .campaign-img { width: 100%; height: 150px; object-fit: cover; }
+        .campaign-detail { padding: 1.2rem; }
+        .campaign-detail h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+        .campaign-detail p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; }
+        .progress-wrap { margin-bottom: 0.8rem; }
+        .progress-labels { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.8rem; }
+        .progress-raised { font-weight: 700; color: var(--text); }
+        .progress-target { color: var(--muted); }
+        .progress-bar {
+            height: 8px; background: var(--bg); border-radius: 99px; overflow: hidden;
         }
-        .campaign-detail {
-            padding: 1.2rem;
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--blue), #42a0ff);
+            border-radius: 99px; width: 0%;
+            transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .campaign-detail h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .progress-pct { font-size: 0.78rem; color: var(--blue); font-weight: 700; margin-top: 4px; }
+        .campaign-meta { display: flex; gap: 1rem; color: var(--muted); font-size: 0.82rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .campaign-meta span { display: flex; align-items: center; gap: 4px; }
+        .campaign-footer { display: flex; gap: 0.7rem; }
+        .btn-volunteer {
+            background: var(--green); color: white; border: none;
+            padding: 0.55rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            flex: 1; transition: filter 0.2s, transform 0.15s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .campaign-meta {
-            display: flex;
-            gap: 1rem;
-            color: #6b7a8a;
-            font-size: 0.9rem;
-            margin: 0.7rem 0;
-        }
-        .campaign-footer {
-            display: flex;
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-        .volunteer-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
-        }
-        .call-org-btn {
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
+        .btn-volunteer:hover { filter: brightness(0.9); transform: translateY(-1px); }
+        .btn-donate-camp {
+            background: var(--blue); color: white; border: none;
+            padding: 0.55rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            flex: 1; transition: filter 0.2s, transform 0.15s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
-        /* Bottom navigation */
+        .btn-donate-camp:hover { filter: brightness(0.9); transform: translateY(-1px); }
+
+        /* ── REQUEST CARDS ── */
+        .requests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.2rem; }
+        .request-card {
+            background: var(--white); border-radius: var(--radius);
+            overflow: hidden; box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .request-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .request-card.urgent { border-top: 4px solid var(--red); }
+        .request-image { width: 100%; height: 170px; object-fit: cover; }
+        .request-body { padding: 1.1rem; }
+        .request-name-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+        .request-name { font-weight: 700; font-size: 1rem; color: var(--text); }
+        .urgent-badge {
+            background: var(--red-light); color: var(--red);
+            font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill); display: flex; align-items: center; gap: 4px;
+        }
+        .regular-badge {
+            background: var(--blue-light); color: var(--blue);
+            font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill);
+        }
+        .request-story { font-size: 0.88rem; line-height: 1.55; color: #374151; margin-bottom: 0.7rem; }
+        .request-meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 4px; }
+        .needs-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }
+        .need-chip {
+            background: var(--bg); color: var(--text);
+            font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-pill); border: 1px solid var(--border);
+        }
+        .request-footer { display: flex; gap: 0.7rem; }
+        .btn-contact {
+            background: var(--green-light); color: var(--green); border: 1px solid var(--green);
+            padding: 0.5rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+            flex: 1; justify-content: center; transition: background 0.2s;
+        }
+        .btn-contact:hover { background: var(--green); color: white; }
+        .btn-donate-req {
+            background: var(--blue); color: white; border: none;
+            padding: 0.5rem 1rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            flex: 1; display: inline-flex; align-items: center; gap: 6px;
+            justify-content: center; transition: background 0.2s;
+        }
+        .btn-donate-req:hover { background: var(--blue-dark); }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4); z-index: 200;
+            align-items: center; justify-content: center; padding: 1rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--white); border-radius: var(--radius);
+            width: 100%; max-width: 480px;
+            box-shadow: var(--shadow-lg);
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-header {
+            padding: 1.3rem 1.5rem; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .modal-header h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .modal-close {
+            width: 32px; height: 32px; background: var(--bg); border: none;
+            border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--muted);
+            display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+        }
+        .modal-close:hover { background: var(--border); }
+        .modal-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 0.75rem 1rem; border: 1.5px solid var(--border);
+            border-radius: var(--radius-pill); font-size: 0.95rem; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+        .form-group textarea { border-radius: var(--radius-sm); resize: vertical; min-height: 80px; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--blue); box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
+        }
+        .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.8rem; }
+        .btn-cancel {
+            flex: 1; background: var(--bg); color: var(--muted); border: none;
+            padding: 0.75rem; border-radius: var(--radius-pill);
+            font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .btn-cancel:hover { background: var(--border); }
+        .btn-submit {
+            flex: 2; background: var(--blue); color: white; border: none;
+            padding: 0.75rem; border-radius: var(--radius-pill);
+            font-weight: 700; font-size: 0.95rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-submit:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+        /* donate amount modal */
+        .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .amount-chip {
+            background: var(--bg); border: 1.5px solid var(--border);
+            border-radius: var(--radius-pill); padding: 0.6rem;
+            text-align: center; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: all 0.18s;
+        }
+        .amount-chip.selected { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+        .amount-chip:hover { border-color: var(--blue); }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed; bottom: 2rem; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--text); color: white;
+            padding: 0.75rem 1.5rem; border-radius: var(--radius-pill);
+            font-size: 0.9rem; font-weight: 500; opacity: 0;
+            transition: all 0.3s ease; z-index: 400;
+            pointer-events: none; white-space: nowrap;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: var(--shadow-lg);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--green); }
+        .toast.error { background: var(--red); }
+
+        /* ── BOTTOM NAV ── */
         .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            justify-content: space-around;
-            padding: 0.6rem 0.8rem;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            z-index: 20;
-            overflow-x: auto;
+            display: none; position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            justify-content: space-around; padding: 0.6rem 0.8rem;
+            border-top-left-radius: 20px; border-top-right-radius: 20px;
+            z-index: 20; overflow-x: auto;
         }
         .bottom-nav a {
-            text-align: center;
-            color: #4b5563;
-            font-size: 0.7rem;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            min-width: 60px;
+            text-align: center; color: var(--muted); font-size: 0.7rem;
+            text-decoration: none; display: flex; flex-direction: column;
+            align-items: center; gap: 3px; min-width: 55px;
+            transition: color 0.2s, transform 0.2s; padding: 0.2rem 0;
         }
-        .bottom-nav a i {
-            font-size: 1.3rem;
-        }
+        .bottom-nav a i { font-size: 1.3rem; }
         .bottom-nav a.active {
-            color: #1877f2;
+            color: var(--blue); transform: translateY(-2px);
         }
+        .bottom-nav a.active i { transform: scale(1.15); }
+        .nav-dot {
+            width: 5px; height: 5px; background: var(--blue);
+            border-radius: 50%; margin-top: 1px;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .bottom-nav a.active .nav-dot { opacity: 1; }
+
         @media (max-width: 768px) {
             .side-nav { display: none; }
             .bottom-nav { display: flex; }
-            .content-area { padding: 1rem 1rem 80px 1rem; }
+            .content-area { padding: 1rem 1rem 90px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
-        /* --- Donor action panel (after accept) --- */
-        .donor-action-panel {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border-left: 6px solid #1877f2;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .donor-details {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .donor-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        .donor-contact {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            color: #2c3e50;
-        }
-        .donor-contact span i {
-            width: 24px;
-            color: #1877f2;
-        }
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        .call-donor-btn, .map-donor-btn {
-            padding: 0.7rem 1.5rem;
-            border-radius: 3rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .call-donor-btn {
-            background: #28a745;
-            color: white;
-        }
-        .map-donor-btn {
-            background: #1877f2;
-            color: white;
-        }
-        .call-donor-btn:hover, .map-donor-btn:hover {
-            filter: brightness(0.95);
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .campaign-banner h2 { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
-    <div class="dash-container">
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')">
-                <i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span>
-            </div>
-            <div class="user-badge" onclick="goToPage('profile')">
-                <i class="fas fa-user-circle"></i>
-                <div class="badge-detail">
-                    <span class="badge-name" id="displayName">Loading...</span>
-                    <span class="badge-role" id="displayRoleCity"></span>
-                </div>
-            </div>
-        </header>
+<div style="display:flex;flex-direction:column;min-height:100vh;">
 
-        <div class="dash-main">
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-
-            <div class="content-area">
-                <!-- Banner + create campaign -->
-                <div class="campaign-banner">
-                    <div class="banner-text">
-                        <h2>🌱  Share the warmth</h2>
-                        <p>Join a campaign or start your own social activity</p>
-                    </div>
-                    <button class="create-campaign-btn" onclick="createNewCampaign()"><i class="fas fa-plus-circle"></i> Create campaign</button>
-                </div>
-
-                <!-- DONOR ACTION PANEL (dynamic, shown after accepting a delivery) -->
-                <div id="donorActionPanel" class="donor-action-panel" style="display: none;">
-                    <div class="donor-details">
-                        <span class="donor-name" id="donorName">Loading...</span>
-                        <div class="donor-contact">
-                            <span><i class="fas fa-phone-alt"></i> <span id="donorPhone">+91</span></span>
-                            <span><i class="fas fa-map-marker-alt"></i> <span id="donorAddress">address</span></span>
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        <a id="callDonorLink" href="tel:" class="call-donor-btn"><i class="fas fa-phone"></i> Call donor</a>
-                        <a id="mapDonorLink" href="#" target="_blank" class="map-donor-btn"><i class="fas fa-map-marked-alt"></i> Directions</a>
-                    </div>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                        <div class="stat-info">
-                            <h3 id="donationCount">0</h3>
-                            <p>My Donations</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-truck"></i></div>
-                        <div class="stat-info">
-                            <h3 id="deliveryCount">0</h3>
-                            <p>Deliveries</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-star"></i></div>
-                        <div class="stat-info">
-                            <h3 id="pointsEarned">0</h3>
-                            <p>Points Earned</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                        <div class="stat-info">
-                            <h3 id="pendingStatus">0</h3>
-                            <p>Pending</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delivery Partner Section -->
-                <div class="delivery-section">
-                    <div class="delivery-header">
-                        <h2><i class="fas fa-truck"></i> Be a Delivery Partner</h2>
-                        <span class="delivery-badge"><i class="fas fa-bolt"></i> Earn 10 points per delivery</span>
-                    </div>
-                    <div class="delivery-orders" id="deliveryOrders">
-                        <!-- Dynamically populated -->
-                    </div>
-                </div>
-
-                <!-- Nearby Organizations -->
-                <h2 class="section-title"><i class="fas fa-building"></i> Nearby Organizations</h2>
-                <div class="org-grid" id="nearbyOrgs">
-                    <!-- Dynamically populated -->
-                </div>
-
-                <!-- UPCOMING CAMPAIGNS / SOCIAL ACTIVITIES -->
-                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Upcoming campaigns & activities</h2>
-                <div class="campaign-grid" id="campaignList">
-                    <!-- dynamic -->
-                </div>
-
-                <!-- Individual Help Requests -->
-                <h2 class="section-title"><i class="fas fa-users"></i> People Need Help Nearby</h2>
-                <div class="requests-grid" id="helpRequests">
-                    <!-- Dynamically populated -->
-                </div>
+    <!-- HEADER -->
+    <header class="dash-header">
+        <div class="logo" onclick="goToPage('feed')">
+            <i class="fas fa-hand-holding-heart"></i>
+            <span>HelpingHands</span>
+        </div>
+        <div class="user-badge" onclick="goToPage('profile')">
+            <i class="fas fa-user-circle"></i>
+            <div>
+                <div class="badge-name" id="displayName">Loading...</div>
+                <div class="badge-role" id="displayRoleCity"></div>
             </div>
         </div>
+    </header>
 
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+    <div class="dash-main">
+        <!-- SIDE NAV -->
+        <nav class="side-nav">
+            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
+            <a href="#" class="active" onclick="return false;"><i class="fas fa-hand-holding-heart"></i> Donation</a>
+            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
+            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
-    </div>
 
-    <script>
-        // User data
-        let currentUser = null;
-        let lastAcceptedDonor = null;  // store full donor info
+        <div class="content-area">
 
-        // Storage keys
-        const DONATION_KEY = 'CareConnect_donations';
-        const DELIVERY_KEY = 'CareConnect_deliveries';
-        const ORGS_KEY = 'CareConnect_orgs';
-        const REQUESTS_KEY = 'CareConnect_requests';
-        const CAMPAIGN_KEY = 'CareConnect_campaigns';
+            <!-- BANNER -->
+            <div class="campaign-banner">
+                <div class="banner-text">
+                    <div class="banner-tag"><i class="fas fa-seedling"></i> Community Impact Hub</div>
+                    <h2>Share the warmth 🌱</h2>
+                    <p>Donate, deliver, or volunteer — every act creates a ripple.</p>
+                </div>
+                <button class="create-campaign-btn" onclick="openCampaignModal()">
+                    <i class="fas fa-plus-circle"></i> Create Campaign
+                </button>
+            </div>
 
-        // Initialize data
-        function initializeData() {
-            // Organizations with actual images (placeholder emoji + unsplash)
-            if (!localStorage.getItem(ORGS_KEY)) {
-                const orgs = [
-                    {
-                        id: 1,
-                        name: 'Sahyog NGO',
-                        type: 'NGO',
-                        image: 'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=100&h=100&fit=crop',
-                        location: 'Raipur, Main Road',
-                        distance: '1.2 km',
-                        phone: '+91 98765 43210',
-                        lat: 23.5,
-                        lng: 87.3
-                    },
-                    {
-                        id: 2,
-                        name: 'Old Age Home - Seva',
-                        type: 'Old Age Home',
-                        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=100&h=100&fit=crop',
-                        location: 'Bilaspur, Station Road',
-                        distance: '2.5 km',
-                        phone: '+91 98765 43211',
-                        lat: 23.6,
-                        lng: 87.4
-                    },
-                    {
-                        id: 3,
-                        name: 'Children Shelter Home',
-                        type: 'Child Shelter',
-                        image: 'https://images.unsplash.com/photo-1542810634-71277ad95d5d?w=100&h=100&fit=crop',
-                        location: 'Raipur, Gandhi Nagar',
-                        distance: '0.8 km',
-                        phone: '+91 98765 43212',
-                        lat: 23.5,
-                        lng: 87.3
-                    },
-                    {
-                        id: 4,
-                        name: 'Care & Share Foundation',
-                        type: 'NGO',
-                        image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=100&h=100&fit=crop',
-                        location: 'Bilaspur, Civil Lines',
-                        distance: '3.1 km',
-                        phone: '+91 98765 43213',
-                        lat: 23.6,
-                        lng: 87.4
-                    }
-                ];
-                localStorage.setItem(ORGS_KEY, JSON.stringify(orgs));
-            }
-
-            // Individual help requests with real images
-            if (!localStorage.getItem(REQUESTS_KEY)) {
-                const requests = [
-                    {
-                        id: 1,
-                        name: 'Ram Kumar',
-                        age: 65,
-                        story: 'Need food and medicines. Living alone, no family support.',
-                        image: 'https://images.unsplash.com/photo-1544027993-37dbfe44362b?w=400',
-                        location: 'Raipur, Old City',
-                        distance: '0.5 km',
-                        phone: '+91 98765 43214',
-                        needs: ['Food', 'Medicines'],
-                        status: 'urgent'
-                    },
-                    {
-                        id: 2,
-                        name: 'Sunita Devi',
-                        age: 45,
-                        story: 'Single mother, need school supplies for two children.',
-                        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400',
-                        location: 'Bilaspur, New Colony',
-                        distance: '1.8 km',
-                        phone: '+91 98765 43215',
-                        needs: ['School Supplies', 'Clothes'],
-                        status: 'regular'
-                    },
-                    {
-                        id: 3,
-                        name: 'Children Home Group',
-                        story: 'Need blankets and warm clothes for 15 children this winter.',
-                        image: 'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=400',
-                        location: 'Raipur, Nehru Nagar',
-                        distance: '2.1 km',
-                        phone: '+91 98765 43216',
-                        needs: ['Blankets', 'Winter Clothes'],
-                        status: 'urgent'
-                    }
-                ];
-                localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
-            }
-
-            // Delivery orders (include donorPhone and donorAddress + lat/lng if possible)
-            if (!localStorage.getItem(DELIVERY_KEY)) {
-                const deliveries = [
-                    {
-                        id: 101,
-                        from: 'Riya Sharma',
-                        to: 'Sahyog NGO',
-                        items: 'Food packets (20)',
-                        distance: '1.2 km',
-                        points: 10,
-                        status: 'available',
-                        location: 'Raipur',
-                        donorPhone: '+91 98765 43220',
-                        donorAddress: 'Raipur, Shastri Nagar, near City Hospital',
-                        donorLat: 23.5,
-                        donorLng: 87.3
-                    },
-                    {
-                        id: 102,
-                        from: 'Amit Patel',
-                        to: 'Old Age Home',
-                        items: 'Medicines',
-                        distance: '2.5 km',
-                        points: 10,
-                        status: 'available',
-                        location: 'Bilaspur',
-                        donorPhone: '+91 98765 43221',
-                        donorAddress: 'Bilaspur, Tilak Nagar, Street 4',
-                        donorLat: 23.6,
-                        donorLng: 87.4
-                    },
-                    {
-                        id: 103,
-                        from: 'Neha Singh',
-                        to: 'Children Shelter',
-                        items: 'School bags',
-                        distance: '0.8 km',
-                        points: 10,
-                        status: 'available',
-                        location: 'Raipur',
-                        donorPhone: '+91 98765 43222',
-                        donorAddress: 'Raipur, Avanti Vihar, Phase 2',
-                        donorLat: 23.52,
-                        donorLng: 87.32
-                    }
-                ];
-                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
-            }
-
-            // User donations
-            if (!localStorage.getItem(DONATION_KEY)) {
-                localStorage.setItem(DONATION_KEY, JSON.stringify([]));
-            }
-
-            // Campaigns
-            if (!localStorage.getItem(CAMPAIGN_KEY)) {
-                const campaigns = [
-                    {
-                        id: 201,
-                        title: 'Winter Clothes Drive',
-                        organizer: 'Care & Share Foundation',
-                        location: 'Community Hall, Raipur',
-                        date: '2025-12-10',
-                        phone: '+91 98765 43230',
-                        description: 'Collecting warm clothes for homeless.',
-                        banner: 'https://images.unsplash.com/photo-1517048676738-d65ab93792e2?w=400'
-                    },
-                    {
-                        id: 202,
-                        title: 'Food distribution - Sunday',
-                        organizer: 'Sahyog Volunteers',
-                        location: 'Railway Station, Bilaspur',
-                        date: '2025-11-28',
-                        phone: '+91 98765 43231',
-                        description: 'Cooked food packets for needy.',
-                        banner: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400'
-                    },
-                    {
-                        id: 203,
-                        title: 'Health checkup camp',
-                        organizer: 'Young India NGO',
-                        location: 'Old Age Home, Raipur',
-                        date: '2025-12-05',
-                        phone: '+91 98765 43232',
-                        description: 'Free basic health checkup & medicines',
-                        banner: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=400'
-                    }
-                ];
-                localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(campaigns));
-            }
-        }
-
-        // Get user data from URL
-        function getUserFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                name: params.get('name') || 'Guest User',
-                email: params.get('email') || 'guest@example.com',
-                role: params.get('role') || 'volunteer',
-                city: params.get('city') || 'Raipur'
-            };
-        }
-
-        // Initialize page
-        function initPage() {
-            currentUser = getUserFromUrl();
-            
-            document.getElementById('displayName').innerText = currentUser.name;
-            let roleDisplay = currentUser.role;
-            if (currentUser.role === 'ngo') roleDisplay = 'NGO';
-            else if (currentUser.role === 'organisation') roleDisplay = 'Organisation';
-            else roleDisplay = 'Volunteer';
-            document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
-
-            initializeData();
-            updateStats();
-            loadDeliveryOrders();
-            loadNearbyOrgs();
-            loadHelpRequests();
-            loadCampaigns();
-
-            // hide donor panel initially
-            document.getElementById('donorActionPanel').style.display = 'none';
-        }
-
-        function updateStats() {
-            const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
-            const userDonations = donations.filter(d => d.donor === currentUser.email);
-            
-            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
-            const userDeliveries = deliveries.filter(d => d.deliveredBy === currentUser.email);
-            
-            const pendingDeliveries = userDeliveries.filter(d => d.status === 'pending').length;
-            const points = userDeliveries.length * 10;
-
-            document.getElementById('donationCount').innerText = userDonations.length;
-            document.getElementById('deliveryCount').innerText = userDeliveries.length;
-            document.getElementById('pointsEarned').innerText = points;
-            document.getElementById('pendingStatus').innerText = pendingDeliveries;
-        }
-
-        function loadDeliveryOrders() {
-            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
-            const available = deliveries.filter(d => d.status === 'available');
-            
-            const container = document.getElementById('deliveryOrders');
-            if (available.length === 0) {
-                container.innerHTML = '<p style="color:#6b7a8a;">No deliveries available right now.</p>';
-                return;
-            }
-
-            let html = '';
-            available.forEach(order => {
-                html += `
-                    <div class="order-card">
-                        <div class="order-header">
-                            <strong>${order.items}</strong>
-                            <span class="order-points"><i class="fas fa-star"></i> ${order.points} pts</span>
-                        </div>
-                        <p><i class="fas fa-map-marker-alt"></i> From: ${order.from}</p>
-                        <p><i class="fas fa-flag-checkered"></i> To: ${order.to}</p>
-                        <p><i class="fas fa-road"></i> Distance: ${order.distance}</p>
-                        <button class="deliver-btn" onclick="acceptDelivery(${order.id})">
-                            <i class="fas fa-bicycle"></i> Accept Delivery
-                        </button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // Accept delivery: pin donor info + show call & map buttons
-        function acceptDelivery(orderId) {
-            const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
-            const order = deliveries.find(d => d.id === orderId);
-            
-            if (order) {
-                order.status = 'pending';
-                order.deliveredBy = currentUser.email;
-                order.acceptedAt = new Date().toISOString();
-                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
-                
-                // Store donor info for panel
-                const donorInfo = {
-                    name: order.from,
-                    phone: order.donorPhone || '+91 98765 43299',
-                    address: order.donorAddress || order.location || 'Raipur, near bus stand',
-                    lat: order.donorLat || 23.5,
-                    lng: order.donorLng || 87.3
-                };
-                lastAcceptedDonor = donorInfo;
-
-                // Update donor action panel
-                document.getElementById('donorName').innerText = donorInfo.name;
-                document.getElementById('donorPhone').innerText = donorInfo.phone;
-                document.getElementById('donorAddress').innerText = donorInfo.address;
-
-                // Set call link
-                document.getElementById('callDonorLink').href = `tel:${donorInfo.phone}`;
-
-                // Set map link (Google Maps)
-                const mapLink = `https://maps.google.com/?q=${donorInfo.lat},${donorInfo.lng}`;
-                document.getElementById('mapDonorLink').href = mapLink;
-
-                // Show panel
-                document.getElementById('donorActionPanel').style.display = 'flex';
-
-                updateStats();
-                loadDeliveryOrders();
-                
-                alert('✅ Delivery accepted! Call donor or navigate using buttons above.');
-            }
-        }
-
-        function loadNearbyOrgs() {
-            const orgs = JSON.parse(localStorage.getItem(ORGS_KEY)) || [];
-            const container = document.getElementById('nearbyOrgs');
-            
-            let html = '';
-            orgs.forEach(org => {
-                html += `
-                    <div class="org-card">
-                        <div class="org-header">
-                            <img class="org-image" src="${org.image}" alt="org" onerror="this.src='https://via.placeholder.com/60?text=Org'">
-                            <div class="org-info">
-                                <h4>${org.name}</h4>
-                                <p class="org-location"><i class="fas fa-map-marker-alt"></i> ${org.location}</p>
-                                <p class="org-location"><i class="fas fa-road"></i> ${org.distance}</p>
-                            </div>
-                        </div>
-                        <div class="org-contact">
-                            <a href="tel:${org.phone}" class="call-btn">
-                                <i class="fas fa-phone"></i> Call
-                            </a>
-                            <a href="https://maps.google.com/?q=${org.lat},${org.lng}" target="_blank" class="direction-btn">
-                                <i class="fas fa-directions"></i> Directions
-                            </a>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function loadHelpRequests() {
-            const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
-            const container = document.getElementById('helpRequests');
-            
-            let html = '';
-            requests.forEach(request => {
-                html += `
-                    <div class="request-card">
-                        <img src="${request.image}" class="request-image" alt="${request.name}" onerror="this.src='https://via.placeholder.com/400x200?text=Help+Request'">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <h4>${request.name} ${request.age ? '('+request.age+' yrs)' : ''}</h4>
-                            <span class="order-points"><i class="fas fa-exclamation-circle"></i> ${request.distance}</span>
-                        </div>
-                        <p class="request-story">${request.story}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${request.location}</p>
-                        <p><strong>Needs:</strong> ${request.needs.join(', ')}</p>
-                        <div class="request-footer">
-                            <a href="tel:${request.phone}" class="call-btn">
-                                <i class="fas fa-phone"></i> Contact
-                            </a>
-                            <button class="direction-btn" onclick="donateToRequest(${request.id})">
-                                <i class="fas fa-gift"></i> Donate
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // Donate to individual request
-        function donateToRequest(requestId) {
-            const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
-            const request = requests.find(r => r.id === requestId);
-            
-            const item = prompt('What would you like to donate? (e.g., food, clothes, medicines)');
-            if (item) {
-                const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
-                donations.push({
-                    id: Date.now(),
-                    donor: currentUser.email,
-                    donorName: currentUser.name,
-                    requestId: requestId,
-                    recipient: request.name,
-                    item: item,
-                    status: 'pledged',
-                    date: new Date().toISOString()
-                });
-                localStorage.setItem(DONATION_KEY, JSON.stringify(donations));
-                
-                // Create delivery order with dummy donor phone/address (current user)
-                const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
-                deliveries.push({
-                    id: Date.now(),
-                    from: currentUser.name,
-                    to: request.name,
-                    items: item,
-                    distance: request.distance,
-                    points: 10,
-                    status: 'available',
-                    location: request.location.split(',')[0],
-                    donorPhone: currentUser.phone || '+91 98765 43299',   // if phone exists in user
-                    donorAddress: currentUser.address || 'Raipur, near Gandhi chowk',
-                    donorLat: 23.5,
-                    donorLng: 87.3
-                });
-                localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
-                
-                updateStats();
-                loadDeliveryOrders();
-                alert('✅ Thank you! A delivery request has been created. (Donor contact will be shown when a volunteer accepts.)');
-            }
-        }
-
-        // Load campaigns
-        function loadCampaigns() {
-            const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
-            const container = document.getElementById('campaignList');
-            let html = '';
-            campaigns.forEach(c => {
-                html += `
-                <div class="campaign-card">
-                    <img src="${c.banner}" class="campaign-img" alt="campaign" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400'">
-                    <div class="campaign-detail">
-                        <h4>${c.title}</h4>
-                        <p>${c.description || 'Join us to make a difference'}</p>
-                        <div class="campaign-meta">
-                            <span><i class="fas fa-calendar"></i> ${c.date}</span>
-                            <span><i class="fas fa-map-pin"></i> ${c.location}</span>
-                        </div>
-                        <div class="campaign-footer">
-                            <a href="tel:${c.phone}" class="call-org-btn"><i class="fas fa-phone"></i> Call</a>
-                            <button class="volunteer-btn" onclick="volunteerForCampaign('${c.title}')"><i class="fas fa-hand-paper"></i> Volunteer</button>
-                        </div>
+            <!-- DONOR ACTION PANEL -->
+            <div id="donorActionPanel" class="donor-action-panel">
+                <div>
+                    <div class="donor-name" id="donorName">—</div>
+                    <div class="donor-contact">
+                        <span><i class="fas fa-phone-alt"></i> <span id="donorPhone"></span></span>
+                        <span><i class="fas fa-map-marker-alt"></i> <span id="donorAddress"></span></span>
                     </div>
                 </div>
-                `;
-            });
-            container.innerHTML = html;
+                <div class="action-buttons">
+                    <a id="callDonorLink" href="tel:" class="call-donor-btn"><i class="fas fa-phone"></i> Call Donor</a>
+                    <a id="mapDonorLink" href="#" target="_blank" class="map-donor-btn"><i class="fas fa-map-marked-alt"></i> Directions</a>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e7f0ff;color:var(--blue);"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="stat-info"><h3 id="donationCount">0</h3><p>My Donations</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--green-light);color:var(--green);"><i class="fas fa-truck"></i></div>
+                    <div class="stat-info"><h3 id="deliveryCount">0</h3><p>Deliveries</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--amber-light);color:var(--amber);"><i class="fas fa-star"></i></div>
+                    <div class="stat-info"><h3 id="pointsEarned">0</h3><p>Points Earned</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--red-light);color:var(--red);"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info"><h3 id="pendingStatus">0</h3><p>Pending</p></div>
+                </div>
+            </div>
+
+            <!-- DELIVERY SECTION -->
+            <div class="delivery-section">
+                <div class="delivery-header">
+                    <h2><i class="fas fa-truck" style="color:var(--blue);"></i> Be a Delivery Partner</h2>
+                    <span class="delivery-badge"><i class="fas fa-bolt"></i> +10 pts per delivery</span>
+                </div>
+                <div class="delivery-orders" id="deliveryOrders"></div>
+            </div>
+
+            <!-- NEARBY ORGS -->
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon" style="background:var(--blue-light);color:var(--blue);"><i class="fas fa-building"></i></div>
+                    <h2>Nearby Organisations</h2>
+                    <span class="section-count" id="orgCount">0</span>
+                </div>
+                <div class="filter-pills">
+                    <span class="pill active" onclick="filterOrgs('all', this)">All</span>
+                    <span class="pill" onclick="filterOrgs('NGO', this)">NGO</span>
+                    <span class="pill" onclick="filterOrgs('Old Age Home', this)">Old Age</span>
+                    <span class="pill" onclick="filterOrgs('Child Shelter', this)">Children</span>
+                </div>
+            </div>
+            <div class="org-grid" id="nearbyOrgs"></div>
+
+            <!-- CAMPAIGNS -->
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon" style="background:var(--amber-light);color:var(--amber);"><i class="fas fa-calendar-alt"></i></div>
+                    <h2>Active Campaigns</h2>
+                    <span class="section-count" id="campCount">0</span>
+                </div>
+            </div>
+            <div class="campaign-grid" id="campaignList"></div>
+
+            <!-- HELP REQUESTS -->
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon" style="background:var(--red-light);color:var(--red);"><i class="fas fa-users"></i></div>
+                    <h2>People Need Help Nearby</h2>
+                    <span class="section-count" id="reqCount">0</span>
+                </div>
+                <div class="filter-pills">
+                    <span class="pill active" onclick="filterRequests('all', this)">All</span>
+                    <span class="pill" onclick="filterRequests('urgent', this)">🔴 Urgent</span>
+                    <span class="pill" onclick="filterRequests('regular', this)">Regular</span>
+                </div>
+            </div>
+            <div class="requests-grid" id="helpRequests"></div>
+
+        </div><!-- content-area -->
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i><span>Feed</span><div class="nav-dot"></div></a>
+        <a href="#" class="active" onclick="return false;"><i class="fas fa-hand-holding-heart"></i><span>Donate</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i><span>Top</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i><span>Profile</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i><span>Emergency</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span><div class="nav-dot"></div></a>
+    </nav>
+
+</div>
+
+<!-- ── CREATE CAMPAIGN MODAL ── -->
+<div class="modal-overlay" id="campaignModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-plus-circle" style="color:var(--blue);"></i> Create Campaign</h3>
+            <button class="modal-close" onclick="closeModal('campaignModal')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Campaign Title</label>
+                <input type="text" id="campTitle" placeholder="e.g. Winter Clothes Drive — Bilaspur">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="campDesc" placeholder="What is this campaign about?"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="campLocation" placeholder="e.g. Gandhi Nagar, Raipur">
+            </div>
+            <div class="form-group">
+                <label>Contact Phone</label>
+                <input type="tel" id="campPhone" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+                <label>Fundraising Target (₹) — optional</label>
+                <input type="number" id="campTarget" placeholder="e.g. 50000">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('campaignModal')">Cancel</button>
+            <button class="btn-submit" onclick="submitCampaign()"><i class="fas fa-paper-plane"></i> Launch Campaign</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── DONATE MODAL ── -->
+<div class="modal-overlay" id="donateModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-gift" style="color:var(--blue);"></i> <span id="donateModalTitle">Make a Donation</span></h3>
+            <button class="modal-close" onclick="closeModal('donateModal')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>What would you like to donate?</label>
+                <input type="text" id="donateItem" placeholder="e.g. food packets, medicines, clothes...">
+            </div>
+            <div class="form-group">
+                <label>Or donate money — choose amount</label>
+                <div class="amount-grid">
+                    <div class="amount-chip" onclick="selectAmount(this, '₹100')">₹100</div>
+                    <div class="amount-chip" onclick="selectAmount(this, '₹250')">₹250</div>
+                    <div class="amount-chip" onclick="selectAmount(this, '₹500')">₹500</div>
+                    <div class="amount-chip" onclick="selectAmount(this, '₹1000')">₹1,000</div>
+                    <div class="amount-chip" onclick="selectAmount(this, '₹2000')">₹2,000</div>
+                    <div class="amount-chip" onclick="selectAmount(this, 'custom')">Custom</div>
+                </div>
+            </div>
+            <div class="form-group" id="customAmountWrap" style="display:none;">
+                <label>Enter amount (₹)</label>
+                <input type="number" id="customAmount" placeholder="0">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('donateModal')">Cancel</button>
+            <button class="btn-submit" onclick="submitDonation()"><i class="fas fa-heart"></i> Confirm Donation</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+    /* ─── STATE ─── */
+    let currentUser = null;
+    let lastAcceptedDonor = null;
+    let activeDonateRequestId = null;
+    let selectedAmount = null;
+
+    const DONATION_KEY  = 'helpinghands_donations';
+    const DELIVERY_KEY  = 'helpinghands_deliveries';
+    const ORGS_KEY      = 'helpinghands_orgs';
+    const REQUESTS_KEY  = 'helpinghands_requests';
+    const CAMPAIGN_KEY  = 'helpinghands_campaigns';
+
+    /* ─── TOAST ─── */
+    function showToast(msg, type = '') {
+        const t = document.getElementById('toast');
+        t.innerHTML = msg;
+        t.className = `toast ${type} show`;
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    /* ─── MODAL HELPERS ─── */
+    function openModal(id) {
+        document.getElementById(id).classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    // Close on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(o => {
+        o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); });
+    });
+
+    /* ─── COUNT-UP ANIMATION ─── */
+    function countUp(el, target, duration = 900) {
+        let start = 0;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+            start = Math.min(start + step, target);
+            el.innerText = Math.floor(start);
+            if (start >= target) clearInterval(timer);
+        }, 16);
+    }
+
+    /* ─── USER ─── */
+    function getUserFromUrl() {
+        const p = new URLSearchParams(window.location.search);
+        return {
+            name: p.get('name') || 'Guest User',
+            email: p.get('email') || 'guest@example.com',
+            role: p.get('role') || 'volunteer',
+            city: p.get('city') || 'ripur'
+        };
+    }
+
+    /* ─── SEED DATA ─── */
+    function initializeData() {
+        if (!localStorage.getItem(ORGS_KEY)) {
+            localStorage.setItem(ORGS_KEY, JSON.stringify([
+                { id:1, name:'Sahyog NGO', type:'NGO', location:'Raipur, Main Road', distance:'1.2 km', phone:'+91 98765 43210', lat:23.5, lng:87.3, accepts:['Food','Clothes','Books'] },
+                { id:2, name:'Old Age Home – Seva', type:'Old Age Home', location:'Bilaspur, Station Rd', distance:'2.5 km', phone:'+91 98765 43211', lat:23.6, lng:87.4, accepts:['Food','Medicines','Blankets'] },
+                { id:3, name:'Children Shelter Home', type:'Child Shelter', location:'Raipur, Gandhi Nagar', distance:'0.8 km', phone:'+91 98765 43212', lat:23.5, lng:87.3, accepts:['Books','Toys','Clothes'] },
+                { id:4, name:'Care & Share Foundation', type:'NGO', location:'Bilaspur, Civil Lines', distance:'3.1 km', phone:'+91 98765 43213', lat:23.6, lng:87.4, accepts:['All items','Money','Volunteers'] }
+            ]));
+        }
+        if (!localStorage.getItem(REQUESTS_KEY)) {
+            localStorage.setItem(REQUESTS_KEY, JSON.stringify([
+                { id:1, name:'Ram Kumar', age:65, story:'Living alone with no family support. Needs regular food and medicines to get through the month.', image:'https://images.unsplash.com/photo-1544027993-37dbfe44362b?w=400', location:'Raipur, Old City', distance:'0.5 km', phone:'+91 98765 43214', needs:['Food','Medicines'], status:'urgent' },
+                { id:2, name:'Sunita Devi', age:45, story:'Single mother of two school-going children. Needs school supplies to keep them attending classes.', image:'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400', location:'Bilaspur, New Colony', distance:'1.8 km', phone:'+91 98765 43215', needs:['School Supplies','Clothes'], status:'regular' },
+                { id:3, name:'Children Home Group', age:null, story:'15 children need warm blankets and winter clothes as temperatures drop this season.', image:'https://images.unsplash.com/photo-1488521787991-5c359e1a6df2?w=400', location:'Raipur, Nehru Nagar', distance:'2.1 km', phone:'+91 98765 43216', needs:['Blankets','Winter Clothes'], status:'urgent' }
+            ]));
+        }
+        if (!localStorage.getItem(DELIVERY_KEY)) {
+            localStorage.setItem(DELIVERY_KEY, JSON.stringify([
+                { id:101, from:'Riya Sharma', to:'Sahyog NGO', items:'Food packets (20)', distance:'1.2 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43220', donorAddress:'Raipur, Shastri Nagar, near City Hospital', donorLat:23.5, donorLng:87.3 },
+                { id:102, from:'Amit Patel', to:'Old Age Home', items:'Medicines box', distance:'2.5 km', points:10, status:'available', location:'Bilaspur', donorPhone:'+91 98765 43221', donorAddress:'Bilaspur, Tilak Nagar, Street 4', donorLat:23.6, donorLng:87.4 },
+                { id:103, from:'Priya Singh', to:'Children Shelter', items:'Books & Stationery', distance:'0.8 km', points:10, status:'available', location:'Raipur', donorPhone:'+91 98765 43222', donorAddress:'Raipur, Civil Lines, MG Road', donorLat:23.5, donorLng:87.3 }
+            ]));
+        }
+        if (!localStorage.getItem(CAMPAIGN_KEY)) {
+            localStorage.setItem(CAMPAIGN_KEY, JSON.stringify([
+                { id:1, title:'Flood Relief – Bilaspur', description:'Help families displaced by flooding in Bilaspur. Every rupee goes to food and shelter.', date:'2024-12-20', location:'Bilaspur', phone:'+91 98765 00001', banner:'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600', raised:32450, target:50000 },
+                { id:2, title:'Education for All – Ripur', description:'Collect 1000 books for underprivileged students across 5 schools in Ripur.', date:'2024-12-28', location:'Ripur', phone:'+91 98765 00002', banner:'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600', raised:647, target:1000, unit:'books' },
+                { id:3, title:'Winter Warmth Drive', description:'Distribute blankets and warm clothes to elderly and homeless before winter peak.', date:'2025-01-05', location:'Raipur', phone:'+91 98765 00003', banner:'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600', raised:18000, target:30000 }
+            ]));
+        }
+    }
+
+    /* ─── INIT ─── */
+    function initPage() {
+        currentUser = getUserFromUrl();
+        document.getElementById('displayName').innerText = currentUser.name;
+        let roleDisplay = currentUser.role === 'ngo' ? 'NGO' : currentUser.role === 'organisation' ? 'Organisation' : 'Volunteer';
+        document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+        initializeData();
+        updateStats();
+        loadDeliveryOrders();
+        loadNearbyOrgs();
+        loadCampaigns();
+        loadHelpRequests();
+        // Animate progress bars after brief delay
+        setTimeout(animateProgressBars, 400);
+    }
+
+    /* ─── STATS ─── */
+    function updateStats() {
+        const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
+        const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+        const myDonations = donations.filter(d => d.donor === currentUser.email).length;
+        const myDeliveries = deliveries.filter(d => d.volunteer === currentUser.email && d.status === 'accepted').length;
+        const myPoints = myDeliveries * 10;
+        const pending = donations.filter(d => d.donor === currentUser.email && d.status === 'pledged').length;
+
+        countUp(document.getElementById('donationCount'), myDonations);
+        countUp(document.getElementById('deliveryCount'), myDeliveries);
+        countUp(document.getElementById('pointsEarned'), myPoints);
+        countUp(document.getElementById('pendingStatus'), pending);
+    }
+
+    /* ─── DELIVERY ORDERS ─── */
+    function loadDeliveryOrders() {
+        const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+        const container = document.getElementById('deliveryOrders');
+        const available = deliveries.filter(d => d.status === 'available' || d.volunteer === currentUser.email);
+
+        if (!available.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-truck"></i><p>No deliveries available right now — check back soon!</p></div>`;
+            return;
         }
 
-        function volunteerForCampaign(title) {
-            alert(`💪 Thank you for volunteering for "${title}"! The organizer will contact you soon.`);
+        container.innerHTML = available.map(order => {
+            const isAccepted = order.status === 'accepted' && order.volunteer === currentUser.email;
+            return `
+            <div class="order-card ${isAccepted ? 'accepted' : ''}" id="order-${order.id}">
+                <div class="order-header">
+                    <div class="order-route">
+                        <i class="fas fa-circle" style="color:var(--green);font-size:0.6rem;"></i>
+                        ${order.from}
+                        <i class="fas fa-arrow-right"></i>
+                        ${order.to}
+                    </div>
+                    <span class="order-points"><i class="fas fa-star"></i> +${order.points} pts</span>
+                </div>
+                <div class="order-items"><i class="fas fa-box-open"></i> ${order.items}</div>
+                <div class="order-meta">
+                    <span><i class="fas fa-route"></i> ${order.distance}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> ${order.location}</span>
+                </div>
+                ${isAccepted
+                    ? `<div class="order-status-accepted"><i class="fas fa-check-circle"></i> You accepted this delivery</div>`
+                    : `<button class="deliver-btn" onclick="acceptDelivery(${order.id})"><i class="fas fa-truck"></i> Accept Delivery</button>`
+                }
+            </div>`;
+        }).join('');
+    }
+
+    function acceptDelivery(orderId) {
+        const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+        const order = deliveries.find(d => d.id === orderId);
+        if (!order || order.status !== 'available') return;
+
+        order.status = 'accepted';
+        order.volunteer = currentUser.email;
+        localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
+
+        const panel = document.getElementById('donorActionPanel');
+        document.getElementById('donorName').innerText = order.from;
+        document.getElementById('donorPhone').innerText = order.donorPhone;
+        document.getElementById('donorAddress').innerText = order.donorAddress;
+        document.getElementById('callDonorLink').href = `tel:${order.donorPhone}`;
+        document.getElementById('mapDonorLink').href = `https://maps.google.com/?q=${order.donorLat},${order.donorLng}`;
+        panel.style.display = 'flex';
+
+        updateStats();
+        loadDeliveryOrders();
+        showToast('✅ Delivery accepted! Call donor or navigate using the panel above.', 'success');
+    }
+
+    /* ─── ORGS ─── */
+    let allOrgs = [];
+    function loadNearbyOrgs(filter = 'all') {
+        allOrgs = JSON.parse(localStorage.getItem(ORGS_KEY)) || [];
+        const filtered = filter === 'all' ? allOrgs : allOrgs.filter(o => o.type === filter);
+        document.getElementById('orgCount').innerText = filtered.length;
+        const container = document.getElementById('nearbyOrgs');
+        if (!filtered.length) {
+            container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-building"></i><p>No organisations match this filter.</p></div>`;
+            return;
         }
+        container.innerHTML = filtered.map(org => `
+            <div class="org-card">
+                <div class="org-header">
+                    <div class="org-avatar"><i class="fas fa-building"></i></div>
+                    <div class="org-info">
+                        <h4>${org.name}</h4>
+                        <div class="org-type-badge"><i class="fas fa-tag"></i> ${org.type}</div>
+                        <div class="org-location"><i class="fas fa-map-marker-alt"></i> ${org.location} · ${org.distance}</div>
+                    </div>
+                </div>
+                <div class="org-accepts"><strong>Accepts:</strong> ${org.accepts.join(', ')}</div>
+                <div class="org-contact">
+                    <a href="tel:${org.phone}" class="btn-call"><i class="fas fa-phone"></i> Call</a>
+                    <a href="https://maps.google.com/?q=${org.lat},${org.lng}" target="_blank" class="btn-dir"><i class="fas fa-directions"></i> Directions</a>
+                </div>
+            </div>
+        `).join('');
+    }
 
-        function createNewCampaign() {
-            const title = prompt('Campaign title?');
-            if (!title) return;
-            const loc = prompt('Location?');
-            const phone = prompt('Contact phone?');
-            if (!loc || !phone) return;
-
-            const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
-            const newCamp = {
-                id: Date.now(),
-                title,
-                organizer: currentUser.name,
-                location: loc,
-                date: new Date().toISOString().slice(0,10),
-                phone: phone,
-                description: 'New social activity',
-                banner: 'https://images.unsplash.com/photo-1517048676738-d65ab93792e2?w=400'
-            };
-            campaigns.push(newCamp);
-            localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(campaigns));
-            loadCampaigns();
-            alert('Campaign created!');
-        }
-
-        // Navigation
-        function goToPage(page) {
-            const params = new URLSearchParams({
-                name: currentUser.name,
-                email: currentUser.email,
-                role: currentUser.role,
-                city: currentUser.city
-            });
-            if (page === 'feed') {
-                window.location.href = `dashboard.html?${params.toString()}`;
-            } else {
-                window.location.href = `${page}.html?${params.toString()}`;
+    function filterOrgs(type, el) {
+        document.querySelectorAll('.filter-pills .pill').forEach(p => {
+            if (p.closest('#nearbyOrgs')?.parentElement || p.parentElement.previousElementSibling?.querySelector('.fa-building')) {
+                // handled below
             }
-        }
+        });
+        el.closest('.filter-pills').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        loadNearbyOrgs(type);
+    }
 
-        function logout() {
-            window.location.href = 'login.html';
+    /* ─── CAMPAIGNS ─── */
+    function loadCampaigns() {
+        const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
+        document.getElementById('campCount').innerText = campaigns.length;
+        const container = document.getElementById('campaignList');
+        if (!campaigns.length) {
+            container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-calendar-alt"></i><p>No active campaigns yet. Create one!</p></div>`;
+            return;
         }
+        container.innerHTML = campaigns.map(c => {
+            const isMonetary = !c.unit;
+            const pct = Math.min(Math.round((c.raised / c.target) * 100), 100);
+            const raisedFmt = c.unit ? `${c.raised} ${c.unit}` : `₹${c.raised.toLocaleString()}`;
+            const targetFmt = c.unit ? `${c.target} ${c.unit}` : `₹${c.target.toLocaleString()}`;
+            return `
+            <div class="campaign-card">
+                <img src="${c.banner}" class="campaign-img" alt="${c.title}" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400'">
+                <div class="campaign-detail">
+                    <h4>${c.title}</h4>
+                    <p>${c.description}</p>
+                    <div class="progress-wrap">
+                        <div class="progress-labels">
+                            <span class="progress-raised">${raisedFmt} raised</span>
+                            <span class="progress-target">of ${targetFmt}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-pct="${pct}" style="width:0%"></div>
+                        </div>
+                        <div class="progress-pct">${pct}% funded</div>
+                    </div>
+                    <div class="campaign-meta">
+                        <span><i class="fas fa-calendar"></i> ${c.date}</span>
+                        <span><i class="fas fa-map-pin"></i> ${c.location}</span>
+                    </div>
+                    <div class="campaign-footer">
+                        <a href="tel:${c.phone}" class="btn-donate-camp"><i class="fas fa-phone"></i> Call</a>
+                        <button class="btn-volunteer" onclick="volunteerForCampaign('${c.title}')"><i class="fas fa-hand-paper"></i> Volunteer</button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+    }
 
-        window.onload = initPage;
-    </script>
+    function animateProgressBars() {
+        document.querySelectorAll('.progress-fill').forEach(bar => {
+            const pct = bar.dataset.pct;
+            requestAnimationFrame(() => { bar.style.width = pct + '%'; });
+        });
+    }
+
+    function volunteerForCampaign(title) {
+        showToast(`💪 You've signed up for "${title}"! Organiser will contact you.`, 'success');
+    }
+
+    /* ─── CREATE CAMPAIGN ─── */
+    function openCampaignModal() { openModal('campaignModal'); }
+
+    function submitCampaign() {
+        const title = document.getElementById('campTitle').value.trim();
+        const desc  = document.getElementById('campDesc').value.trim();
+        const loc   = document.getElementById('campLocation').value.trim();
+        const phone = document.getElementById('campPhone').value.trim();
+        const target = parseInt(document.getElementById('campTarget').value) || 0;
+        if (!title || !loc || !phone) { showToast('⚠️ Please fill in title, location, and phone.', 'error'); return; }
+        const campaigns = JSON.parse(localStorage.getItem(CAMPAIGN_KEY)) || [];
+        campaigns.push({
+            id: Date.now(), title, description: desc || 'A new community campaign.',
+            date: new Date().toISOString().slice(0,10), location: loc,
+            phone, banner: 'https://images.unsplash.com/photo-1517048676738-d65ab93792e2?w=600',
+            raised: 0, target: target || 10000
+        });
+        localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(campaigns));
+        closeModal('campaignModal');
+        document.getElementById('campTitle').value = '';
+        document.getElementById('campDesc').value = '';
+        document.getElementById('campLocation').value = '';
+        document.getElementById('campPhone').value = '';
+        document.getElementById('campTarget').value = '';
+        loadCampaigns();
+        setTimeout(animateProgressBars, 400);
+        showToast('🎉 Campaign launched successfully!', 'success');
+    }
+
+    /* ─── HELP REQUESTS ─── */
+    let allRequests = [];
+    function loadHelpRequests(filter = 'all') {
+        allRequests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
+        const filtered = filter === 'all' ? allRequests : allRequests.filter(r => r.status === filter);
+        document.getElementById('reqCount').innerText = filtered.length;
+        const container = document.getElementById('helpRequests');
+        if (!filtered.length) {
+            container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-users"></i><p>No requests match this filter.</p></div>`;
+            return;
+        }
+        container.innerHTML = filtered.map(r => `
+            <div class="request-card ${r.status}">
+                <img src="${r.image}" class="request-image" alt="${r.name}" onerror="this.style.display='none'">
+                <div class="request-body">
+                    <div class="request-name-row">
+                        <span class="request-name">${r.name}${r.age ? ` <small style="font-weight:400;color:var(--muted);">(${r.age} yrs)</small>` : ''}</span>
+                        ${r.status === 'urgent'
+                            ? `<span class="urgent-badge"><i class="fas fa-exclamation-circle"></i> Urgent</span>`
+                            : `<span class="regular-badge">Regular</span>`}
+                    </div>
+                    <p class="request-story">${r.story}</p>
+                    <p class="request-meta"><i class="fas fa-map-marker-alt"></i> ${r.location} · ${r.distance}</p>
+                    <div class="needs-wrap">
+                        ${r.needs.map(n => `<span class="need-chip">${n}</span>`).join('')}
+                    </div>
+                    <div class="request-footer">
+                        <a href="tel:${r.phone}" class="btn-contact"><i class="fas fa-phone"></i> Contact</a>
+                        <button class="btn-donate-req" onclick="openDonateModal(${r.id}, '${r.name}')"><i class="fas fa-gift"></i> Donate</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function filterRequests(filter, el) {
+        el.closest('.filter-pills').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        loadHelpRequests(filter);
+    }
+
+    /* ─── DONATE MODAL ─── */
+    function openDonateModal(requestId, name) {
+        activeDonateRequestId = requestId;
+        selectedAmount = null;
+        document.getElementById('donateModalTitle').innerText = `Donate to ${name}`;
+        document.getElementById('donateItem').value = '';
+        document.getElementById('customAmountWrap').style.display = 'none';
+        document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+        openModal('donateModal');
+    }
+
+    function selectAmount(el, val) {
+        document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedAmount = val;
+        document.getElementById('customAmountWrap').style.display = val === 'custom' ? 'flex' : 'none';
+    }
+
+    function submitDonation() {
+        const item = document.getElementById('donateItem').value.trim();
+        const customAmt = document.getElementById('customAmount').value;
+        const amount = selectedAmount === 'custom' ? `₹${customAmt}` : selectedAmount;
+
+        if (!item && !amount) { showToast('⚠️ Please enter an item or select an amount.', 'error'); return; }
+
+        const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY)) || [];
+        const request = requests.find(r => r.id === activeDonateRequestId);
+        const donations = JSON.parse(localStorage.getItem(DONATION_KEY)) || [];
+        donations.push({
+            id: Date.now(), donor: currentUser.email, donorName: currentUser.name,
+            requestId: activeDonateRequestId,
+            recipient: request?.name || 'Unknown',
+            item: item || amount, status: 'pledged', date: new Date().toISOString()
+        });
+        localStorage.setItem(DONATION_KEY, JSON.stringify(donations));
+
+        // Create delivery order
+        const deliveries = JSON.parse(localStorage.getItem(DELIVERY_KEY)) || [];
+        deliveries.push({
+            id: Date.now(), from: currentUser.name, to: request?.name || 'Recipient',
+            items: item || amount, distance: request?.distance || '—', points: 10,
+            status: 'available', location: request?.location?.split(',')[0] || '—',
+            donorPhone: '+91 98765 43299', donorAddress: currentUser.city + ', HelpingHands User',
+            donorLat: 23.5, donorLng: 87.3
+        });
+        localStorage.setItem(DELIVERY_KEY, JSON.stringify(deliveries));
+
+        closeModal('donateModal');
+        updateStats();
+        loadDeliveryOrders();
+        showToast('❤️ Thank you! A delivery request has been created.', 'success');
+    }
+
+    /* ─── NAVIGATION ─── */
+    function goToPage(page) {
+        const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city });
+        window.location.href = page === 'feed' ? `dashboard.html?${params}` : `${page}.html?${params}`;
+    }
+    function logout() { window.location.href = 'login.html'; }
+
+    window.onload = initPage;
+</script>
 </body>
 </html>

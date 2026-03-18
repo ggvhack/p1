@@ -3,219 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareConnect • Login / Register</title>
+    <title>HelpingHands • Login / Register</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+        :root {
+            --blue: #1877f2; --blue-light: #e7f0ff; --blue-dark: #0d5bbf;
+            --bg: #f0f2f5; --white: #ffffff;
+            --text: #1e2b3a; --muted: #6b7a8a; --border: #d9e1ec;
+            --red: #dc2626; --green: #16a34a;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+
         body {
-            background: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--bg); min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem;
+            position: relative; overflow-x: hidden;
         }
+
+        /* decorative blobs */
+        body::before {
+            content: ''; position: fixed;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(24,119,242,0.08) 0%, transparent 70%);
+            top: -200px; left: -150px; border-radius: 50%; pointer-events: none;
+        }
+        body::after {
+            content: ''; position: fixed;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(24,119,242,0.06) 0%, transparent 70%);
+            bottom: -100px; right: -100px; border-radius: 50%; pointer-events: none;
+        }
+
+        /* ── AUTH CARD ── */
         .auth-container {
-            background: white;
-            width: 94%;
-            max-width: 480px;
-            margin: 1.5rem auto;
-            border-radius: 2rem;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-            padding: 2rem 1.8rem;
+            background: var(--white); width: 100%; max-width: 460px;
+            border-radius: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 2.2rem 2rem;
+            position: relative; z-index: 1;
+            animation: cardIn 0.5s ease;
         }
-        .logo-area {
-            text-align: center;
-            margin-bottom: 1.8rem;
+        @keyframes cardIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── LOGO ── */
+        .logo-area { text-align: center; margin-bottom: 1.8rem; }
+        .logo-icon-wrap {
+            width: 70px; height: 70px; background: var(--blue-light);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 0.8rem;
+            font-size: 2rem; color: var(--blue);
+            box-shadow: 0 8px 24px rgba(24,119,242,0.2);
         }
-        .logo-area i {
-            font-size: 3rem;
-            color: #1877f2;
-            background: #e7f0ff;
-            padding: 0.8rem;
-            border-radius: 50%;
-        }
-        .logo-area h2 {
-            font-weight: 600;
-            margin-top: 0.3rem;
-            color: #1e2b3a;
-        }
-        .logo-area p {
-            color: #4b5563;
-            font-size: 0.9rem;
-        }
+        .logo-area h2 { font-weight: 800; font-size: 1.4rem; color: var(--text); margin-bottom: 4px; }
+        .logo-area p { color: var(--muted); font-size: 0.85rem; }
+
+        /* ── TABS ── */
         .tab-bar {
-            display: flex;
-            gap: 0.5rem;
-            background: #f0f2f5;
-            padding: 0.3rem;
-            border-radius: 3rem;
-            margin-bottom: 2rem;
+            display: flex; gap: 0.4rem; background: var(--bg);
+            padding: 0.3rem; border-radius: 3rem; margin-bottom: 1.8rem;
         }
         .tab {
-            flex: 1;
-            text-align: center;
-            padding: 0.7rem 0;
-            font-weight: 600;
-            border-radius: 3rem;
-            cursor: pointer;
-            color: #2c3e50;
+            flex: 1; text-align: center; padding: 0.65rem 0;
+            font-weight: 700; border-radius: 3rem; cursor: pointer;
+            color: var(--muted); font-size: 0.92rem; transition: all 0.2s;
         }
-        .tab.active {
-            background: white;
-            color: #1877f2;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        .tab.active { background: var(--white); color: var(--blue); box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+
+        /* ── FORM ── */
+        .form-group { margin-bottom: 1.1rem; }
+        .form-label { font-weight: 600; color: var(--text); display: block; margin-bottom: 0.4rem; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+        .form-label i { color: var(--blue); width: 14px; }
+
+        .input-wrap { position: relative; }
+        .input-wrap input, .input-wrap select {
+            width: 100%; padding: 0.8rem 1rem 0.8rem 2.8rem;
+            border: 1.5px solid var(--border); border-radius: 2rem;
+            font-size: 0.95rem; background: var(--white); outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s; color: var(--text);
+            font-family: inherit;
         }
-        .form-group {
-            margin-bottom: 1.3rem;
+        .input-wrap .input-icon {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: var(--muted); font-size: 0.9rem; pointer-events: none;
+            transition: color 0.2s;
         }
-        label {
-            font-weight: 500;
-            color: #2c3e50;
-            display: block;
-            margin-bottom: 0.3rem;
-            font-size: 0.9rem;
+        .input-wrap input:focus, .input-wrap select:focus {
+            border-color: var(--blue); box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
         }
-        label i {
-            margin-right: 0.3rem;
-            color: #1877f2;
-            width: 1.2rem;
+        .input-wrap input:focus + .input-icon,
+        .input-wrap:focus-within .input-icon { color: var(--blue); }
+
+        /* password toggle */
+        .pwd-toggle {
+            position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+            color: var(--muted); cursor: pointer; font-size: 0.9rem; transition: color 0.2s;
         }
-        input, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #d9e1ec;
-            border-radius: 2rem;
-            font-size: 1rem;
-            background: white;
-            outline: none;
-        }
-        input:focus, select:focus {
-            border-color: #1877f2;
-            box-shadow: 0 0 0 3px rgba(24,119,242,0.2);
-        }
-        .city-row {
-            display: flex;
-            gap: 0.8rem;
-        }
-        .city-row select {
-            flex: 1;
-        }
+        .pwd-toggle:hover { color: var(--blue); }
+
+        /* field error */
+        .field-error { font-size: 0.78rem; color: var(--red); margin-top: 5px; display: none; padding-left: 0.5rem; }
+        .input-wrap.error input { border-color: var(--red); }
+        .input-wrap.error .input-icon { color: var(--red); }
+
+        /* two-col row */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+        /* ── SUBMIT BTN ── */
         .btn-primary {
-            background: #1877f2;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 0.9rem;
-            border-radius: 3rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin: 1.2rem 0 1rem;
-            box-shadow: 0 4px 10px rgba(24,119,242,0.3);
+            background: var(--blue); color: white; border: none; width: 100%;
+            padding: 0.9rem; border-radius: 3rem; font-weight: 700; font-size: 1rem;
+            cursor: pointer; margin: 1.2rem 0 0.5rem;
+            box-shadow: 0 6px 20px rgba(24,119,242,0.35);
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-primary:hover {
-            background: #166fe5;
+        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(24,119,242,0.4); }
+        .btn-primary:active { transform: translateY(1px); }
+
+        /* ── INLINE ERROR / SUCCESS MESSAGE ── */
+        .form-message {
+            border-radius: 1rem; padding: 0.65rem 1rem; margin-bottom: 1rem;
+            font-size: 0.88rem; font-weight: 500; display: none;
+            align-items: center; gap: 8px;
         }
-        .demo-login {
-            background: #e7f0ff;
-            border-radius: 2rem;
-            padding: 1rem;
-            margin-top: 1.8rem;
-        }
-        .demo-login p {
-            font-weight: 600;
-            color: #1e2b3a;
-            margin-bottom: 0.6rem;
-        }
-        .demo-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+        .form-message.error  { background: #fee2e2; color: var(--red); display: flex; }
+        .form-message.success { background: var(--blue-light); color: var(--blue); display: flex; }
+
+        /* ── DEMO LOGIN ── */
+        .demo-login { background: var(--bg); border-radius: 1.5rem; padding: 1rem 1.1rem; margin-top: 1.5rem; }
+        .demo-login-label { font-weight: 700; color: var(--text); font-size: 0.85rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 6px; }
+        .demo-login-label i { color: var(--blue); }
+        .demo-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .demo-btn {
-            background: white;
-            border: 1px solid #bcccdc;
-            border-radius: 2rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            background: var(--white); border: 1.5px solid var(--border);
+            border-radius: 2rem; padding: 0.45rem 1rem; font-size: 0.83rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+            font-weight: 600; color: var(--text); transition: all 0.18s;
         }
-        .demo-btn:hover {
-            background: #d9e7ff;
-        }
+        .demo-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+        .demo-btn i { color: var(--blue); }
+
+        /* ── STRENGTH BAR ── */
+        .strength-wrap { margin-top: 6px; }
+        .strength-bar { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+        .strength-fill { height: 100%; border-radius: 99px; transition: width 0.3s, background 0.3s; width: 0%; }
+        .strength-label { font-size: 0.72rem; margin-top: 4px; color: var(--muted); }
     </style>
 </head>
 <body>
     <div class="auth-container">
+
+        <!-- LOGO -->
         <div class="logo-area">
-            <i class="fas fa-hand-holding-heart"></i>
-            <h2>CareConnect</h2>
-            <p>Raipur / Bilaspur • volunteer • NGO • organisation</p>
+            <div class="logo-icon-wrap"><i class="fas fa-hand-holding-heart"></i></div>
+            <h2>HelpingHands</h2>
+            <p>Ripur / Bilaspur &nbsp;·&nbsp; Volunteer &nbsp;·&nbsp; NGO &nbsp;·&nbsp; Organisation</p>
         </div>
 
+        <!-- TABS -->
         <div class="tab-bar">
-            <div class="tab active" id="loginTab" onclick="switchTab('login')">Log in</div>
+            <div class="tab active" id="loginTab" onclick="switchTab('login')">Log In</div>
             <div class="tab" id="registerTab" onclick="switchTab('register')">Register</div>
         </div>
 
-        <!-- LOGIN FORM -->
+        <!-- ── LOGIN FORM ── -->
         <div id="loginForm">
+            <div class="form-message" id="loginMsg"></div>
+
             <div class="form-group">
-                <label><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="loginEmail" placeholder="you@example.com">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                <div class="input-wrap" id="liEmailWrap">
+                    <input type="email" id="loginEmail" placeholder="you@example.com" oninput="clearError('liEmailWrap', 'loginMsg')">
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <div class="field-error" id="liEmailErr">Please enter a valid email.</div>
             </div>
+
             <div class="form-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="loginPassword" placeholder="••••••••">
+                <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                <div class="input-wrap" id="liPwdWrap" style="position:relative;">
+                    <input type="password" id="loginPassword" placeholder="••••••••" oninput="clearError('liPwdWrap', 'loginMsg')">
+                    <i class="fas fa-lock input-icon"></i>
+                    <i class="fas fa-eye pwd-toggle" id="liPwdToggle" onclick="togglePwd('loginPassword','liPwdToggle')"></i>
+                </div>
+                <div class="field-error" id="liPwdErr">Please enter your password.</div>
             </div>
-            <button class="btn-primary" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Log in</button>
+
+            <button class="btn-primary" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> Log In
+            </button>
         </div>
 
-        <!-- REGISTER FORM (hidden) -->
-        <div id="registerForm" style="display: none;">
+        <!-- ── REGISTER FORM ── -->
+        <div id="registerForm" style="display:none;">
+            <div class="form-message" id="regMsg"></div>
+
             <div class="form-group">
-                <label><i class="fas fa-user"></i> Full name</label>
-                <input type="text" id="regName" placeholder="Priya Sharma">
+                <label class="form-label"><i class="fas fa-user"></i> Full Name</label>
+                <div class="input-wrap" id="regNameWrap">
+                    <input type="text" id="regName" placeholder="Priya Sharma" oninput="clearError('regNameWrap')">
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="field-error" id="regNameErr">Please enter your name.</div>
             </div>
+
             <div class="form-group">
-                <label><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="regEmail" placeholder="priya@example.com">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                <div class="input-wrap" id="regEmailWrap">
+                    <input type="email" id="regEmail" placeholder="priya@example.com" oninput="clearError('regEmailWrap')">
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <div class="field-error" id="regEmailErr">Please enter a valid email.</div>
             </div>
+
             <div class="form-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="regPassword" placeholder="min 3 characters">
+                <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                <div class="input-wrap" id="regPwdWrap" style="position:relative;">
+                    <input type="password" id="regPassword" placeholder="min 3 characters" oninput="checkStrength(); clearError('regPwdWrap')">
+                    <i class="fas fa-lock input-icon"></i>
+                    <i class="fas fa-eye pwd-toggle" id="regPwdToggle" onclick="togglePwd('regPassword','regPwdToggle')"></i>
+                </div>
+                <div class="strength-wrap">
+                    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                    <div class="strength-label" id="strengthLabel"></div>
+                </div>
+                <div class="field-error" id="regPwdErr">Password must be at least 3 characters.</div>
             </div>
-            <div class="form-group">
-                <label><i class="fas fa-user-tag"></i> Register as</label>
-                <select id="regRole">
-                    <option value="volunteer">Volunteer</option>
-                    <option value="ngo">NGO</option>
-                    <option value="organisation">Organisation</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-city"></i> City</label>
-                <div class="city-row">
-                    <select id="regCity">
-                        <option value="Raipur">Raipur</option>
-                        <option value="bilaspur">Bilaspur</option>
-                    </select>
+
+            <div class="two-col">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label"><i class="fas fa-user-tag"></i> Role</label>
+                    <div class="input-wrap">
+                        <select id="regRole">
+                            <option value="volunteer">Volunteer</option>
+                            <option value="ngo">NGO</option>
+                            <option value="organisation">Organisation</option>
+                        </select>
+                        <i class="fas fa-user-tag input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label"><i class="fas fa-city"></i> City</label>
+                    <div class="input-wrap">
+                        <select id="regCity">
+                            <option value="Ripur">Ripur</option>
+                            <option value="Bilaspur">Bilaspur</option>
+                        </select>
+                        <i class="fas fa-city input-icon"></i>
+                    </div>
                 </div>
             </div>
-            <button class="btn-primary" onclick="handleRegister()"><i class="fas fa-user-plus"></i> Register</button>
+
+            <button class="btn-primary" onclick="handleRegister()" style="margin-top:1.3rem;">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
         </div>
 
         <!-- DEMO LOGIN -->
         <div class="demo-login">
-            <p><i class="fas fa-people-arrows"></i> Demo login</p>
+            <div class="demo-login-label"><i class="fas fa-bolt"></i> Quick Demo Login</div>
             <div class="demo-buttons">
                 <div class="demo-btn" onclick="fillDemo('riya@help.com','riya123')"><i class="fas fa-leaf"></i> Volunteer</div>
                 <div class="demo-btn" onclick="fillDemo('sahyog@ngo.in','help123')"><i class="fas fa-hand-holding-heart"></i> NGO</div>
@@ -225,96 +271,169 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'CareConnect_users';
+        const STORAGE_KEY = 'helpinghands_users';
 
-        // Initialize with demo users if empty
+        // Seed demo users
         if (!localStorage.getItem(STORAGE_KEY)) {
-            const defaultUsers = [
-                { name: 'Riya Sharma', email: 'riya@help.com', password: 'riya123', role: 'volunteer', city: 'Raipur' },
-                { name: 'Sahyog NGO', email: 'sahyog@ngo.in', password: 'help123', role: 'ngo', city: 'bilaspur' },
-                { name: 'CareOrg', email: 'org@care.org', password: 'org123', role: 'organisation', city: 'Raipur' }
-            ];
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultUsers));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify([
+                { name:'Riya Sharma', email:'riya@help.com', password:'riya123', role:'volunteer', city:'Ripur' },
+                { name:'Sahyog NGO',  email:'sahyog@ngo.in', password:'help123', role:'ngo',       city:'Bilaspur' },
+                { name:'CareOrg',     email:'org@care.org',  password:'org123',  role:'organisation', city:'Ripur' }
+            ]));
         }
 
+        /* ── TAB SWITCH ── */
         function switchTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
+            const lf = document.getElementById('loginForm');
+            const rf = document.getElementById('registerForm');
+            const lt = document.getElementById('loginTab');
+            const rt = document.getElementById('registerTab');
+            clearMessages();
             if (tab === 'login') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
+                lf.style.display = 'block'; rf.style.display = 'none';
+                lt.classList.add('active'); rt.classList.remove('active');
             } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                registerTab.classList.add('active');
-                loginTab.classList.remove('active');
+                lf.style.display = 'none'; rf.style.display = 'block';
+                rt.classList.add('active'); lt.classList.remove('active');
             }
         }
 
+        /* ── PASSWORD TOGGLE ── */
+        function togglePwd(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon  = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        /* ── PASSWORD STRENGTH ── */
+        function checkStrength() {
+            const pwd = document.getElementById('regPassword').value;
+            const fill = document.getElementById('strengthFill');
+            const label = document.getElementById('strengthLabel');
+            let strength = 0;
+            if (pwd.length >= 3) strength++;
+            if (pwd.length >= 6) strength++;
+            if (/[A-Z]/.test(pwd)) strength++;
+            if (/[0-9]/.test(pwd)) strength++;
+            if (/[^A-Za-z0-9]/.test(pwd)) strength++;
+            const configs = [
+                { pct: 0, color: '#e5e7eb', text: '' },
+                { pct: 20, color: '#dc2626', text: 'Too weak' },
+                { pct: 40, color: '#f59e0b', text: 'Weak' },
+                { pct: 60, color: '#f59e0b', text: 'Fair' },
+                { pct: 80, color: '#16a34a', text: 'Strong' },
+                { pct: 100, color: '#16a34a', text: '💪 Very strong' },
+            ];
+            const cfg = configs[strength] || configs[0];
+            fill.style.width = cfg.pct + '%';
+            fill.style.background = cfg.color;
+            label.innerText = cfg.text;
+            label.style.color = cfg.color;
+        }
+
+        /* ── VALIDATION HELPERS ── */
+        function showFieldError(wrapId, errId, msg) {
+            document.getElementById(wrapId).classList.add('error');
+            const e = document.getElementById(errId);
+            e.innerText = msg; e.style.display = 'block';
+        }
+        function clearError(wrapId, msgId) {
+            document.getElementById(wrapId)?.classList.remove('error');
+            if (msgId) hideMessage(msgId);
+        }
+        function showMessage(id, msg, type) {
+            const el = document.getElementById(id);
+            el.className = `form-message ${type}`;
+            el.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i> ${msg}`;
+        }
+        function hideMessage(id) { const el = document.getElementById(id); if(el) { el.className = 'form-message'; el.style.display = 'none'; } }
+        function clearMessages() {
+            ['loginMsg','regMsg'].forEach(hideMessage);
+            ['liEmailWrap','liPwdWrap','regNameWrap','regEmailWrap','regPwdWrap'].forEach(id => document.getElementById(id)?.classList.remove('error'));
+            document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
+        }
+
+        /* ── DEMO FILL ── */
         function fillDemo(email, password) {
             switchTab('login');
             document.getElementById('loginEmail').value = email;
             document.getElementById('loginPassword').value = password;
+            // brief highlight
+            ['loginEmail','loginPassword'].forEach(id => {
+                const el = document.getElementById(id);
+                el.style.borderColor = '#1877f2';
+                setTimeout(() => el.style.borderColor = '', 1000);
+            });
         }
 
-        function handleRegister() {
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const role = document.getElementById('regRole').value;
-            const city = document.getElementById('regCity').value;
-
-            if (!name || !email || !password || !role || !city) {
-                alert('Please fill all fields');
-                return;
-            }
-            if (password.length < 3) {
-                alert('Password must be at least 3 characters');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            if (users.find(u => u.email === email)) {
-                alert('Email already registered. Try login.');
-                return;
-            }
-
-            const newUser = { name, email, password, role, city };
-            users.push(newUser);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-            alert('Registration successful! Please login.');
-            switchTab('login');
-        }
-
+        /* ── LOGIN ── */
         function handleLogin() {
+            clearMessages();
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
+            let valid = true;
 
-            if (!email || !password) {
-                alert('Enter email and password');
-                return;
+            if (!email || !/\S+@\S+\.\S+/.test(email)) {
+                showFieldError('liEmailWrap', 'liEmailErr', 'Please enter a valid email.');
+                valid = false;
             }
+            if (!password) {
+                showFieldError('liPwdWrap', 'liPwdErr', 'Please enter your password.');
+                valid = false;
+            }
+            if (!valid) return;
 
             const users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
             const user = users.find(u => u.email === email && u.password === password);
 
             if (!user) {
-                alert('Invalid credentials. Use demo or register.');
+                showMessage('loginMsg', 'Invalid email or password. Try a demo account or register.', 'error');
+                document.getElementById('liEmailWrap').classList.add('error');
+                document.getElementById('liPwdWrap').classList.add('error');
                 return;
             }
 
-            // Redirect to dashboard page with user data in URL
-            const params = new URLSearchParams({
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                city: user.city
-            });
-            window.location.href = `dashboard.html?${params.toString()}`;
+            // Success — brief visual feedback then redirect
+            showMessage('loginMsg', `Welcome back, ${user.name}! Redirecting...`, 'success');
+            setTimeout(() => {
+                const params = new URLSearchParams({ name: user.name, email: user.email, role: user.role, city: user.city });
+                window.location.href = `dashboard.html?${params.toString()}`;
+            }, 800);
+        }
+
+        /* ── REGISTER ── */
+        function handleRegister() {
+            clearMessages();
+            const name     = document.getElementById('regName').value.trim();
+            const email    = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const role     = document.getElementById('regRole').value;
+            const city     = document.getElementById('regCity').value;
+            let valid = true;
+
+            if (!name) { showFieldError('regNameWrap', 'regNameErr', 'Please enter your full name.'); valid = false; }
+            if (!email || !/\S+@\S+\.\S+/.test(email)) { showFieldError('regEmailWrap', 'regEmailErr', 'Please enter a valid email.'); valid = false; }
+            if (password.length < 3) { showFieldError('regPwdWrap', 'regPwdErr', 'Password must be at least 3 characters.'); valid = false; }
+            if (!valid) return;
+
+            const users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            if (users.find(u => u.email === email)) {
+                showMessage('regMsg', 'This email is already registered. Please log in.', 'error');
+                showFieldError('regEmailWrap', 'regEmailErr', 'Email already in use.');
+                return;
+            }
+
+            users.push({ name, email, password, role, city });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+            showMessage('regMsg', 'Account created! Switching to login...', 'success');
+            setTimeout(() => {
+                switchTab('login');
+                document.getElementById('loginEmail').value = email;
+            }, 1000);
         }
     </script>
 </body>

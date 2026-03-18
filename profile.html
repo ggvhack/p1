@@ -3,88 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareConnect • Profile</title>
+    <title>HelpingHands • Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --blue: #1877f2; --blue-light: #e7f0ff; --blue-dark: #0d5bbf;
+            --green: #16a34a; --green-light: #dcfce7;
+            --amber: #d97706; --amber-light: #fef3c7;
+            --bg: #f0f2f5; --white: #ffffff;
+            --text: #1e2b3a; --muted: #6b7a8a; --border: #e9edf2;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; }
-        .dash-container { display: flex; flex-direction: column; width: 100%; min-height: 100vh; }
-        .dash-header { background: white; padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; flex-wrap: wrap; gap: 10px; }
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: #1877f2; cursor: pointer; }
-        .user-badge { background: #e7f0ff; border-radius: 2rem; padding: 0.3rem 1.2rem 0.3rem 0.8rem; display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
-        .user-badge i { font-size: 1.5rem; color: #1877f2; }
-        .badge-detail { line-height: 1.2; }
-        .badge-name { font-weight: 700; font-size: 0.95rem; }
-        .badge-role { font-size: 0.75rem; color: #4b5563; }
+        body { background: var(--bg); min-height: 100vh; }
+
+        /* ── HEADER ── */
+        .dash-header { background: var(--white); padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50; flex-wrap: wrap; gap: 10px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: var(--blue); cursor: pointer; }
+        .user-badge { background: var(--blue-light); border-radius: 3rem; padding: 0.3rem 1.2rem 0.3rem 0.8rem; display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
+        .user-badge i { font-size: 1.5rem; color: var(--blue); }
+        .badge-name { font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
+        .badge-role { font-size: 0.75rem; color: var(--muted); }
+
+        /* ── LAYOUT ── */
         .dash-main { display: flex; flex: 1; }
-        .side-nav { width: 280px; background: white; padding: 1.5rem 0.8rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 0.3rem; height: calc(100vh - 80px); position: sticky; top: 80px; overflow-y: auto; }
-        .side-nav a { text-decoration: none; color: #2c3e50; padding: 0.9rem 1.2rem; border-radius: 2rem; font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s; }
-        .side-nav a i { width: 24px; font-size: 1.2rem; color: #1877f2; }
-        .side-nav a:hover, .side-nav a.active { background: #e7f0ff; color: #1877f2; }
-        .content-area { flex: 1; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 80px; }
-        .page-content { background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); text-align: left; max-width: 400px; margin: 0 auto; }
-        .profile-field { margin: 1.5rem 0; font-size: 1.1rem; border-bottom: 1px solid #e9edf2; padding-bottom: 0.5rem; }
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); justify-content: space-around; padding: 0.6rem 0.8rem; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 20; overflow-x: auto; }
-        .bottom-nav a { text-align: center; color: #4b5563; font-size: 0.7rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 60px; }
+        .side-nav { width: 280px; background: var(--white); padding: 1.5rem 0.8rem; box-shadow: 2px 0 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 0.3rem; height: calc(100vh - 60px); position: sticky; top: 60px; overflow-y: auto; }
+        .side-nav a { text-decoration: none; color: #2c3e50; padding: 0.9rem 1.2rem; border-radius: 3rem; font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s; }
+        .side-nav a i { width: 24px; font-size: 1.2rem; color: var(--blue); }
+        .side-nav a:hover, .side-nav a.active { background: var(--blue-light); color: var(--blue); }
+        .content-area { flex: 1; padding: 1.5rem 2rem; max-width: 900px; margin: 0 auto; width: 100%; padding-bottom: 100px; }
+
+        /* ── PROFILE HERO CARD ── */
+        .profile-hero {
+            background: linear-gradient(135deg, #0f2744 0%, #1877f2 100%);
+            border-radius: 1.5rem; padding: 2rem; margin-bottom: 1.5rem;
+            position: relative; overflow: hidden;
+        }
+        .profile-hero::before { content: ''; position: absolute; width: 240px; height: 240px; background: rgba(255,255,255,0.05); border-radius: 50%; top: -80px; right: -60px; }
+        .profile-hero::after { content: ''; position: absolute; width: 140px; height: 140px; background: rgba(255,255,255,0.04); border-radius: 50%; bottom: -50px; right: 200px; }
+        .profile-hero-inner { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; position: relative; z-index: 1; }
+        .profile-avatar-wrap { position: relative; flex-shrink: 0; }
+        .profile-avatar {
+            width: 90px; height: 90px; border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.4);
+            background: var(--blue-light); display: flex; align-items: center;
+            justify-content: center; font-size: 2.2rem; color: var(--blue);
+            font-weight: 800; overflow: hidden;
+        }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .online-dot { position: absolute; bottom: 4px; right: 4px; width: 16px; height: 16px; background: #22c55e; border: 2px solid white; border-radius: 50%; }
+        .profile-hero-text { flex: 1; min-width: 200px; }
+        .profile-hero-text h2 { font-size: 1.5rem; font-weight: 800; color: white; margin-bottom: 4px; }
+        .profile-hero-text .role-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9);
+            font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.9rem;
+            border-radius: 3rem; margin-bottom: 0.5rem;
+        }
+        .profile-hero-text .email-line { color: rgba(255,255,255,0.65); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+        .profile-hero-stats { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+        .ph-stat { background: rgba(255,255,255,0.12); border-radius: 0.8rem; padding: 0.6rem 1rem; text-align: center; min-width: 80px; }
+        .ph-stat-num { font-size: 1.3rem; font-weight: 800; color: white; line-height: 1; }
+        .ph-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+        .edit-profile-btn {
+            background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.25);
+            padding: 0.6rem 1.3rem; border-radius: 3rem; font-weight: 600; font-size: 0.85rem;
+            cursor: pointer; display: flex; align-items: center; gap: 7px; transition: background 0.2s;
+            position: relative; z-index: 1; align-self: flex-start;
+        }
+        .edit-profile-btn:hover { background: rgba(255,255,255,0.25); }
+
+        /* ── GRID ── */
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+        /* ── CARDS ── */
+        .profile-card { background: var(--white); border-radius: 1.5rem; padding: 1.4rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+        .card-title { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1.1rem; display: flex; align-items: center; gap: 7px; }
+        .card-title i { color: var(--blue); }
+
+        /* info rows */
+        .info-row { display: flex; align-items: center; gap: 12px; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+        .info-row:last-child { border-bottom: none; }
+        .info-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--blue-light); color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+        .info-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 2px; }
+        .info-value { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+
+        /* activity feed */
+        .activity-item { display: flex; gap: 12px; padding: 0.75rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+        .activity-text { font-size: 0.88rem; color: var(--text); line-height: 1.4; }
+        .activity-time { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+        /* badges */
+        .badges-wrap { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+        .badge-chip {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 0.9rem 1rem; text-align: center; min-width: 72px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .badge-chip:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .badge-chip .bc-icon { font-size: 1.5rem; }
+        .badge-chip .bc-label { font-size: 0.72rem; font-weight: 600; color: var(--text); }
+        .badge-chip.locked { opacity: 0.35; }
+
+        /* skills bar */
+        .skill-row { margin-bottom: 0.9rem; }
+        .skill-label-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.82rem; }
+        .skill-label { font-weight: 600; color: var(--text); }
+        .skill-pct { color: var(--blue); font-weight: 700; }
+        .skill-bar { height: 7px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+        .skill-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--blue), #60a5fa); width: 0%; transition: width 1s cubic-bezier(0.22,1,0.36,1); }
+
+        /* settings / actions */
+        .settings-btn {
+            width: 100%; background: var(--bg); border: 1px solid var(--border);
+            color: var(--text); padding: 0.75rem 1.1rem; border-radius: 3rem;
+            font-weight: 600; font-size: 0.88rem; cursor: pointer; margin-bottom: 0.6rem;
+            display: flex; align-items: center; gap: 10px; transition: background 0.2s, border-color 0.2s;
+            text-align: left;
+        }
+        .settings-btn i { color: var(--blue); width: 18px; }
+        .settings-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+        .settings-btn.danger { color: #dc2626; }
+        .settings-btn.danger i { color: #dc2626; }
+        .settings-btn.danger:hover { background: #fee2e2; border-color: #dc2626; }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.05); justify-content: space-around; padding: 0.6rem 0.8rem; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 20; overflow-x: auto; }
+        .bottom-nav a { text-align: center; color: var(--muted); font-size: 0.7rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 55px; transition: color 0.2s, transform 0.2s; }
         .bottom-nav a i { font-size: 1.3rem; }
-        .bottom-nav a.active { color: #1877f2; }
-        @media (max-width: 768px) { .side-nav { display: none; } .bottom-nav { display: flex; } .content-area { padding: 1rem 1rem 80px 1rem; } }
+        .bottom-nav a.active { color: var(--blue); transform: translateY(-2px); }
+        .nav-dot { width: 5px; height: 5px; background: var(--blue); border-radius: 50%; opacity: 0; transition: opacity 0.2s; }
+        .bottom-nav a.active .nav-dot { opacity: 1; }
+
+        /* ── TOAST ── */
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: white; padding: 0.75rem 1.5rem; border-radius: 3rem; font-size: 0.9rem; font-weight: 500; opacity: 0; transition: all 0.3s ease; z-index: 400; pointer-events: none; box-shadow: var(--shadow-md); }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 768px) {
+            .side-nav { display: none; }
+            .bottom-nav { display: flex; }
+            .content-area { padding: 1rem 1rem 90px; }
+            .profile-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="dash-container">
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span></div>
-            <div class="user-badge" onclick="goToPage('profile')"><i class="fas fa-user-circle"></i><div class="badge-detail"><span class="badge-name" id="displayName">Loading...</span><span class="badge-role" id="displayRoleCity"></span></div></div>
-        </header>
-        <div class="dash-main">
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-            <div class="content-area">
-                <div class="page-content">
-                    <h2 style="text-align:center;"><i class="fas fa-id-card"></i> Your Profile</h2>
-                    <div class="profile-field"><strong>Name:</strong> <span id="profileName"></span></div>
-                    <div class="profile-field"><strong>Email:</strong> <span id="profileEmail"></span></div>
-                    <div class="profile-field"><strong>Role:</strong> <span id="profileRole"></span></div>
-                    <div class="profile-field"><strong>City:</strong> <span id="profileCity"></span></div>
-                    <div class="profile-field"><strong>Member since:</strong> March 2026</div>
+<div style="display:flex;flex-direction:column;min-height:100vh;">
+    <header class="dash-header">
+        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
+        <div class="user-badge" onclick="goToPage('profile')">
+            <i class="fas fa-user-circle"></i>
+            <div><div class="badge-name" id="displayName">Loading...</div><div class="badge-role" id="displayRoleCity"></div></div>
+        </div>
+    </header>
+
+    <div class="dash-main">
+        <nav class="side-nav">
+            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
+            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
+            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="#" class="active" onclick="return false;"><i class="fas fa-id-card"></i> Profile</a>
+            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+
+        <div class="content-area">
+
+            <!-- PROFILE HERO -->
+            <div class="profile-hero">
+                <div class="profile-hero-inner">
+                    <div class="profile-avatar-wrap">
+                        <div class="profile-avatar" id="avatarCircle">
+                            <span id="avatarInitial">?</span>
+                        </div>
+                        <div class="online-dot"></div>
+                    </div>
+                    <div class="profile-hero-text" style="flex:1;">
+                        <h2 id="heroName">Loading...</h2>
+                        <div class="role-pill" id="heroPill"><i class="fas fa-leaf"></i> <span id="heroRole">Volunteer</span></div>
+                        <div class="email-line"><i class="fas fa-envelope"></i> <span id="heroEmail">—</span></div>
+                        <div class="profile-hero-stats">
+                            <div class="ph-stat"><div class="ph-stat-num" id="statPosts">0</div><div class="ph-stat-label">Posts</div></div>
+                            <div class="ph-stat"><div class="ph-stat-num" id="statDonations">0</div><div class="ph-stat-label">Donations</div></div>
+                            <div class="ph-stat"><div class="ph-stat-num" id="statPoints">0</div><div class="ph-stat-label">Points</div></div>
+                            <div class="ph-stat"><div class="ph-stat-num" id="statDeliveries">0</div><div class="ph-stat-label">Deliveries</div></div>
+                        </div>
+                    </div>
+                    <button class="edit-profile-btn" onclick="showToast('✏️ Edit profile coming soon!')">
+                        <i class="fas fa-pen"></i> Edit Profile
+                    </button>
                 </div>
             </div>
+
+            <div class="profile-grid">
+
+                <!-- PERSONAL INFO -->
+                <div class="profile-card">
+                    <div class="card-title"><i class="fas fa-id-card"></i> Personal Info</div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-user"></i></div>
+                        <div><div class="info-label">Full Name</div><div class="info-value" id="infoName">—</div></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <div><div class="info-label">Email</div><div class="info-value" id="infoEmail">—</div></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-user-tag"></i></div>
+                        <div><div class="info-label">Role</div><div class="info-value" id="infoRole">—</div></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-city"></i></div>
+                        <div><div class="info-label">City</div><div class="info-value" id="infoCity">—</div></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-calendar-check"></i></div>
+                        <div><div class="info-label">Member Since</div><div class="info-value">March 2026</div></div>
+                    </div>
+                </div>
+
+                <!-- BADGES / ACHIEVEMENTS -->
+                <div class="profile-card">
+                    <div class="card-title"><i class="fas fa-medal"></i> Achievements</div>
+                    <div class="badges-wrap" id="badgesWrap">
+                        <!-- dynamically filled -->
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY -->
+                <div class="profile-card">
+                    <div class="card-title"><i class="fas fa-bolt"></i> Recent Activity</div>
+                    <div id="activityFeed">
+                        <!-- dynamically filled -->
+                    </div>
+                </div>
+
+                <!-- IMPACT SKILLS -->
+                <div class="profile-card">
+                    <div class="card-title"><i class="fas fa-chart-bar"></i> Impact Areas</div>
+                    <div id="skillsWrap"></div>
+                </div>
+
+                <!-- SETTINGS -->
+                <div class="profile-card" style="grid-column: 1 / -1;">
+                    <div class="card-title"><i class="fas fa-cog"></i> Account</div>
+                    <button class="settings-btn" onclick="showToast('🔔 Notification settings coming soon!')"><i class="fas fa-bell"></i> Notification Preferences</button>
+                    <button class="settings-btn" onclick="showToast('🔒 Change password coming soon!')"><i class="fas fa-lock"></i> Change Password</button>
+                    <button class="settings-btn" onclick="showToast('📤 Data export coming soon!')"><i class="fas fa-file-export"></i> Export My Data</button>
+                    <button class="settings-btn danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+                </div>
+
+            </div>
         </div>
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-        </nav>
     </div>
-    <script>
-        let currentUser = null;
-        function getUserFromUrl() { const params = new URLSearchParams(window.location.search); return { name: params.get('name') || 'Guest User', email: params.get('email') || 'guest@example.com', role: params.get('role') || 'volunteer', city: params.get('city') || 'Raipur' }; }
-        function initPage() { 
-            currentUser = getUserFromUrl(); 
-            document.getElementById('displayName').innerText = currentUser.name; 
-            document.getElementById('profileName').innerText = currentUser.name;
-            document.getElementById('profileEmail').innerText = currentUser.email;
-            let roleDisplay = currentUser.role; 
-            if (currentUser.role === 'ngo') roleDisplay = 'NGO'; 
-            else if (currentUser.role === 'organisation') roleDisplay = 'Organisation'; 
-            else roleDisplay = 'Volunteer'; 
-            document.getElementById('profileRole').innerText = roleDisplay;
-            document.getElementById('profileCity').innerText = current.user?.city || currentUser.city;
-            document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`; 
-        }
-        function goToPage(page) { const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city }); if (page === 'feed') window.location.href = `dashboard.html?${params.toString()}`; else window.location.href = `${page}.html?${params.toString()}`; }
-        function logout() { window.location.href = 'index.html'; }
-        window.onload = initPage;
-    </script>
+
+    <nav class="bottom-nav">
+        <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i><span>Feed</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i><span>Donate</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('leaderboard')"><i class="fas fa-trophy"></i><span>Top</span><div class="nav-dot"></div></a>
+        <a href="#" class="active" onclick="return false;"><i class="fas fa-id-card"></i><span>Profile</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i><span>Emergency</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span><div class="nav-dot"></div></a>
+    </nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    let currentUser = null;
+
+    function getUserFromUrl() {
+        const p = new URLSearchParams(window.location.search);
+        return { name: p.get('name') || 'Guest User', email: p.get('email') || 'guest@example.com', role: p.get('role') || 'volunteer', city: p.get('city') || 'Raipur' };
+    }
+
+    function countUp(el, target, duration = 800) {
+        let start = 0; const step = target / (duration / 16);
+        const t = setInterval(() => { start = Math.min(start + step, target); el.innerText = Math.floor(start); if (start >= target) clearInterval(t); }, 16);
+    }
+
+    function initPage() {
+        currentUser = getUserFromUrl();
+        const roleDisplay = currentUser.role === 'ngo' ? 'NGO' : currentUser.role === 'organisation' ? 'Organisation' : 'Volunteer';
+
+        // Header
+        document.getElementById('displayName').innerText = currentUser.name;
+        document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+
+        // Hero
+        document.getElementById('heroName').innerText = currentUser.name;
+        document.getElementById('heroRole').innerText = roleDisplay;
+        document.getElementById('heroEmail').innerText = currentUser.email;
+        document.getElementById('avatarInitial').innerText = currentUser.name[0].toUpperCase();
+
+        // Role pill icon
+        const iconMap = { volunteer: 'fa-leaf', ngo: 'fa-hand-holding-heart', organisation: 'fa-building' };
+        document.querySelector('#heroPill i').className = `fas ${iconMap[currentUser.role] || 'fa-leaf'}`;
+
+        // Info fields
+        document.getElementById('infoName').innerText  = currentUser.name;
+        document.getElementById('infoEmail').innerText = currentUser.email;
+        document.getElementById('infoRole').innerText  = roleDisplay;
+        document.getElementById('infoCity').innerText  = currentUser.city;
+
+        // Stats from localStorage
+        const posts     = (JSON.parse(localStorage.getItem('helpinghands_posts')) || []).filter(p => p.author === currentUser.name).length;
+        const donations = (JSON.parse(localStorage.getItem('helpinghands_donations')) || []).filter(d => d.donor === currentUser.email).length;
+        const deliveries= (JSON.parse(localStorage.getItem('helpinghands_deliveries')) || []).filter(d => d.volunteer === currentUser.email && d.status === 'accepted').length;
+        const points    = deliveries * 10;
+
+        countUp(document.getElementById('statPosts'), posts);
+        countUp(document.getElementById('statDonations'), donations);
+        countUp(document.getElementById('statPoints'), points);
+        countUp(document.getElementById('statDeliveries'), deliveries);
+
+        renderBadges(posts, donations, deliveries);
+        renderActivity(posts, donations, deliveries);
+        renderSkills(posts, donations, deliveries);
+    }
+
+    function renderBadges(posts, donations, deliveries) {
+        const allBadges = [
+            { icon: '🌱', label: 'First Post',   earned: posts >= 1 },
+            { icon: '💬', label: '5 Posts',       earned: posts >= 5 },
+            { icon: '❤️', label: 'First Donate',  earned: donations >= 1 },
+            { icon: '🎁', label: '5 Donations',   earned: donations >= 5 },
+            { icon: '🚚', label: 'Deliverer',      earned: deliveries >= 1 },
+            { icon: '⭐', label: '10 Pts',         earned: deliveries >= 1 },
+            { icon: '🏆', label: 'Top Volunteer',  earned: deliveries >= 5 },
+            { icon: '🔥', label: 'Streak',         earned: posts >= 3 },
+        ];
+        document.getElementById('badgesWrap').innerHTML = allBadges.map(b => `
+            <div class="badge-chip ${b.earned ? '' : 'locked'}" title="${b.earned ? 'Earned!' : 'Not yet earned'}">
+                <span class="bc-icon">${b.icon}</span>
+                <span class="bc-label">${b.label}</span>
+            </div>
+        `).join('');
+    }
+
+    function renderActivity(posts, donations, deliveries) {
+        const items = [];
+        if (posts > 0)     items.push({ color: '#1877f2', text: `Created ${posts} post${posts>1?'s':''} on the community feed`, time: 'Recently' });
+        if (donations > 0) items.push({ color: '#16a34a', text: `Made ${donations} donation${donations>1?'s':''} to people in need`, time: 'Recently' });
+        if (deliveries > 0)items.push({ color: '#d97706', text: `Completed ${deliveries} delivery${deliveries>1?'s':''}`, time: 'Recently' });
+        items.push({ color: '#6b7a8a', text: 'Joined HelpingHands community', time: 'March 2026' });
+
+        document.getElementById('activityFeed').innerHTML = items.length
+            ? items.map(i => `
+                <div class="activity-item">
+                    <div class="activity-dot" style="background:${i.color};"></div>
+                    <div><div class="activity-text">${i.text}</div><div class="activity-time">${i.time}</div></div>
+                </div>`).join('')
+            : `<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0;text-align:center;">No activity yet — make your first post!</div>`;
+    }
+
+    function renderSkills(posts, donations, deliveries) {
+        const total = Math.max(posts + donations * 2 + deliveries * 3, 1);
+        const skills = [
+            { label: 'Community Engagement', pct: Math.min(Math.round((posts / 10) * 100), 100), color: '#1877f2' },
+            { label: 'Giving & Donations',   pct: Math.min(Math.round((donations / 5) * 100), 100), color: '#16a34a' },
+            { label: 'Field Delivery',        pct: Math.min(Math.round((deliveries / 5) * 100), 100), color: '#d97706' },
+            { label: 'Overall Impact',        pct: Math.min(Math.round((total / 30) * 100), 100), color: '#7c3aed' },
+        ];
+        document.getElementById('skillsWrap').innerHTML = skills.map(s => `
+            <div class="skill-row">
+                <div class="skill-label-row">
+                    <span class="skill-label">${s.label}</span>
+                    <span class="skill-pct" style="color:${s.color};">${s.pct}%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" data-pct="${s.pct}" style="background: linear-gradient(90deg, ${s.color}, ${s.color}88);"></div>
+                </div>
+            </div>
+        `).join('');
+        // Animate bars
+        setTimeout(() => {
+            document.querySelectorAll('.skill-fill').forEach(bar => {
+                bar.style.width = bar.dataset.pct + '%';
+            });
+        }, 300);
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg; t.classList.add('show');
+        clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    function goToPage(page) {
+        const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city });
+        window.location.href = page === 'feed' ? `dashboard.html?${params}` : `${page}.html?${params}`;
+    }
+    function logout() { window.location.href = 'login.html'; }
+    window.onload = initPage;
+</script>
 </body>
 </html>

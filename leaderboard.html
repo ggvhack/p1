@@ -3,499 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>CareConnect • Leaderboard</title>
-    <!-- Font Awesome 6 (same as donation page) -->
+    <title>HelpingHands • Leaderboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ----- global & dashboard skeleton (from donation.html) ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+        :root {
+            --blue: #1877f2; --blue-light: #e7f0ff; --blue-dark: #0d5bbf;
+            --bg: #f0f2f5; --white: #ffffff;
+            --text: #1e2b3a; --muted: #6b7a8a; --border: #e9edf2;
+            --gold: #f59e0b; --silver: #94a3b8; --bronze: #b45309;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
         }
-        body {
-            background: #f0f2f5;
-            min-height: 100vh;
-        }
-        .dash-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            min-height: 100vh;
-        }
-        .dash-header {
-            background: white;
-            padding: 0.7rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #1877f2;
-            cursor: pointer;
-        }
-        .user-badge {
-            background: #e7f0ff;
-            border-radius: 2rem;
-            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .user-badge i {
-            font-size: 1.5rem;
-            color: #1877f2;
-        }
-        .badge-detail {
-            line-height: 1.2;
-        }
-        .badge-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-        .badge-role {
-            font-size: 0.75rem;
-            color: #4b5563;
-        }
-        .dash-main {
-            display: flex;
-            flex: 1;
-            position: relative;
-        }
-        .side-nav {
-            width: 280px;
-            background: white;
-            padding: 1.5rem 0.8rem;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            height: calc(100vh - 80px);
-            position: sticky;
-            top: 80px;
-            overflow-y: auto;
-        }
-        .side-nav a {
-            text-decoration: none;
-            color: #2c3e50;
-            padding: 0.9rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: 0.2s;
-        }
-        .side-nav a i {
-            width: 24px;
-            font-size: 1.2rem;
-            color: #1877f2;
-        }
-        .side-nav a:hover, .side-nav a.active {
-            background: #e7f0ff;
-            color: #1877f2;
-        }
-        .content-area {
-            flex: 1;
-            padding: 1.5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            padding-bottom: 80px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background: var(--bg); min-height: 100vh; }
 
-        /* bottom navigation (mobile) */
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            justify-content: space-around;
-            padding: 0.6rem 0.8rem;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            z-index: 20;
-            overflow-x: auto;
+        /* ── HEADER ── */
+        .dash-header {
+            background: var(--white); padding: 0.7rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 50; flex-wrap: wrap; gap: 10px;
         }
-        .bottom-nav a {
-            text-align: center;
-            color: #4b5563;
-            font-size: 0.7rem;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            min-width: 60px;
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: var(--blue); cursor: pointer; }
+        .user-badge { background: var(--blue-light); border-radius: 3rem; padding: 0.3rem 1.2rem 0.3rem 0.8rem; display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
+        .user-badge i { font-size: 1.5rem; color: var(--blue); }
+        .badge-name { font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
+        .badge-role { font-size: 0.75rem; color: var(--muted); }
+
+        /* ── LAYOUT ── */
+        .dash-main { display: flex; flex: 1; }
+        .side-nav {
+            width: 280px; background: var(--white); padding: 1.5rem 0.8rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+            display: flex; flex-direction: column; gap: 0.3rem;
+            height: calc(100vh - 60px); position: sticky; top: 60px; overflow-y: auto;
         }
-        .bottom-nav a i {
-            font-size: 1.3rem;
+        .side-nav a { text-decoration: none; color: #2c3e50; padding: 0.9rem 1.2rem; border-radius: 3rem; font-weight: 500; display: flex; align-items: center; gap: 16px; transition: 0.2s; }
+        .side-nav a i { width: 24px; font-size: 1.2rem; color: var(--blue); }
+        .side-nav a:hover, .side-nav a.active { background: var(--blue-light); color: var(--blue); }
+        .content-area { flex: 1; padding: 1.5rem 2rem; max-width: 900px; margin: 0 auto; width: 100%; padding-bottom: 100px; }
+
+        /* ── PAGE HEADER ── */
+        .page-hero {
+            background: linear-gradient(135deg, #0f2744 0%, #1877f2 100%);
+            border-radius: 1.5rem; padding: 1.8rem 2rem;
+            margin-bottom: 1.8rem; display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem; position: relative; overflow: hidden;
         }
-        .bottom-nav a.active {
-            color: #1877f2;
+        .page-hero::before { content: ''; position: absolute; width: 220px; height: 220px; background: rgba(255,255,255,0.05); border-radius: 50%; top: -80px; right: -40px; }
+        .page-hero::after { content: ''; position: absolute; width: 140px; height: 140px; background: rgba(255,255,255,0.04); border-radius: 50%; bottom: -50px; right: 160px; }
+        .hero-left { position: relative; z-index: 1; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.9rem; border-radius: 3rem; margin-bottom: 0.6rem; }
+        .page-hero h1 { font-size: 1.6rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
+        .page-hero p { color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-top: 0.3rem; }
+        .hero-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; position: relative; z-index: 1; }
+        .hero-stat { text-align: center; background: rgba(255,255,255,0.12); border-radius: 1rem; padding: 0.7rem 1.2rem; }
+        .hero-stat-num { font-size: 1.4rem; font-weight: 800; color: white; line-height: 1; }
+        .hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.65); margin-top: 3px; }
+
+        /* ── TABS ── */
+        .tab-bar {
+            display: flex; gap: 0.5rem; background: var(--white);
+            padding: 0.35rem; border-radius: 3rem; margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm); width: fit-content;
         }
+        .tab-btn {
+            padding: 0.55rem 1.4rem; border-radius: 3rem; border: none; background: transparent;
+            font-weight: 600; font-size: 0.88rem; color: var(--muted); cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .tab-btn.active { background: var(--blue); color: white; box-shadow: 0 4px 12px rgba(24,119,242,0.3); }
+        .tab-btn:not(.active):hover { background: var(--blue-light); color: var(--blue); }
+
+        /* ── PODIUM ── */
+        .podium-wrap { background: var(--white); border-radius: 1.5rem; padding: 2rem 1.5rem 0; box-shadow: var(--shadow-sm); margin-bottom: 1.2rem; overflow: hidden; }
+        .podium { display: flex; align-items: flex-end; justify-content: center; gap: 12px; }
+        .podium-block {
+            flex: 1; max-width: 160px; text-align: center;
+            border-radius: 16px 16px 0 0; position: relative;
+            padding: 20px 8px 16px;
+            animation: riseUp 0.7s ease both;
+            transition: transform 0.2s;
+            cursor: default;
+        }
+        .podium-block:hover { transform: translateY(-6px); }
+        .p-first  { background: linear-gradient(180deg, #fef3c7, #fde68a); height: 220px; animation-delay: 0.1s; }
+        .p-second { background: linear-gradient(180deg, #f1f5f9, #e2e8f0); height: 175px; }
+        .p-third  { background: linear-gradient(180deg, #fef3e2, #fed7aa); height: 148px; animation-delay: 0.2s; }
+        @keyframes riseUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        .podium-rank {
+            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+            font-size: 1.6rem; line-height: 1;
+        }
+        .podium-avatar {
+            width: 62px; height: 62px; border-radius: 50%;
+            border: 3px solid white; object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            margin: 0 auto 8px;
+            display: block;
+            background: var(--blue-light);
+        }
+        .podium-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .podium-pts {
+            font-size: 0.8rem; font-weight: 800;
+            background: rgba(0,0,0,0.08); padding: 3px 10px; border-radius: 2rem;
+            color: var(--text); display: inline-block;
+        }
+        .podium-hours { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+        /* ── LIST ── */
+        .list-card { background: var(--white); border-radius: 1.5rem; box-shadow: var(--shadow-sm); overflow: hidden; }
+        .list-header { padding: 1rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .list-header span { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+        .leaderboard-list { list-style: none; }
+        .lb-item {
+            display: flex; align-items: center;
+            padding: 0.85rem 1.4rem; border-bottom: 1px solid var(--border);
+            transition: background 0.18s; gap: 12px;
+            animation: fadeInRow 0.4s ease both;
+        }
+        .lb-item:last-child { border-bottom: none; }
+        .lb-item:hover { background: #fafbfc; }
+        .lb-item.is-me { background: var(--blue-light) !important; }
+        .lb-item.is-me .lb-name { color: var(--blue); font-weight: 800; }
+        @keyframes fadeInRow { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+
+        .lb-rank { min-width: 28px; font-weight: 700; font-size: 0.9rem; color: var(--muted); text-align: center; }
+        .lb-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: var(--blue-light); flex-shrink: 0; }
+        .lb-info { flex: 1; }
+        .lb-name { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+        .lb-sub { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+        .lb-pts {
+            background: var(--blue-light); color: var(--blue);
+            font-weight: 700; font-size: 0.82rem;
+            padding: 0.25rem 0.8rem; border-radius: 3rem;
+            white-space: nowrap;
+        }
+        .lb-item.is-me .lb-pts { background: var(--blue); color: white; }
+        .me-tag { font-size: 0.7rem; background: var(--blue); color: white; padding: 0.1rem 0.5rem; border-radius: 3rem; margin-left: 6px; }
+
+        /* ── YOUR RANK CALLOUT ── */
+        .my-rank-card {
+            background: var(--white); border-radius: 1.5rem; padding: 1.2rem 1.5rem;
+            box-shadow: var(--shadow-sm); border-left: 4px solid var(--blue);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 1.2rem;
+        }
+        .my-rank-left { display: flex; align-items: center; gap: 12px; }
+        .my-rank-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--blue-light); object-fit: cover; background: var(--blue-light); }
+        .my-rank-label { font-size: 0.78rem; color: var(--muted); }
+        .my-rank-name { font-weight: 700; font-size: 1rem; color: var(--text); }
+        .my-rank-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .rank-badge { background: var(--blue-light); color: var(--blue); font-weight: 700; font-size: 0.82rem; padding: 0.3rem 0.9rem; border-radius: 3rem; display: flex; align-items: center; gap: 5px; }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.05); justify-content: space-around; padding: 0.6rem 0.8rem; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 20; overflow-x: auto; }
+        .bottom-nav a { text-align: center; color: var(--muted); font-size: 0.7rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 55px; transition: color 0.2s, transform 0.2s; }
+        .bottom-nav a i { font-size: 1.3rem; }
+        .bottom-nav a.active { color: var(--blue); transform: translateY(-2px); }
+        .nav-dot { width: 5px; height: 5px; background: var(--blue); border-radius: 50%; opacity: 0; transition: opacity 0.2s; }
+        .bottom-nav a.active .nav-dot { opacity: 1; }
+
         @media (max-width: 768px) {
             .side-nav { display: none; }
             .bottom-nav { display: flex; }
-            .content-area { padding: 1rem 1rem 80px 1rem; }
-        }
-
-        /* ----- leaderboard specific styles (adapted from your original) ----- */
-        .leaderboard-card {
-            background: white;
-            border-radius: 2rem;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            margin-top: 0.5rem;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #1e293b;
-        }
-
-        /* PODIUM */
-        .podium {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 15px;
-            margin: 2rem 0 2.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .block {
-            flex: 1 1 100px;
-            max-width: 130px;
-            text-align: center;
-            border-radius: 20px 20px 0 0;
-            position: relative;
-            padding: 15px 5px 10px 5px;
-            animation: rise .7s ease;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        .block:hover { transform: translateY(-5px); }
-
-        .block img {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: 3px solid white;
-            object-fit: cover;
-            background: #e7f0ff;
-        }
-
-        .block h3 {
-            font-size: 0.9rem;
-            margin: 8px 0 2px;
-            font-weight: 700;
-        }
-        .block p {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .first {
-            background: #FFDF33;
-            color: black;
-            height: 200px;
-        }
-        .second {
-            background: silver;
-            color: black;
-            height: 160px;
-        }
-        .third {
-            background: #CD7F32;
-            color: black;
-            height: 130px;
-        }
-
-        .rank {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: black;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        /* LIST */
-        .listContainer {
-            max-height: 320px;
-            overflow-y: auto;
-            border-radius: 20px;
-            background: #f8fafc;
-            padding: 0.2rem 0;
-            margin-top: 1rem;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            font-size: 0.95rem;
-            transition: 0.2s;
-        }
-        li:hover { background: rgba(24,119,242,0.04); }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-        .profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #e7f0ff;
-            border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .points {
-            color: #1877f2;
-            font-weight: 700;
-            background: #e7f0ff;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-        }
-
-        .me {
-            background: #EB1456 !important;
-            color: white;
-            border-radius: 40px;
-            margin: 4px 0;
-        }
-        .me .points {
-            background: white;
-            color: ;
-        }
-
-        @keyframes rise {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* fallback for user image */
-        .profile img[alt] {
-            font-size: 0.7rem;
-        }
-
-        /* small adjustment */
-        .content-area h1 i {
-            color: #1877f2;
+            .content-area { padding: 1rem 1rem 90px; }
+            .hero-stats { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="dash-container">
-        <!-- header identical to donation.html with dynamic placeholders -->
-        <header class="dash-header">
-            <div class="logo" onclick="goToPage('feed')">
-                <i class="fas fa-hand-holding-heart"></i> <span>CareConnect</span>
-            </div>
-            <div class="user-badge" onclick="goToPage('profile')">
-                <i class="fas fa-user-circle"></i>
-                <div class="badge-detail">
-                    <span class="badge-name" id="displayName">Soumik Debnath</span>
-                    <span class="badge-role" id="displayRoleCity">Volunteer · Raipur</span>
+<div style="display:flex;flex-direction:column;min-height:100vh;">
+    <header class="dash-header">
+        <div class="logo" onclick="goToPage('feed')"><i class="fas fa-hand-holding-heart"></i> <span>HelpingHands</span></div>
+        <div class="user-badge" onclick="goToPage('profile')">
+            <i class="fas fa-user-circle"></i>
+            <div><div class="badge-name" id="displayName">Loading...</div><div class="badge-role" id="displayRoleCity"></div></div>
+        </div>
+    </header>
+
+    <div class="dash-main">
+        <nav class="side-nav">
+            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
+            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
+            <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
+            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+
+        <div class="content-area">
+
+            <!-- PAGE HERO -->
+            <div class="page-hero">
+                <div class="hero-left">
+                    <div class="hero-tag"><i class="fas fa-fire"></i> Live Rankings</div>
+                    <h1><i class="fas fa-trophy" style="color:#fbbf24;"></i> Top Volunteers</h1>
+                    <p>Celebrating those who show up for the community every day.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><div class="hero-stat-num" id="heroTotal">12</div><div class="hero-stat-label">Volunteers</div></div>
+                    <div class="hero-stat"><div class="hero-stat-num" id="heroHours">243</div><div class="hero-stat-label">Hours Given</div></div>
+                    <div class="hero-stat"><div class="hero-stat-num" id="heroPts">78k</div><div class="hero-stat-label">Total Points</div></div>
                 </div>
             </div>
-        </header>
 
-        <div class="dash-main">
-            <!-- side navigation (desktop) with active=leaderboard -->
-            <nav class="side-nav">
-                <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> Feed</a>
-                <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> Donation</a>
-                <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
-                <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> Profile</a>
-                <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> Emergency Guide</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-
-            <!-- main content: leaderboard inside a card -->
-            <div class="content-area">
-                <div class="leaderboard-card">
-                    <h1><i class="fas fa-trophy" style="color: #ffb703;"></i> Top Volunteers</h1>
-
-                    <!-- podium injected via js -->
-                    <div class="podium" id="podium"></div>
-
-                    <!-- scrollable leaderboard list -->
-                    <div class="listContainer">
-                        <ul id="leaderboard"></ul>
+            <!-- YOUR RANK CALLOUT -->
+            <div class="my-rank-card" id="myRankCard">
+                <div class="my-rank-left">
+                    <img class="my-rank-avatar" id="myAvatar" src="" alt="You" onerror="this.style.display='none'">
+                    <div>
+                        <div class="my-rank-label">Your ranking</div>
+                        <div class="my-rank-name" id="myRankName">—</div>
                     </div>
                 </div>
+                <div class="my-rank-badges">
+                    <div class="rank-badge"><i class="fas fa-medal"></i> Rank <span id="myRankNum">—</span></div>
+                    <div class="rank-badge"><i class="fas fa-star"></i> <span id="myPtsDisplay">—</span> pts</div>
+                </div>
             </div>
-        </div>
 
-        <!-- bottom navigation (mobile) with active leaderboard -->
-        <nav class="bottom-nav">
-            <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i> <span>Feed</span></a>
-            <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i> <span>Donate</span></a>
-            <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i> <span>Top</span></a>
-            <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i> <span>Profile</span></a>
-            <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i> <span>Emergency</span></a>
-            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-        </nav>
+            <!-- TABS -->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab('all', this)"><i class="fas fa-globe"></i> All Time</button>
+                <button class="tab-btn" onclick="switchTab('monthly', this)"><i class="fas fa-calendar"></i> This Month</button>
+                <button class="tab-btn" onclick="switchTab('weekly', this)"><i class="fas fa-bolt"></i> This Week</button>
+            </div>
+
+            <!-- PODIUM -->
+            <div class="podium-wrap">
+                <div class="podium" id="podium"></div>
+            </div>
+
+            <!-- LIST -->
+            <div class="list-card" style="margin-top:1.2rem;">
+                <div class="list-header">
+                    <span>Rank 4 and beyond</span>
+                    <span id="listCount"></span>
+                </div>
+                <ul class="leaderboard-list" id="leaderboard"></ul>
+            </div>
+
+        </div>
     </div>
 
-    <script>
-        // ----- user info (mocked from donation style, but we set currentUser explicitly) -----
-        let currentUser = {
-            name: "Soumik Debnath",
-            email: "soumik@example.com",
-            role: "volunteer",
-            city: "Raipur"
-        };
+    <nav class="bottom-nav">
+        <a href="#" onclick="goToPage('feed')"><i class="fas fa-newspaper"></i><span>Feed</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('donation')"><i class="fas fa-hand-holding-heart"></i><span>Donate</span><div class="nav-dot"></div></a>
+        <a href="#" class="active" onclick="return false;"><i class="fas fa-trophy"></i><span>Top</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('profile')"><i class="fas fa-id-card"></i><span>Profile</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="goToPage('emergency')"><i class="fas fa-ambulance"></i><span>Emergency</span><div class="nav-dot"></div></a>
+        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span><div class="nav-dot"></div></a>
+    </nav>
+</div>
 
-        // Update header badge (fixed because we are not relying on URL params here)
+<script>
+    let currentUser = null;
+
+    function getUserFromUrl() {
+        const p = new URLSearchParams(window.location.search);
+        return { name: p.get('name') || 'Guest User', email: p.get('email') || 'guest@example.com', role: p.get('role') || 'volunteer', city: p.get('city') || 'Raipur' };
+    }
+
+    // Dataset — all-time
+    const allTimeUsers = [
+        { name:'Sumit Haldar',    points:32050, hours:320, img:'https://pbs.twimg.com/profile_images/2026688980230746121/H1uqhPGO_400x400.jpg' },
+        { name:'Rohit Sharma',    points:16900, hours:169, img:'https://www.livemint.com/lm-img/img/2024/07/03/original/Rohit_Sharma_World_Cup_1720011997730.jpg' },
+        { name:'Abhinav Kumar',   points:14790, hours:148, img:'https://tse3.mm.bing.net/th/id/OIP.P5x4tqlWO9kkTCxcwFZ_ygHaE7?pid=Api&P=0&h=180' },
+        { name:'Ms Dhoni',        points:3278,  hours:33,  img:'https://wallpaperaccess.com/full/8669687.jpg' },
+        { name:'Virat Kohli',     points:2356,  hours:24,  img:'https://cdn.britannica.com/48/252748-050-C514EFDB/Virat-Kohli-India-celebrates-50th-century-Cricket-November-15-2023.jpg' },
+        { name:'KL Rahul',        points:2267,  hours:23,  img:'https://tse2.mm.bing.net/th/id/OIP.4rdBW0nGT8iJTUz_EIVpwAHaE8?pid=Api&P=0&h=180' },
+        { name:'Soumik Debnath',  points:1980,  hours:20,  img:'https://media.licdn.com/dms/image/v2/D4E03AQFn-lB6_0NSZA/profile-displayphoto-scale_200_200/B4EZp5htwJIoAY-/0/1762975474710?e=1775088000&v=beta&t=MYgmwV50DqJ_74O8-a9IVDTR9hiW-e6C18xxEaB5fGc' },
+        { name:'Shreyas Iyer',    points:1897,  hours:19,  img:'https://tse2.mm.bing.net/th/id/OIP.kG4B4I4V8kK89xeVt1Ap6wHaEK?pid=Api&P=0&h=180' },
+        { name:'Ravindra Jadeja', points:1500,  hours:15,  img:'https://staticg.sportskeeda.com/editor/2023/12/37be1-17018597422895-1920.jpg' },
+        { name:'Jasprit Bumrah',  points:1200,  hours:12,  img:'https://cdn.britannica.com/34/264734-050-85D1D907/jasprit-bumrah-india-ICC-mens-T20-cricket-world-cup-june-2024.jpg' },
+        { name:'Hardik Pandya',   points:1100,  hours:11,  img:'https://statico.sportskeeda.com/editor/2025/02/9d2c0-17400342506631-1920.jpg' },
+        { name:'Axar Patel',      points:900,   hours:9,   img:'https://tse3.mm.bing.net/th?id=OIF.FnpkHNpWD%2b3U5qMkY28nsQ&pid=Api&P=0&h=180' }
+    ];
+
+    // Monthly/weekly = shuffled subset with lower pts for realism
+    const monthlyUsers = allTimeUsers.map(u => ({...u, points: Math.floor(u.points * 0.08)})).sort((a,b)=>b.points-a.points);
+    const weeklyUsers  = allTimeUsers.map(u => ({...u, points: Math.floor(u.points * 0.02)})).sort((a,b)=>b.points-a.points);
+
+    let activeDataset = allTimeUsers;
+
+    function initPage() {
+        currentUser = getUserFromUrl();
         document.getElementById('displayName').innerText = currentUser.name;
-        let roleDisplay = currentUser.role === 'ngo' ? 'NGO' : (currentUser.role === 'organisation' ? 'Organisation' : 'Volunteer');
-        document.getElementById('displayRoleCity').innerText = `${roleDisplay} · ${currentUser.city}`;
+        let rd = currentUser.role === 'ngo' ? 'NGO' : currentUser.role === 'organisation' ? 'Organisation' : 'Volunteer';
+        document.getElementById('displayRoleCity').innerText = `${rd} · ${currentUser.city}`;
+        render(allTimeUsers);
+    }
 
-        // ----- leaderboard data (from your original) -----
-        const users = [
-            {name:"Sumit haldar", points:32050, img:"https://pbs.twimg.com/profile_images/2026688980230746121/H1uqhPGO_400x400.jpg"},
-            {name:"Rohit Sharma", points:16900, img:"https://www.livemint.com/lm-img/img/2024/07/03/original/Rohit_Sharma_World_Cup_1720011997730.jpg"},
-            {name:"Abhinav Kumar", points:14790, img:"https://tse3.mm.bing.net/th/id/OIP.P5x4tqlWO9kkTCxcwFZ_ygHaE7?pid=Api&P=0&h=1807"},
-            {name:"Ms Dhoni", points:3278, img:"https://wallpaperaccess.com/full/8669687.jpg"},
-            {name:"Virat Kohli", points:2356, img:"https://cdn.britannica.com/48/252748-050-C514EFDB/Virat-Kohli-India-celebrates-50th-century-Cricket-November-15-2023.jpg"},
-            {name:"kl Rahul", points:2267, img:"https://tse2.mm.bing.net/th/id/OIP.4rdBW0nGT8iJTUz_EIVpwAHaE8?pid=Api&P=0&h=180"},
-            {name:"Soumik Debnath", points:1980, img:"https://media.licdn.com/dms/image/v2/D4E03AQFn-lB6_0NSZA/profile-displayphoto-scale_200_200/B4EZp5htwJIoAY-/0/1762975474710?e=1775088000&v=beta&t=MYgmwV50DqJ_74O8-a9IVDTR9hiW-e6C18xxEaB5fGc"},
-            {name:"Srys Iyer", points:1897, img:"https://tse2.mm.bing.net/th/id/OIP.kG4B4I4V8kK89xeVt1Ap6wHaEK?pid=Api&P=0&h=180"},
-            {name:"Ravindra Jadeja", points:1500, img:"https://staticg.sportskeeda.com/editor/2023/12/37be1-17018597422895-1920.jpg"},
-            {name:"Jaspit Bumrah", points:1200, img:"https://cdn.britannica.com/34/264734-050-85D1D907/jasprit-bumrah-india-ICC-mens-T20-cricket-world-cup-june-2024.jpg"},
-            {name:"Hardik pandya", points:1100, img:"https://statico.sportskeeda.com/editor/2025/02/9d2c0-17400342506631-1920.jpg"},
-            {name:"Axar Patel", points:900, img:"https://tse3.mm.bing.net/th?id=OIF.FnpkHNpWD%2b3U5qMkY28nsQ&pid=Api&P=0&h=1801"}
-        ];
+    function switchTab(type, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (type === 'monthly') activeDataset = monthlyUsers;
+        else if (type === 'weekly') activeDataset = weeklyUsers;
+        else activeDataset = allTimeUsers;
+        render(activeDataset);
+    }
 
-        // sort by points descending
-        users.sort((a,b) => b.points - a.points);
+    function render(dataset) {
+        const sorted = [...dataset].sort((a,b) => b.points - a.points);
+        renderPodium(sorted);
+        renderList(sorted);
+        updateMyRank(sorted);
+    }
 
-        // ----- render podium (top 3) -----
+    function renderPodium(sorted) {
         const podiumDiv = document.getElementById('podium');
-        // order: second (index1), first (index0), third (index2) to match visual style
-        const podiumOrder = [1, 0, 2]; 
-
-        podiumOrder.forEach(pos => {
-            if (pos >= users.length) return;
-            const u = users[pos];
-            const block = document.createElement('div');
-            block.classList.add('block');
-            if (pos === 0) block.classList.add('first');
-            else if (pos === 1) block.classList.add('second');
-            else if (pos === 2) block.classList.add('third');
-
-            block.innerHTML = `
-                <span class="rank">#${pos+1}</span>
-                <img src="${u.img}" alt="${u.name}" onerror="this.src='https://via.placeholder.com/65?text=User'">
-                <h3>${u.name.split(' ')[0]}</h3>
-                <p>${u.points.toLocaleString()}</p>
+        podiumDiv.innerHTML = '';
+        const order = [1, 0, 2]; // silver, gold, bronze visual order
+        const medals = ['🥇','🥈','🥉'];
+        const classes = ['p-second','p-first','p-third'];
+        order.forEach(pos => {
+            if (pos >= sorted.length) return;
+            const u = sorted[pos];
+            const div = document.createElement('div');
+            div.className = `podium-block ${classes[order.indexOf(pos)]}`;
+            div.innerHTML = `
+                <span class="podium-rank">${medals[pos]}</span>
+                <img class="podium-avatar" src="${u.img}" alt="${u.name}" onerror="this.src='https://via.placeholder.com/62?text=${u.name[0]}'">
+                <div class="podium-name">${u.name.split(' ')[0]}</div>
+                <div class="podium-pts">${u.points.toLocaleString()} pts</div>
+                <div class="podium-hours">${u.hours}h volunteered</div>
             `;
-            podiumDiv.appendChild(block);
+            podiumDiv.appendChild(div);
         });
+    }
 
-        // ----- render list (4th place onward) -----
-        const listUl = document.getElementById('leaderboard');
-        for (let i = 3; i < users.length; i++) {
-            const u = users[i];
+    function renderList(sorted) {
+        const ul = document.getElementById('leaderboard');
+        ul.innerHTML = '';
+        document.getElementById('listCount').innerText = `${sorted.length - 3} volunteers`;
+        for (let i = 3; i < sorted.length; i++) {
+            const u = sorted[i];
+            const isMe = u.name === currentUser.name || u.name.toLowerCase().includes(currentUser.name.toLowerCase());
             const li = document.createElement('li');
-            if (u.name === currentUser.name) li.classList.add('me');
-
+            li.className = `lb-item ${isMe ? 'is-me' : ''}`;
+            li.style.animationDelay = `${(i-3)*0.05}s`;
             li.innerHTML = `
-                <span style="min-width: 28px; font-weight:600;">${i+1}</span>
-                <div class="profile">
-                    <img src="${u.img}" alt="${u.name}" onerror="this.src='https://via.placeholder.com/40?text=User'">
-                    <span>${u.name}</span>
+                <span class="lb-rank">${i+1}</span>
+                <img class="lb-avatar" src="${u.img}" alt="${u.name}" onerror="this.src='https://via.placeholder.com/40?text=${u.name[0]}'">
+                <div class="lb-info">
+                    <div class="lb-name">${u.name}${isMe ? '<span class="me-tag">You</span>' : ''}</div>
+                    <div class="lb-sub">${u.hours}h volunteered</div>
                 </div>
-                <span class="points">${u.points}</span>
+                <span class="lb-pts">${u.points.toLocaleString()} pts</span>
             `;
-            listUl.appendChild(li);
+            ul.appendChild(li);
         }
-
-        // auto-scroll to current user (if present)
+        // Auto-scroll to current user
         setTimeout(() => {
-            const me = document.querySelector('.me');
-            if (me) {
-                me.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }, 400);
+            const me = ul.querySelector('.is-me');
+            if (me) me.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 500);
+    }
 
-        // ----- navigation functions (matching donation page) -----
-        function goToPage(page) {
-            // preserve user info in URL as done in donation page
-            const params = new URLSearchParams({
-                name: currentUser.name,
-                email: currentUser.email,
-                role: currentUser.role,
-                city: currentUser.city
-            });
-            if (page === 'feed') {
-                window.location.href = `dashboard.html?${params.toString()}`;
-            } else if (page === 'donation') {
-                window.location.href = `donation.html?${params.toString()}`;
-            } else if (page === 'profile') {
-                window.location.href = `profile.html?${params.toString()}`;
-            } else if (page === 'emergency') {
-                window.location.href = `emergency.html?${params.toString()}`;
-            } else {
-                // fallback: stay or go to leaderboard (but we are already here)
-                window.location.href = `leaderboard.html?${params.toString()}`;
-            }
+    function updateMyRank(sorted) {
+        const idx = sorted.findIndex(u => u.name === currentUser.name || u.name.toLowerCase().includes(currentUser.name.toLowerCase()));
+        const card = document.getElementById('myRankCard');
+        if (idx === -1) {
+            card.style.display = 'none'; return;
         }
+        card.style.display = 'flex';
+        const u = sorted[idx];
+        document.getElementById('myAvatar').src = u.img;
+        document.getElementById('myRankName').innerText = u.name;
+        document.getElementById('myRankNum').innerText = `#${idx+1}`;
+        document.getElementById('myPtsDisplay').innerText = u.points.toLocaleString();
+    }
 
-        function logout() {
-            window.location.href = 'login.html';
-        }
-
-        // optional: make logo also navigate to feed
-        document.querySelector('.logo').addEventListener('click', (e) => {
-            e.stopPropagation();
-            goToPage('feed');
-        });
-        // user badge goes to profile
-        document.querySelector('.user-badge').addEventListener('click', (e) => {
-            e.stopPropagation();
-            goToPage('profile');
-        });
-    </script>
+    function goToPage(page) {
+        const params = new URLSearchParams({ name: currentUser.name, email: currentUser.email, role: currentUser.role, city: currentUser.city });
+        window.location.href = page === 'feed' ? `dashboard.html?${params}` : `${page}.html?${params}`;
+    }
+    function logout() { window.location.href = 'login.html'; }
+    window.onload = initPage;
+</script>
 </body>
 </html>
